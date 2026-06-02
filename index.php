@@ -123,7 +123,7 @@ $_stepDefsD = isNepali()
   ? ['तपाईंको आवश्यकता बुझ्छौं — निःशुल्क, कुनै बाध्यता छैन।',
      'विस्तृत प्रस्ताव २ कार्यदिवसभित्र पठाइन्छ।',
      'डाटा माइग्रेसन, कन्फिगरेसन र स्टाफ तालिम।',
-     '२ हप्तामा ल��इभ। लन्च पछि ३० दिन अन-कल सहयोग।']
+     '२ हप्तामा ल���इभ। लन्च पछि ३० दिन अन-कल सहयोग।']
   : ['We learn your needs — free, no commitment.',
      'Detailed proposal with price & timeline in 2 days.',
      'We migrate data, configure the system and train staff.',
@@ -176,8 +176,8 @@ include 'includes/header.php';
       ? "background-image:url('" . e($_hs['img']) . "');background-size:cover;background-position:center;filter:brightness(1.05);"
       : "background:linear-gradient(135deg,#0a1023 0%,#0f2057 50%,#1a0a3d 100%);";
     $_overlay = $_hasImage
-      ? 'background:linear-gradient(100deg,rgba(8,14,30,.65) 0%,rgba(8,14,30,.45) 42%,rgba(8,14,30,.20) 100%);'
-      : "background:linear-gradient(100deg,rgba(8,14,30,.55) 0%,rgba(8,14,30,.35) 42%,rgba(8,14,30,.10) 100%);";
+      ? 'background:linear-gradient(100deg,rgba(8,14,30,.85) 0%,rgba(8,14,30,.70) 42%,rgba(8,14,30,.45) 100%);'
+      : "background:linear-gradient(100deg,rgba(8,14,30,.75) 0%,rgba(8,14,30,.60) 42%,rgba(8,14,30,.35) 100%);";
     $_slideLink = !empty($_hs['link']) ? $_hs['link'] : $_ctaHref;
     $_slideBtn  = !empty($_hs['btn'])  ? $_hs['btn']  : $_ctaLabel;
   ?>
