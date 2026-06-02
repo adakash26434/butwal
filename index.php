@@ -123,7 +123,7 @@ $_stepDefsD = isNepali()
   ? ['तपाईंको आवश्यकता बुझ्छौं — निःशुल्क, कुनै बाध्यता छैन।',
      'विस्तृत प्रस्ताव २ कार्यदिवसभित्र पठाइन्छ।',
      'डाटा माइग्रेसन, कन्फिगरेसन र स्टाफ तालिम।',
-     '२ हप्तामा लाइभ। लन्च पछि ३० दिन अन-कल सहयोग।']
+     '२ हप्तामा ल���इभ। लन्च पछि ३० दिन अन-कल सहयोग।']
   : ['We learn your needs — free, no commitment.',
      'Detailed proposal with price & timeline in 2 days.',
      'We migrate data, configure the system and train staff.',
@@ -176,8 +176,8 @@ include 'includes/header.php';
       ? "background-image:url('" . e($_hs['img']) . "');background-size:cover;background-position:center;filter:brightness(1.05);"
       : "background:linear-gradient(135deg,#0a1023 0%,#0f2057 50%,#1a0a3d 100%);";
     $_overlay = $_hasImage
-      ? 'background:transparent;'
-      : "background:linear-gradient(100deg,rgba(8,14,30,.55) 0%,rgba(8,14,30,.35) 42%,rgba(8,14,30,.10) 100%);";
+      ? 'background:linear-gradient(100deg,rgba(8,14,30,.85) 0%,rgba(8,14,30,.70) 42%,rgba(8,14,30,.45) 100%);'
+      : "background:linear-gradient(100deg,rgba(8,14,30,.75) 0%,rgba(8,14,30,.60) 42%,rgba(8,14,30,.35) 100%);";
     $_slideLink = !empty($_hs['link']) ? $_hs['link'] : $_ctaHref;
     $_slideBtn  = !empty($_hs['btn'])  ? $_hs['btn']  : $_ctaLabel;
   ?>
@@ -186,12 +186,12 @@ include 'includes/header.php';
     <div style="position:absolute;inset:0;<?= $_overlay ?>"></div>
     <div class="container" style="position:relative;height:100%;display:flex;align-items:center;padding-top:2rem;">
       <div :class="cur==<?=$_hk?>?'hero-ca':''" style="max-width:36rem;">
-        <h1 class="hero-h1" style="font-family:var(--font-display);font-size:clamp(1.75rem,3.8vw,2.875rem);font-weight:800;color:#fff;line-height:1.15;margin:0 0 .875rem;letter-spacing:-.025em;text-shadow:0 2px 12px rgba(0,0,0,.4);">
+        <h1 class="hero-h1" style="font-family:var(--font-display);font-size:clamp(2.25rem,5vw,3.5rem);font-weight:800;color:#fff;line-height:1.1;margin:0 0 .875rem;letter-spacing:-.025em;text-shadow:0 4px 20px rgba(0,0,0,.6), 0 2px 8px rgba(0,0,0,.5);">
           <?= nl2br(e($_hs['title'])) ?>
         </h1>
         <div class="hero-bar" style="width:3rem;height:3px;background:var(--primary);border-radius:2px;margin-bottom:1rem;"></div>
         <?php if(!empty($_hs['sub'])): ?>
-        <p class="hero-sub" style="font-size:var(--text-base);color:rgba(255,255,255,.82);line-height:1.72;margin:0 0 1.75rem;max-width:28rem;text-shadow:0 1px 4px rgba(0,0,0,.3);">
+        <p class="hero-sub" style="font-size:clamp(1rem,2vw,1.125rem);color:#fff;line-height:1.72;margin:0 0 1.75rem;max-width:28rem;text-shadow:0 3px 12px rgba(0,0,0,.5), 0 1px 4px rgba(0,0,0,.4);font-weight:500;">
           <?= e($_hs['sub']) ?>
         </p>
         <?php endif; ?>
