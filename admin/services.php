@@ -56,16 +56,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         elseif (!$error) {
             try {
                 if ($id) {
-                    execute(
-                        "UPDATE services SET title=?,slug=?,tagline=?,summary=?,badge=?,price_from=?,lucide_icon=?,icon_color=?,features=?,highlights=?,screenshot_url=?,position=?,active=?,updated_at=NOW() WHERE id=?",
-                        [$title,$slug,$tagline,$summary,$badge,$price_from,$lucide_icon,$icon_color,$features,$highlights,$screenshotUrl?:null,$position,$active,$id]
-                    );
+                    // Try full update first, fallback if columns missing
+                    try {
+                        execute(
+                            "UPDATE services SET title=?,slug=?,tagline=?,summary=?,badge=?,price_from=?,lucide_icon=?,icon_color=?,features=?,highlights=?,screenshot_url=?,position=?,active=?,updated_at=NOW() WHERE id=?",
+                            [$title,$slug,$tagline,$summary,$badge,$price_from,$lucide_icon,$icon_color,$features,$highlights,$screenshotUrl?:null,$position,$active,$id]
+                        );
+                    } catch(\Throwable $fe) {
+                        // Fallback: update without tagline/summary columns
+                        execute(
+                            "UPDATE services SET title=?,slug=?,badge=?,price_from=?,lucide_icon=?,icon_color=?,features=?,highlights=?,screenshot_url=?,position=?,active=?,updated_at=NOW() WHERE id=?",
+                            [$title,$slug,$badge,$price_from,$lucide_icon,$icon_color,$features,$highlights,$screenshotUrl?:null,$position,$active,$id]
+                        );
+                    }
                     $success = 'Service updated.';
                 } else {
-                    execute(
-                        "INSERT INTO services (title,slug,tagline,summary,badge,price_from,lucide_icon,icon_color,features,highlights,screenshot_url,position,active,created_at,updated_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),NOW())",
-                        [$title,$slug,$tagline,$summary,$badge,$price_from,$lucide_icon,$icon_color,$features,$highlights,$screenshotUrl?:null,$position,$active]
-                    );
+                    // Try full insert first, fallback if columns missing
+                    try {
+                        execute(
+                            "INSERT INTO services (title,slug,tagline,summary,badge,price_from,lucide_icon,icon_color,features,highlights,screenshot_url,position,active,created_at,updated_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),NOW())",
+                            [$title,$slug,$tagline,$summary,$badge,$price_from,$lucide_icon,$icon_color,$features,$highlights,$screenshotUrl?:null,$position,$active]
+                        );
+                    } catch(\Throwable $fe) {
+                        // Fallback: insert without tagline/summary columns
+                        execute(
+                            "INSERT INTO services (title,slug,badge,price_from,lucide_icon,icon_color,features,highlights,screenshot_url,position,active,created_at,updated_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,NOW(),NOW())",
+                            [$title,$slug,$badge,$price_from,$lucide_icon,$icon_color,$features,$highlights,$screenshotUrl?:null,$position,$active]
+                        );
+                    }
                     $success = 'Service added.';
                 }
             } catch(\Throwable $e) { $error = 'Save failed: '.$e->getMessage(); }
@@ -74,8 +92,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $services = [];
-try { $services = query("SELECT id,title,slug,tagline,badge,icon,lucide_icon,icon_color,price_from,active,position FROM services ORDER BY position,id"); }
-catch(\Throwable $e) { $error = 'services table not found. Error: ' . $e->getMessage(); }
+try { 
+  // Try full column set first
+  $services = query("SELECT id,title,slug,tagline,badge,icon,lucide_icon,icon_color,price_from,active,position FROM services ORDER BY position,id"); 
+}
+catch(\Throwable $e) { 
+  // Fallback: try without tagline if column doesn't exist
+  try {
+    $services = query("SELECT id,title,slug,badge,icon,lucide_icon,icon_color,price_from,active,position FROM services ORDER BY position,id");
+    // Add empty tagline for compatibility
+    foreach($services as &$s) $s['tagline'] = '';
+  } catch(\Throwable $e2) {
+    $error = 'Database error: ' . $e2->getMessage();
+  }
+}
 
 $editing = null;
 if (!empty($_GET['edit'])) {
