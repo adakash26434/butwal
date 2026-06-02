@@ -144,10 +144,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             saveSetting('chairman_title',   trim($_POST['chairman_title'] ?? ''));
             saveSetting('chairman_photo',   trim($_POST['chairman_photo'] ?? ''));
             saveSetting('chairman_message', trim($_POST['chairman_message'] ?? ''));
+            saveSetting('chairman_active',  isset($_POST['chairman_active']) ? '1' : '0');
             saveSetting('ceo_name',         trim($_POST['ceo_name'] ?? ''));
             saveSetting('ceo_title',        trim($_POST['ceo_title'] ?? ''));
             saveSetting('ceo_photo',        trim($_POST['ceo_photo'] ?? ''));
             saveSetting('ceo_message',      trim($_POST['ceo_message'] ?? ''));
+            saveSetting('ceo_active',       isset($_POST['ceo_active']) ? '1' : '0');
             // नेपाली variants
             saveSetting('chairman_title_np',   trim($_POST['chairman_title_np']   ?? ''));
             saveSetting('chairman_message_np', trim($_POST['chairman_message_np'] ?? ''));
@@ -701,6 +703,10 @@ $tabs = [
             <input type="url" name="chairman_photo" class="form-input" value="<?= e(sv($s,'chairman_photo')) ?>" placeholder="https://...jpg">
           </div>
           <?php biTA($s,'chairman_message','Message','Write a message from the Chairman…','अध्यक्षज्यूको सन्देश लेख्नुस…',5,'','Leave blank to hide the Chairman card.') ?>
+          <div style="display:flex;align-items:center;gap:0.5rem;margin-top:1rem;">
+            <input type="checkbox" id="chairman_active" name="chairman_active" value="1" <?= sv($s,'chairman_active') ? 'checked' : '' ?> style="cursor:pointer;">
+            <label for="chairman_active" style="cursor:pointer;margin:0;">Show on public page</label>
+          </div>
         </div>
 
         <div style="margin-bottom:1.5rem;">
@@ -717,6 +723,10 @@ $tabs = [
             <input type="url" name="ceo_photo" class="form-input" value="<?= e(sv($s,'ceo_photo')) ?>" placeholder="https://...jpg">
           </div>
           <?php biTA($s,'ceo_message','Message','Write a message from the CEO…','CEO को सन्देश लेख्नुस…',5,'','Leave blank to hide the CEO card.') ?>
+          <div style="display:flex;align-items:center;gap:0.5rem;margin-top:1rem;">
+            <input type="checkbox" id="ceo_active" name="ceo_active" value="1" <?= sv($s,'ceo_active') ? 'checked' : '' ?> style="cursor:pointer;">
+            <label for="ceo_active" style="cursor:pointer;margin:0;">Show on public page</label>
+          </div>
         </div>
 
         <button type="submit" class="btn btn-primary w-fit">Save Leadership Settings</button>
@@ -917,7 +927,7 @@ $tabs = [
             </div>
             <!-- Fake hero -->
             <div id="bc_prev_hero" style="padding:1.25rem 1rem 1rem;background:linear-gradient(135deg,#eff6ff 0%,#f8faff 100%);border-bottom:1px solid var(--border);">
-              <div style="display:inline-block;font-size:0.5625rem;font-weight:700;padding:0.2rem 0.5rem;border-radius:9999px;background:#dbeafe;color:var(--primary);margin-bottom:0.375rem;" id="bc_prev_badge">🇳🇵 Trusted by 120+ Cooperatives</div>
+              <div style="display:inline-block;font-size:0.5625rem;font-weight:700;padding:0.2rem 0.5rem;border-radius:9999px;background:#dbeafe;color:var(--primary);margin-bottom:0.375rem;" id="bc_prev_badge">🇳��� Trusted by 120+ Cooperatives</div>
               <div style="font-size:0.8125rem;font-weight:800;color:#0f172a;margin-bottom:0.25rem;line-height:1.3;">Core Banking &<br>Fintech Solutions</div>
               <div style="font-size:0.5rem;color:var(--muted-foreground);margin-bottom:0.625rem;line-height:1.5;">Trusted IT solutions partner in Butwal, Nepal.</div>
               <div style="display:flex;gap:0.375rem;">
