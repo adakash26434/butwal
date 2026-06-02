@@ -173,13 +173,13 @@ if (!empty($_GET['edit'])) {
 
       <!-- Tab nav — sticky at top -->
       <div style="display:flex;gap:0.5rem;margin-bottom:1rem;padding-bottom:0.75rem;border-bottom:2px solid var(--border);flex-shrink:0;">
-        <button type="button" class="af-tab-btn active" data-tab="basic" style="padding:0.5rem 1rem;border:none;border-bottom:3px solid transparent;cursor:pointer;font-weight:600;transition:all 0.2s;color:var(--muted-foreground);" onclick="switchTab(this,'basic')">
+        <button type="button" class="af-tab-btn active" data-tab="basic" style="padding:0.5rem 1rem;border:none;border-bottom:3px solid;font-weight:600;cursor:pointer;transition:all 0.2s;color:var(--primary);border-bottom-color:var(--primary);" onclick="switchTab(this,'basic')">
           <i data-lucide="info" style="width:13px;height:13px;display:inline;vertical-align:middle;margin-right:0.4rem;"></i>Basic
         </button>
-        <button type="button" class="af-tab-btn" data-tab="content" style="padding:0.5rem 1rem;border:none;border-bottom:3px solid transparent;cursor:pointer;font-weight:600;transition:all 0.2s;color:var(--muted-foreground);" onclick="switchTab(this,'content')">
+        <button type="button" class="af-tab-btn" data-tab="content" style="padding:0.5rem 1rem;border:none;border-bottom:3px solid;font-weight:600;cursor:pointer;transition:all 0.2s;color:var(--muted-foreground);border-bottom-color:transparent;" onclick="switchTab(this,'content')">
           <i data-lucide="file-text" style="width:13px;height:13px;display:inline;vertical-align:middle;margin-right:0.4rem;"></i>Content
         </button>
-        <button type="button" class="af-tab-btn" data-tab="homepage" style="padding:0.5rem 1rem;border:none;border-bottom:3px solid transparent;cursor:pointer;font-weight:600;transition:all 0.2s;color:var(--muted-foreground);" onclick="switchTab(this,'homepage')">
+        <button type="button" class="af-tab-btn" data-tab="homepage" style="padding:0.5rem 1rem;border:none;border-bottom:3px solid;font-weight:600;cursor:pointer;transition:all 0.2s;color:var(--muted-foreground);border-bottom-color:transparent;" onclick="switchTab(this,'homepage')">
           <i data-lucide="home" style="width:13px;height:13px;display:inline;vertical-align:middle;margin-right:0.4rem;"></i>Homepage
         </button>
       </div>
@@ -377,8 +377,6 @@ if (!empty($_GET['edit'])) {
 <script>
 /* ── Tab switching ── */
 function switchTab(btn, tabName) {
-  console.log("[v0] switchTab called with tabName:", tabName);
-  
   // Deactivate all tab buttons
   document.querySelectorAll('.af-tab-btn').forEach(function(b){
     b.classList.remove('active');
@@ -390,19 +388,15 @@ function switchTab(btn, tabName) {
   btn.style.color = 'var(--primary)';
   btn.style.borderBottomColor = 'var(--primary)';
   
-  // Hide all tab panes - use classes only, don't set inline styles
+  // Hide all tab panes
   document.querySelectorAll('.af-tab-pane').forEach(function(p){
     p.classList.remove('active');
   });
   
-  // Show selected pane - use class only, don't set inline styles
+  // Show selected pane
   var pane = document.querySelector('[data-tab-pane="'+tabName+'"]');
-  console.log("[v0] Looking for pane:", '[data-tab-pane="'+tabName+'"]', "Found:", pane);
   if (pane) {
     pane.classList.add('active');
-    console.log("[v0] Pane activated. Classes:", pane.className);
-  } else {
-    console.error("[v0] ERROR: Pane not found for tab:", tabName);
   }
 }
 
