@@ -153,23 +153,35 @@ if (!empty($_GET['edit'])) {
 </div><!-- /aft-list -->
 
 <div id="aft-form" style="<?=$afActive==='form'?'display:block':'display:none'?>">
-  <div class="st-card p-tile">
-    <h3 class="h-eyebrow-tight"><?= $editing ? ' Edit Product' : ' New Product' ?></h3>
+  <div class="st-card p-tile" style="display:flex;flex-direction:column;height:calc(100vh - 200px);max-height:95vh;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;padding-bottom:0.875rem;border-bottom:1px solid var(--border);">
+      <h3 class="h-eyebrow-tight" style="margin:0;"><?= $editing ? '✏ Edit Product' : '➕ New Product' ?></h3>
+      <?php if($editing):?><a href="?" class="btn btn-ghost btn-sm" style="font-size:0.75rem;">Cancel</a><?php endif;?>
+    </div>
 
-    <form method="POST">
+    <form method="POST" style="display:flex;flex-direction:column;overflow:hidden;flex:1;">
       <?=csrfField()?>
       <input type="hidden" name="action" value="<?=$editing?'update':'create'?>">
       <?php if($editing):?><input type="hidden" name="id" value="<?=$editing['id']?>"><?php endif;?>
 
-      <!-- Tab nav -->
-      <div class="af-tab-nav">
-        <button type="button" class="af-tab-btn active" data-tab="basic">Basic</button>
-        <button type="button" class="af-tab-btn" data-tab="content">Content</button>
-        <button type="button" class="af-tab-btn" data-tab="homepage">Homepage</button>
+      <!-- Tab nav — sticky at top -->
+      <div style="display:flex;gap:0.5rem;margin-bottom:1rem;padding-bottom:0.75rem;border-bottom:2px solid var(--border);flex-shrink:0;">
+        <button type="button" class="af-tab-btn active" data-tab="basic" style="padding:0.5rem 1rem;border:none;border-bottom:3px solid transparent;cursor:pointer;font-weight:600;transition:all 0.2s;color:var(--muted-foreground);" onclick="switchTab(this,'basic')">
+          <i data-lucide="info" style="width:13px;height:13px;display:inline;vertical-align:middle;margin-right:0.4rem;"></i>Basic
+        </button>
+        <button type="button" class="af-tab-btn" data-tab="content" style="padding:0.5rem 1rem;border:none;border-bottom:3px solid transparent;cursor:pointer;font-weight:600;transition:all 0.2s;color:var(--muted-foreground);" onclick="switchTab(this,'content')">
+          <i data-lucide="file-text" style="width:13px;height:13px;display:inline;vertical-align:middle;margin-right:0.4rem;"></i>Content
+        </button>
+        <button type="button" class="af-tab-btn" data-tab="homepage" style="padding:0.5rem 1rem;border:none;border-bottom:3px solid transparent;cursor:pointer;font-weight:600;transition:all 0.2s;color:var(--muted-foreground);" onclick="switchTab(this,'homepage')">
+          <i data-lucide="home" style="width:13px;height:13px;display:inline;vertical-align:middle;margin-right:0.4rem;"></i>Homepage
+        </button>
       </div>
 
+      <!-- Tab content container — scrollable -->
+      <div style="flex:1;overflow-y:auto;padding-right:0.5rem;margin-right:-0.5rem;">
+
       <!-- Tab: Basic -->
-      <div class="af-tab-pane active" data-tab-pane="basic">
+      <div class="af-tab-pane active" data-tab-pane="basic" style="padding-bottom:2rem;">
         <div style="display:grid;grid-template-columns:54px 1fr;gap:0.5rem;">
           <div>
             <label class="form-label fs-2xs2">Emoji</label>
@@ -311,9 +323,11 @@ if (!empty($_GET['edit'])) {
         </div>
       </div>
 
-      <!-- Live preview card -->
-      <div style="margin-top:1rem;padding:0.875rem;border-radius:0.75rem;background:var(--muted);border:1px solid var(--border);">
-        <div style="font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted-foreground);margin-bottom:0.625rem;">Live Card Preview</div>
+      </div><!-- /tab-content-container -->
+
+      <!-- Live preview card — sticky at bottom inside form -->
+      <div style="margin-top:1.5rem;padding:1rem;border-radius:0.75rem;background:var(--muted);border:1px solid var(--border);flex-shrink:0;">
+        <div style="font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted-foreground);margin-bottom:0.75rem;">Live Card Preview</div>
         <div id="st-admin-preview" style="background:var(--card);border:1px solid var(--border);border-radius:0.875rem;padding:1rem;font-size:0.8125rem;">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.375rem;">
             <div id="prv-icon-box" style="width:2.25rem;height:2.25rem;border-radius:0.625rem;display:grid;place-items:center;flex-shrink:0;background:var(--primary);transition:background 0.2s;">
@@ -339,19 +353,38 @@ if (!empty($_GET['edit'])) {
             <?php endforeach;?>
           </div>
         </div>
-        <p style="font-size:0.65rem;color:var(--muted-foreground);margin-top:0.5rem;margin-bottom:0;text-align:center;">Updates live as you type</p>
       </div>
 
-      <!-- Footer: always visible -->
-      <div class="af-form-footer">
-        <button type="submit" class="btn btn-primary w-100"><?=$editing?'Update Product':'Create Product'?></button>
-        <?php if($editing):?><a href="?" class="btn btn-ghost w-100-c">Cancel</a><?php endif;?>
+      <!-- Footer: always visible & sticky -->
+      <div class="af-form-footer" style="margin-top:1rem;padding:1rem 0;border-top:1px solid var(--border);display:flex;gap:0.5rem;flex-shrink:0;">
+        <button type="submit" class="btn btn-primary flex-1"><?=$editing?'Update Product':'Create Product'?></button>
+        <?php if($editing):?><a href="?" class="btn btn-ghost flex-1">Cancel</a><?php endif;?>
       </div>
     </form>
   </div>
 </div>
 
 <script>
+/* ── Tab switching ── */
+function switchTab(btn, tabName) {
+  // Deactivate all tab buttons
+  document.querySelectorAll('.af-tab-btn').forEach(function(b){
+    b.style.color = 'var(--muted-foreground)';
+    b.style.borderBottomColor = 'transparent';
+  });
+  // Activate clicked button
+  btn.style.color = 'var(--primary)';
+  btn.style.borderBottomColor = 'var(--primary)';
+  
+  // Hide all tab panes
+  document.querySelectorAll('.af-tab-pane').forEach(function(p){
+    p.style.display = 'none';
+  });
+  // Show selected pane
+  var pane = document.querySelector('[data-tab-pane="'+tabName+'"]');
+  if (pane) pane.style.display = 'block';
+}
+
 /* ── Live card preview ── */
 var __iconColors = {
   blue:'#2563eb',teal:'#0d9488',purple:'#7c3aed',green:'#16a34a',
