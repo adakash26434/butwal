@@ -38,11 +38,60 @@
   color: var(--muted-foreground);
 }
 
+/* ── Responsive form inputs - uniform sizing ────────── */
+.form-input, .form-select, .form-textarea {
+  width: 100% !important;
+  padding: 0.5rem 0.75rem !important;
+  border-radius: var(--radius-md, 0.5rem) !important;
+  border: 1px solid var(--border) !important;
+  font-size: 0.875rem !important;
+  background: var(--background) !important;
+  color: var(--foreground) !important;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  outline: none !important;
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 3px var(--primary-light) !important;
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
 /* ── Uniform inner form field gap ─────────────────── */
 .col-1 {
   display: flex;
   flex-direction: column;
   gap: 0.875rem;
+}
+
+/* ── Grid helpers for responsive forms ────────────── */
+.form-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.form-grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.75rem;
+}
+
+/* ── Form row with label and input ─────────────────── */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.form-group-inline {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
 }
 
 /* ── Form footer: buttons at bottom of form card ──── */
@@ -53,6 +102,16 @@
   margin-top: 0.75rem;
   padding-top: 0.75rem;
   border-top: 1px solid var(--border);
+}
+
+.af-form-footer-buttons {
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.af-form-footer-buttons .btn {
+  flex: 1;
 }
 
 /* ── Empty state (dashed placeholder) ─────────────── */
@@ -70,6 +129,7 @@
   gap: 0;
   border-bottom: 2px solid var(--border);
   margin-bottom: 1.25rem;
+  overflow-x: auto;
 }
 .af-page-tab {
   padding: 0.625rem 1.25rem;
@@ -81,6 +141,9 @@
   color: var(--muted-foreground);
   transition: color 0.12s, border-color 0.12s;
   white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 .af-page-tab.active {
   color: var(--primary);
@@ -102,6 +165,7 @@
   gap: 0;
   border-bottom: 2px solid var(--border);
   margin-bottom: 1rem;
+  overflow-x: auto;
 }
 .af-tab-btn {
   flex: 1;
@@ -118,6 +182,7 @@
   color: var(--muted-foreground);
   transition: color 0.12s, border-color 0.12s;
   white-space: nowrap;
+  min-width: 80px;
 }
 .af-tab-btn.active {
   color: var(--primary);
@@ -132,6 +197,35 @@
   gap: 0.875rem;
 }
 
+/* ── Checkbox & Radio styling ─────────────────────── */
+.form-check {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.form-check input[type="checkbox"],
+.form-check input[type="radio"] {
+  width: 1rem;
+  height: 1rem;
+  cursor: pointer;
+  accent-color: var(--primary);
+}
+
+/* ── Helper text ──────────────────────────────────── */
+.form-hint, .caption-meta {
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+  margin-top: 0.25rem;
+}
+
+.form-error {
+  font-size: 0.75rem;
+  color: var(--danger-fg);
+  margin-top: 0.25rem;
+}
+
 /* ── Responsive: stack on mobile ──────────────────── */
 @media (max-width: 768px) {
   .af-split {
@@ -139,6 +233,30 @@
   }
   .af-panel {
     position: static;
+  }
+  
+  .form-grid-2, .form-grid-3 {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .af-split {
+    gap: 0.75rem;
+  }
+  
+  .af-page-tab {
+    padding: 0.5rem 0.875rem;
+    font-size: 0.75rem;
+  }
+  
+  .form-label {
+    font-size: 0.65rem;
+  }
+  
+  .form-input, .form-select, .form-textarea {
+    padding: 0.4rem 0.5rem !important;
+    font-size: 0.8125rem !important;
   }
 }
 
@@ -148,8 +266,126 @@
    ─────────────────────────────────────────────────── */
 #aft-form .st-card.p-tile {
   max-width: 720px;
+  width: 100%;
 }
 /* Settings-style full-width cards keep full width */
 #aft-form .st-card.p-card-lg {
   max-width: none;
+}
+
+/* ── Scrollable form container ────────────────────── */
+.af-form-scroll {
+  overflow-y: auto;
+  max-height: calc(100vh - 300px);
+  padding-right: 0.5rem;
+  margin-right: -0.5rem;
+}
+
+/* ── Form section divider ─────────────────────────── */
+.form-section {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.form-section:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.form-section-title {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--foreground);
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ── Row helpers ──────────────────────────────────── */
+.row-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.row-between-mb {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.row-check {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+
+.row-check input {
+  cursor: pointer;
+  accent-color: var(--primary);
+}
+
+/* ── Status indicators ────────────────────────────── */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 9999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.status-active {
+  background: rgba(34, 197, 94, 0.1);
+  color: #22c55e;
+}
+
+.status-inactive {
+  background: var(--muted);
+  color: var(--muted-foreground);
+}
+
+/* ── Better table styling in admin ────────────────── */
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8125rem;
+}
+
+.admin-table thead {
+  background: var(--muted);
+  border-bottom: 2px solid var(--border);
+}
+
+.admin-table th {
+  padding: 0.625rem 1rem;
+  text-align: left;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted-foreground);
+}
+
+.admin-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.admin-table tbody tr {
+  transition: background 0.12s;
+}
+
+.admin-table tbody tr:hover {
+  background: var(--muted);
+}
+
+.admin-table .cell-actions {
+  display: flex;
+  gap: 0.375rem;
+  justify-content: flex-end;
 }

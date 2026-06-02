@@ -20,7 +20,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $tagline     = trim($_POST['tagline']     ?? '');
         $summary     = trim($_POST['summary']     ?? '');
         $badge       = trim($_POST['badge']       ?? '');
-        $price_from  = trim($_POST['price_from']  ?? '');
+        
+        // Sanitize price: only accept numeric values, reject 'Custom' string
+        $priceRaw    = trim($_POST['price_from']  ?? '');
+        $price_from  = null;
+        if ($priceRaw && $priceRaw !== 'Custom') {
+            $priceNum = (float)preg_replace('/[^0-9.]/', '', $priceRaw);
+            $price_from = $priceNum > 0 ? $priceNum : null;
+        }
+        
         $lucide_icon = trim($_POST['lucide_icon'] ?? '');
         $icon_color  = trim($_POST['icon_color']  ?? 'blue');
         $position    = (int)($_POST['position']   ?? 0);
@@ -50,13 +58,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if ($id) {
                     execute(
                         "UPDATE services SET title=?,slug=?,tagline=?,summary=?,badge=?,price_from=?,lucide_icon=?,icon_color=?,features=?,highlights=?,screenshot_url=?,position=?,active=?,updated_at=NOW() WHERE id=?",
-                        [$title,$slug,$tagline,$summary,$badge,$price_from?:null,$lucide_icon,$icon_color,$features,$highlights,$screenshotUrl?:null,$position,$active,$id]
+                        [$title,$slug,$tagline,$summary,$badge,$price_from,$lucide_icon,$icon_color,$features,$highlights,$screenshotUrl?:null,$position,$active,$id]
                     );
                     $success = 'Service updated.';
                 } else {
                     execute(
                         "INSERT INTO services (title,slug,tagline,summary,badge,price_from,lucide_icon,icon_color,features,highlights,screenshot_url,position,active,created_at,updated_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),NOW())",
-                        [$title,$slug,$tagline,$summary,$badge,$price_from?:null,$lucide_icon,$icon_color,$features,$highlights,$screenshotUrl?:null,$position,$active]
+                        [$title,$slug,$tagline,$summary,$badge,$price_from,$lucide_icon,$icon_color,$features,$highlights,$screenshotUrl?:null,$position,$active]
                     );
                     $success = 'Service added.';
                 }

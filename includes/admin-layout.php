@@ -137,6 +137,7 @@ require __DIR__ . '/head.php';
       // Grouped sections — key = label, value = items array
       $adminNavGroups = [
         'Content' => [
+          ['page-content.php',  icon('layout-grid',15),     'Page Content (CMS)'],
           ['team.php', icon('users',15), 'Team'],
           ['services.php', icon('settings',15), 'Services'],
           ['products.php', icon('package',15), 'Products'],
