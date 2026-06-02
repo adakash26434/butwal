@@ -6,46 +6,16 @@ $success = $error = '';
 
 // Fetch all pricing plans for column headers
 $plans = [];
-$plans_error = '';
 try { 
     $plans = query("SELECT id, name FROM pricing_plans WHERE active=1 ORDER BY position, id"); 
-    
-    // If no plans exist, create default ones
-    if (empty($plans)) {
-        try {
-            execute("INSERT INTO pricing_plans (name, tag, price_label, period, cta_label, cta_url, is_popular, active, position, created_at) VALUES 
-            (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW()),
-            (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW()),
-            (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())",
-            [
-                'Starter', 'starter', 'Custom', 'month', 'Get Started', '/contact', 0, 1, 1,
-                'Growth', 'growth', 'Custom', 'month', 'Get Started', '/contact', 1, 1, 2,
-                'Enterprise', 'enterprise', 'Custom', 'month', 'Contact Sales', '/contact', 0, 1, 3
-            ]);
-            // Fetch the newly created plans
-            $plans = query("SELECT id, name FROM pricing_plans WHERE active=1 ORDER BY position, id");
-            if (!empty($plans)) {
-                $success = 'Default pricing plans created. You can now edit the pricing table.';
-            }
-        } catch(\Throwable $e) {
-            // Use fallback data with placeholder plan IDs if database insert fails
-            $plans = [
-                ['id' => 1, 'name' => 'Starter'],
-                ['id' => 2, 'name' => 'Growth'],
-                ['id' => 3, 'name' => 'Enterprise']
-            ];
-            $plans_error = 'Using temporary plan data. Please ensure pricing_plans table exists in your database.';
-        }
-    }
 }
 catch(\Throwable $e) { 
-    // Fallback to basic plan structure so form can display
+    // Use fallback with plan IDs 1,2,3
     $plans = [
         ['id' => 1, 'name' => 'Starter'],
         ['id' => 2, 'name' => 'Growth'],
         ['id' => 3, 'name' => 'Enterprise']
     ];
-    $plans_error = 'Database error: ' . $e->getMessage() . ' Using temporary data.';
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -53,15 +23,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? '';
 
     if ($action === 'save-table') {
-        // Save entire table structure
         try {
             // Get all features (rows)
             $features_raw = trim($_POST['features'] ?? '');
             $features_list = array_values(array_filter(array_map('trim', explode("\n", $features_raw))));
             
-            // Build table structure: each feature becomes a row with values for each plan
+            // Build table structure
             $table_data = [];
-            
             foreach ($features_list as $feature_name) {
                 $row = ['feature' => $feature_name, 'values' => []];
                 
@@ -88,11 +56,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 // Load current table data
 $table_data = [];
-$table_json = '';
 try {
     $setting = queryOne("SELECT setting_val FROM site_settings WHERE setting_key=?", ['pricing_comparison_table']);
-    $table_json = $setting['setting_val'] ?? '[]';
-    $table_data = json_decode($table_json, true) ?: [];
+    $table_data = json_decode($setting['setting_val'] ?? '[]', true) ?: [];
     
     // Auto-initialize with default data if empty
     if (empty($table_data)) {
@@ -127,15 +93,10 @@ try {
         <h2 class="h-eyebrow-flat">Pricing Comparison Table</h2>
     </div>
     
-    <?php if(!empty($plans_error) && strpos($plans_error, 'Database error') === 0):?>
+    <?php if(empty($plans)):?>
         <div style="border:2px dashed var(--border);border-radius:1rem;padding:3rem;text-align:center;color:var(--muted-foreground);">
-            <p><?=e($plans_error)?></p>
-            <p style="margin-top:0.5rem;">Please ensure your database schema is properly initialized.</p>
+            <p>No pricing plans found.</p>
             <a href="pricing.php" class="btn btn-primary btn-sm" style="margin-top:1rem;">Go to Pricing Plans</a>
-        </div>
-    <?php elseif(empty($plans)):?>
-        <div style="border:2px dashed var(--border);border-radius:1rem;padding:3rem;text-align:center;color:var(--muted-foreground);">
-            <p>No pricing plans found. Creating default plans...</p>
         </div>
     <?php else:?>
     
@@ -202,30 +163,3 @@ try {
     
     <?php endif;?>
 </div>
-
-<style>
-    .af-table-note {
-        background:rgba(59,130,246,0.08);
-        border:1px solid rgba(59,130,246,0.2);
-        border-radius:0.75rem;
-        padding:0.875rem 1.1rem;
-        margin-bottom:1.5rem;
-        display:flex;
-        align-items:flex-start;
-        gap:0.75rem;
-    }
-    .af-table-note-icon {
-        font-size:1.4rem;
-        flex-shrink:0;
-    }
-    .af-table-note-content {
-        font-size:0.8125rem;
-        color:var(--muted-foreground);
-    }
-    .af-table-note-title {
-        font-weight:700;
-        font-size:0.875rem;
-        color:var(--foreground);
-        margin-bottom:0.2rem;
-    }
-</style>
