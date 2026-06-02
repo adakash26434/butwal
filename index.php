@@ -123,7 +123,7 @@ $_stepDefsD = isNepali()
   ? ['तपाईंको आवश्यकता बुझ्छौं — निःशुल्क, कुनै बाध्यता छैन।',
      'विस्तृत प्रस्ताव २ कार्यदिवसभित्र पठाइन्छ।',
      'डाटा माइग्रेसन, कन्फिगरेसन र स्टाफ तालिम।',
-     '२ हप्तामा ल���इभ। लन्च पछि ३० दिन अन-कल सहयोग।']
+     '२ हप्तामा ल����इभ। लन्च पछि ३० दिन अन-कल सहयोग।']
   : ['We learn your needs — free, no commitment.',
      'Detailed proposal with price & timeline in 2 days.',
      'We migrate data, configure the system and train staff.',
@@ -186,12 +186,12 @@ include 'includes/header.php';
     <div style="position:absolute;inset:0;<?= $_overlay ?>"></div>
     <div class="container" style="position:relative;height:100%;display:flex;align-items:center;padding-top:2rem;">
       <div :class="cur==<?=$_hk?>?'hero-ca':''" style="max-width:36rem;">
-        <h1 class="hero-h1" style="font-family:var(--font-display);font-size:clamp(2.25rem,5vw,3.5rem);font-weight:800;color:#fff;line-height:1.1;margin:0 0 .875rem;letter-spacing:-.025em;text-shadow:0 4px 20px rgba(0,0,0,.6), 0 2px 8px rgba(0,0,0,.5);">
+        <h1 class="hero-h1" style="font-family:var(--font-display);font-size:clamp(1.875rem,4vw,2.5rem);font-weight:800;color:#fff;line-height:1.1;margin:0 0 .875rem;letter-spacing:-.025em;text-shadow:0 4px 20px rgba(0,0,0,.6), 0 2px 8px rgba(0,0,0,.5);">
           <?= nl2br(e($_hs['title'])) ?>
         </h1>
         <div class="hero-bar" style="width:3rem;height:3px;background:var(--primary);border-radius:2px;margin-bottom:1rem;"></div>
         <?php if(!empty($_hs['sub'])): ?>
-        <p class="hero-sub" style="font-size:clamp(1rem,2vw,1.125rem);color:#fff;line-height:1.72;margin:0 0 1.75rem;max-width:28rem;text-shadow:0 3px 12px rgba(0,0,0,.5), 0 1px 4px rgba(0,0,0,.4);font-weight:500;">
+        <p class="hero-sub" style="font-size:clamp(1.0625rem,2.2vw,1.25rem);color:#fff;line-height:1.72;margin:0 0 1.75rem;max-width:28rem;text-shadow:0 3px 12px rgba(0,0,0,.5), 0 1px 4px rgba(0,0,0,.4);font-weight:500;">
           <?= e($_hs['sub']) ?>
         </p>
         <?php endif; ?>
