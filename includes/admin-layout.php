@@ -301,9 +301,8 @@ require __DIR__ . '/head.php';
       </div>
     </header>
     <main style="flex:1;overflow-y:auto;padding:1.5rem;">
+      <!-- Admin page content renders here -->
     </main>
-
-<script>
 // ── Alert auto-dismiss (5 seconds) ────────────────────────────
 document.addEventListener('DOMContentLoaded', function() {
   document.querySelectorAll('.alert-success, .alert-error, .alert').forEach(function(el) {
@@ -408,3 +407,5 @@ window.addEventListener('resize',checkAdminSidebarBtn);
 </script>
   </div>
 </div>
+</body>
+</html>
