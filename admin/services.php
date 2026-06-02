@@ -190,28 +190,34 @@ $ICONS_JSON = json_encode($ICONS);
 
 <script>var _svcIcons=<?= $ICONS_JSON ?>;</script>
 <div id="aft-form" style="<?=$afActive==='list'?'display:none':'display:block'?>">
-  <div class="st-card p-tile"
+  <div class="st-card p-tile" style="display:flex;flex-direction:column;height:calc(100vh - 200px);max-height:95vh;"
        x-data="svcForm(<?= htmlspecialchars(json_encode($editing['lucide_icon'] ?? 'layers'), ENT_QUOTES) ?>, _svcIcons, <?= htmlspecialchars(json_encode($editing['features'] ?? ''), ENT_QUOTES) ?>, <?= htmlspecialchars(json_encode($editing['screenshot_url'] ?? ''), ENT_QUOTES) ?>)">
 
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.875rem;">
-      <h3 class="h-eyebrow-tight" style="margin:0;"><?=$editing?'Edit Service':'New Service'?></h3>
-      <?php if($editing):?>
-      <a href="?" class="btn btn-ghost btn-sm" style="font-size:0.75rem;">✕ Cancel</a>
-      <?php endif;?>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;padding-bottom:0.875rem;border-bottom:1px solid var(--border);">
+      <h3 class="h-eyebrow-tight" style="margin:0;"><?=$editing?'✏ Edit Service':'➕ New Service'?></h3>
+      <?php if($editing):?><a href="?" class="btn btn-ghost btn-sm" style="font-size:0.75rem;">Cancel</a><?php endif;?>
     </div>
 
-    <!-- Tab bar -->
-    <div style="display:flex;gap:0.25rem;margin-bottom:1rem;border-bottom:1px solid var(--border);padding-bottom:0.625rem;">
-      <?php foreach(['basic'=>'Basic','content'=>'Content','appearance'=>'Appearance'] as $tKey=>$tLabel):?>
-      <button type="button" @click="tab='<?=$tKey?>'"
-              :style="tab==='<?=$tKey?>' ? 'background:var(--primary);color:#fff;border-color:var(--primary);' : 'background:transparent;color:var(--muted-foreground);border-color:transparent;'"
-              style="padding:0.3rem 0.75rem;border-radius:0.5rem;border:1.5px solid;font-size:0.8rem;font-weight:600;cursor:pointer;transition:all 0.15s;">
-        <?=$tLabel?>
+    <!-- Tab bar — standardized -->
+    <div style="display:flex;gap:0.5rem;margin-bottom:1rem;padding-bottom:0.75rem;border-bottom:2px solid var(--border);flex-shrink:0;">
+      <button type="button" @click="tab='basic'" class="af-tab-btn" 
+              :style="tab==='basic' ? 'color:var(--primary);border-bottom-color:var(--primary);' : 'color:var(--muted-foreground);border-bottom-color:transparent;'"
+              style="padding:0.5rem 1rem;border:none;border-bottom:3px solid;font-weight:600;cursor:pointer;transition:all 0.2s;">
+        <i data-lucide="info" style="width:13px;height:13px;display:inline;vertical-align:middle;margin-right:0.4rem;"></i>Basic
       </button>
-      <?php endforeach;?>
+      <button type="button" @click="tab='content'" class="af-tab-btn"
+              :style="tab==='content' ? 'color:var(--primary);border-bottom-color:var(--primary);' : 'color:var(--muted-foreground);border-bottom-color:transparent;'"
+              style="padding:0.5rem 1rem;border:none;border-bottom:3px solid;font-weight:600;cursor:pointer;transition:all 0.2s;">
+        <i data-lucide="file-text" style="width:13px;height:13px;display:inline;vertical-align:middle;margin-right:0.4rem;"></i>Content
+      </button>
+      <button type="button" @click="tab='appearance'" class="af-tab-btn"
+              :style="tab==='appearance' ? 'color:var(--primary);border-bottom-color:var(--primary);' : 'color:var(--muted-foreground);border-bottom-color:transparent;'"
+              style="padding:0.5rem 1rem;border:none;border-bottom:3px solid;font-weight:600;cursor:pointer;transition:all 0.2s;">
+        <i data-lucide="palette" style="width:13px;height:13px;display:inline;vertical-align:middle;margin-right:0.4rem;"></i>Appearance
+      </button>
     </div>
 
-    <form method="POST" enctype="multipart/form-data">
+    <form method="POST" enctype="multipart/form-data" style="display:flex;flex-direction:column;overflow:hidden;flex:1;">
       <?=csrfField()?>
       <input type="hidden" name="action" value="<?=$editing?'update':'create'?>">
       <?php if($editing):?><input type="hidden" name="id" value="<?=$editing['id']?>"><?php endif;?>
@@ -219,8 +225,11 @@ $ICONS_JSON = json_encode($ICONS);
       <input type="hidden" name="features"    x-model="chipsJoined">
       <input type="hidden" name="screenshot_url" x-model="imgUrl">
 
+      <!-- Tab content container — scrollable -->
+      <div style="flex:1;overflow-y:auto;padding-right:0.5rem;margin-right:-0.5rem;">
+
       <!-- ══ TAB: BASIC ══ -->
-      <div x-show="tab==='basic'" style="display:flex;flex-direction:column;gap:0.75rem;">
+      <div x-show="tab==='basic'" style="display:flex;flex-direction:column;gap:0.75rem;padding-bottom:2rem;">
 
         <!-- Icon button + Title -->
         <div style="display:grid;grid-template-columns:auto 1fr;gap:0.625rem;align-items:end;">
@@ -317,7 +326,7 @@ $ICONS_JSON = json_encode($ICONS);
       </div><!-- /basic -->
 
       <!-- ══ TAB: CONTENT ══ -->
-      <div x-show="tab==='content'" style="display:flex;flex-direction:column;gap:0.75rem;">
+      <div x-show="tab==='content'" style="display:flex;flex-direction:column;gap:0.75rem;padding-bottom:2rem;">
         <div>
           <label class="form-label">Summary / Description</label>
           <textarea name="summary" class="form-input" rows="3" placeholder="Describe what this service does…"><?=e($editing['summary']??'')?></textarea>
@@ -355,7 +364,7 @@ $ICONS_JSON = json_encode($ICONS);
       </div><!-- /content -->
 
       <!-- ══ TAB: APPEARANCE ══ -->
-      <div x-show="tab==='appearance'" style="display:flex;flex-direction:column;gap:0.875rem;">
+      <div x-show="tab==='appearance'" style="display:flex;flex-direction:column;gap:0.875rem;padding-bottom:2rem;">
 
         <!-- Color swatches -->
         <div>
@@ -408,8 +417,10 @@ $ICONS_JSON = json_encode($ICONS);
         </div>
       </div><!-- /appearance -->
 
+      </div><!-- /scrollable tab content -->
+
       <!-- Save -->
-      <div class="af-form-footer" style="margin-top:1rem;padding-top:0.875rem;border-top:1px solid var(--border);">
+      <div class="af-form-footer" style="margin-top:1rem;padding-top:0.875rem;border-top:1px solid var(--border);flex-shrink:0;">
         <button type="submit" class="btn btn-primary flex-1"><?=$editing?'Update Service':'Add Service'?></button>
       </div>
     </form>
