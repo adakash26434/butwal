@@ -301,6 +301,8 @@ require __DIR__ . '/head.php';
       </div>
     </header>
     <main style="flex:1;overflow-y:auto;padding:1.5rem;">
+    </main>
+
 <script>
 // ── Alert auto-dismiss (5 seconds) ────────────────────────────
 document.addEventListener('DOMContentLoaded', function() {
@@ -313,7 +315,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 5000);
   });
 });
-// ── Global form submit loading state ──────���───────────────────
+// ── Global form submit loading state ──────―――───────────────────
 document.addEventListener('submit', function(e) {
   const form = e.target;
   if (form.dataset.noLoading) return;
@@ -404,6 +406,5 @@ window.addEventListener('resize',checkAdminSidebarBtn);
   }
 })();
 </script>
-    </main>
   </div>
 </div>
