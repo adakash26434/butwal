@@ -303,6 +303,7 @@ require __DIR__ . '/head.php';
     <main style="flex:1;overflow-y:auto;padding:1.5rem;">
       <!-- Admin page content renders here -->
     </main>
+    <script>
 // ── Alert auto-dismiss (5 seconds) ────────────────────────────
 document.addEventListener('DOMContentLoaded', function() {
   document.querySelectorAll('.alert-success, .alert-error, .alert').forEach(function(el) {
