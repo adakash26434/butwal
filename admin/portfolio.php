@@ -132,16 +132,16 @@ $CATS = ['Core Banking','Mobile App','DMS','HR Software','Website / Portal','Tra
 
       <div>
         <label class="form-label fs-2xs2">Project Title <span class="text-danger-token">*</span></label>
-        <input type="text" name="title" required class="form-input fs-sm2" value="<?=e($editing['title']??'')?>">
+        <input type="text" name="title" required minlength="3" maxlength="150" class="form-input fs-sm2" value="<?=e($editing['title']??'')?>" placeholder="Project name (3-150 chars)">
       </div>
       <div>
-        <label class="form-label fs-2xs2">Slug</label>
-        <input type="text" name="slug" class="form-input fs-sm2" value="<?=e($editing['slug']??'')?>" placeholder="auto">
+        <label class="form-label fs-2xs2">Slug (URL)</label>
+        <input type="text" name="slug" maxlength="100" class="form-input fs-sm2" value="<?=e($editing['slug']??'')?>" placeholder="auto">
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
         <div>
           <label class="form-label fs-2xs2">Client Name</label>
-          <input type="text" name="client_name" class="form-input fs-sm2" value="<?=e($editing['client_name']??'')?>">
+          <input type="text" name="client_name" maxlength="100" class="form-input fs-sm2" value="<?=e($editing['client_name']??'')?>" placeholder="Client name">
         </div>
         <div>
           <label class="form-label fs-2xs2">Category</label>
@@ -159,25 +159,25 @@ $CATS = ['Core Banking','Mobile App','DMS','HR Software','Website / Portal','Tra
         require __DIR__ . '/../includes/admin-img-upload.php';
       ?>
       <div>
-        <label class="form-label fs-2xs2">Summary</label>
-        <textarea name="summary" class="form-input fs-sm-r" rows="2"><?=e($editing['summary']??'')?></textarea>
+        <label class="form-label fs-2xs2">Summary (for cards)</label>
+        <textarea name="summary" maxlength="250" class="form-input fs-sm-r" rows="2" placeholder="Short description (max 250 chars)"><?=e($editing['summary']??'')?></textarea>
       </div>
       <div>
-        <label class="form-label fs-2xs2">Full Description (HTML ok)</label>
-        <textarea name="description" class="form-input fs-sm-r" rows="4"><?=e($editing['description']??'')?></textarea>
+        <label class="form-label fs-2xs2">Full Description (HTML ok) <span class="text-danger-token">*</span></label>
+        <textarea name="description" required minlength="20" class="form-input fs-sm-r" rows="4" placeholder="Full project details (min 20 chars)"><?=e($editing['description']??'')?></textarea>
       </div>
       <div>
         <label class="form-label fs-2xs2">Tags (comma-separated)</label>
-        <input type="text" name="tags" class="form-input fs-sm2" value="<?=e($editing['tags_text']??'')?>" placeholder="Software, IT, Nepal">
+        <input type="text" name="tags" maxlength="200" class="form-input fs-sm2" value="<?=e($editing['tags_text']??'')?>" placeholder="Software, IT, Nepal">
       </div>
       <div>
         <label class="form-label fs-2xs2">Live URL</label>
-        <input type="url" name="url" class="form-input fs-sm2" value="<?=e($editing['url']??'')?>" placeholder="https://...">
+        <input type="url" name="url" maxlength="200" class="form-input fs-sm2" value="<?=e($editing['url']??'')?>" placeholder="https://example.com">
       </div>
       <div style="display:grid;grid-template-columns:80px 1fr;gap:0.5rem;align-items:end;">
         <div>
           <label class="form-label fs-2xs2">Position</label>
-          <input type="number" name="position" class="form-input fs-sm2" value="<?=e($editing['position']??0)?>">
+          <input type="number" name="position" min="0" max="9999" class="form-input fs-sm2" value="<?=e($editing['position']??0)?>">
         </div>
         <div style="display:flex;flex-direction:column;gap:0.25rem;padding-bottom:0.25rem;">
           <label class="row-check">
