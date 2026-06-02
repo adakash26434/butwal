@@ -54,6 +54,27 @@ try {
     $setting = queryOne("SELECT setting_val FROM site_settings WHERE setting_key=?", ['pricing_comparison_table']);
     $table_json = $setting['setting_val'] ?? '[]';
     $table_data = json_decode($table_json, true) ?: [];
+    
+    // Auto-initialize with default data if empty
+    if (empty($table_data)) {
+        $default_table_data = [
+            ['feature' => 'Core Software Module', 'values' => [1 => '✓', 2 => '✓', 3 => '✓']],
+            ['feature' => 'Members limit', 'values' => [1 => '500', 2 => '5,000', 3 => 'Unlimited']],
+            ['feature' => 'Branches', 'values' => [1 => '1', 2 => '5', 3 => 'Unlimited']],
+            ['feature' => 'Mobile Banking App', 'values' => [1 => '—', 2 => '✓', 3 => '✓']],
+            ['feature' => 'Document Management (DMS)', 'values' => [1 => '—', 2 => '✓', 3 => '✓']],
+            ['feature' => 'HR & Payroll', 'values' => [1 => '—', 2 => '—', 3 => '✓']],
+            ['feature' => 'Priority support (<2 hr)', 'values' => [1 => '—', 2 => '✓', 3 => '✓']],
+            ['feature' => 'On-site visits', 'values' => [1 => '—', 2 => 'Quarterly', 3 => 'Dedicated']],
+            ['feature' => 'Custom reports', 'values' => [1 => '✓', 2 => '✓', 3 => '✓']],
+            ['feature' => 'BS Calendar native', 'values' => [1 => '✓', 2 => '✓', 3 => '✓']],
+            ['feature' => 'Custom branding', 'values' => [1 => '—', 2 => '✓', 3 => '✓']],
+            ['feature' => 'Uptime SLA', 'values' => [1 => '99%', 2 => '99.9%', 3 => '99.95%']],
+        ];
+        $table_json = json_encode($default_table_data, JSON_UNESCAPED_UNICODE);
+        saveSetting('pricing_comparison_table', $table_json);
+        $table_data = $default_table_data;
+    }
 } catch(\Throwable $e) {
     $table_data = [];
 }
