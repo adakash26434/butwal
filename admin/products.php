@@ -379,20 +379,26 @@ if (!empty($_GET['edit'])) {
 function switchTab(btn, tabName) {
   // Deactivate all tab buttons
   document.querySelectorAll('.af-tab-btn').forEach(function(b){
+    b.classList.remove('active');
     b.style.color = 'var(--muted-foreground)';
     b.style.borderBottomColor = 'transparent';
   });
   // Activate clicked button
+  btn.classList.add('active');
   btn.style.color = 'var(--primary)';
   btn.style.borderBottomColor = 'var(--primary)';
   
   // Hide all tab panes
   document.querySelectorAll('.af-tab-pane').forEach(function(p){
+    p.classList.remove('active');
     p.style.display = 'none';
   });
   // Show selected pane
   var pane = document.querySelector('[data-tab-pane="'+tabName+'"]');
-  if (pane) pane.style.display = 'block';
+  if (pane) {
+    pane.classList.add('active');
+    pane.style.display = 'flex';
+  }
 }
 
 /* ── Live card preview ── */
@@ -442,6 +448,10 @@ function updatePreview() {
 
 // Wire up all relevant inputs
 document.addEventListener('DOMContentLoaded', function() {
+  // Ensure first tab pane is visible on load
+  var activePane = document.querySelector('.af-tab-pane.active');
+  if (activePane) activePane.style.display = 'flex';
+  
   var triggers = ['name','tagline','badge','price_from','summary','lucide_icon'];
   triggers.forEach(function(n) {
     var el = document.querySelector('[name='+n+']');
