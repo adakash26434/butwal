@@ -64,25 +64,21 @@ $_ctaHref  = trim($__s['homepage_cta_url'] ?? '') ?: url('contact.php');
 $_ctaLabel = cms($__s,'homepage_cta_text') ?: __('home_hero_book_demo');
 $_heroSlides = [];
 // Primary source: site settings slides (Settings → Homepage → Hero Section)
-$_heroSettingsHasImage = false;
 for ($_hsi = 1; $_hsi <= 3; $_hsi++) {
   $_himg = trim($__s["hero_image_{$_hsi}"] ?? '');
+  if (!$_himg) continue;
   $_htit = cms($__s, "hero_slide_{$_hsi}_title");
   $_hsub = cms($__s, "hero_slide_{$_hsi}_subtitle");
-  if ($_himg || $_hsi === 1) {
-    if ($_himg) { $_heroSettingsHasImage = true; }
-    $_heroSlides[] = [
-      'img'   => $_himg,
-      'title' => $_htit ?: ($_heroTitle ?: (isNepali() ? 'डिजिटाइजेसन र अटोमेसन' : 'IT Solutions & Automation')),
-      'sub'   => $_hsub ?: ($_heroSub   ?: (isNepali() ? 'सहकारी एवं वित्तीय संस्थाहरूलाई रूपान्तरण गर्ने सुरक्षित र सहज प्रणाली।' : 'End-to-end software solutions purpose-built for Nepal\'s cooperatives and businesses.')),
-      'link'  => '', 'btn' => '',
-    ];
-  }
+  $_heroSlides[] = [
+    'img'   => $_himg,
+    'title' => $_htit ?: ($_heroTitle ?: (isNepali() ? 'डिजिटाइजेसन र अटोमेसन' : 'IT Solutions & Automation')),
+    'sub'   => $_hsub ?: ($_heroSub   ?: (isNepali() ? 'सहकारी एवं वित्तीय संस्थाहरूलाई रूपान्तरण गर्ने सुरक्षित र सहज प्रणाली।' : 'End-to-end software solutions purpose-built for Nepal\'s cooperatives and businesses.')),
+    'link'  => '', 'btn' => '',
+  ];
 }
 unset($_hsi, $_himg, $_htit, $_hsub);
 // Secondary source: Banners admin (page_target = 'hero') if no explicit settings images exist.
-if (empty($_heroSlides) || !$_heroSettingsHasImage) {
-  $_heroSlides = [];
+if (empty($_heroSlides)) {
   try {
     $_heroBanners = query("SELECT * FROM banners WHERE page_target='hero' AND active=1 ORDER BY position ASC, id ASC LIMIT 5");
     foreach ($_heroBanners as $_hb) {
@@ -96,6 +92,16 @@ if (empty($_heroSlides) || !$_heroSettingsHasImage) {
     }
     unset($_heroBanners, $_hb);
   } catch(\Throwable $e) {}
+}
+// Final fallback slide if no hero content is configured.
+if (empty($_heroSlides)) {
+  $_heroSlides[] = [
+    'img'   => '',
+    'title' => $_heroTitle ?: (isNepali() ? 'डिजिटाइजेसन र अटोमेसन' : 'IT Solutions & Automation'),
+    'sub'   => $_heroSub   ?: (isNepali() ? 'सहकारी एवं वित्तीय संस्थाहरूलाई रूपान्तरण गर्ने सुरक्षित र सहज प्रणाली।' : 'End-to-end software solutions purpose-built for Nepal\'s cooperatives and businesses.'),
+    'link'  => $_ctaHref,
+    'btn'   => $_ctaLabel,
+  ];
 }
 // Bento section
 $_bentoEyebrow = cms($__s, 'home_bento_eyebrow');
@@ -165,16 +171,20 @@ include 'includes/header.php';
 
   <!-- ── Slides ── -->
   <?php foreach($_heroSlides as $_hk => $_hs):
-    $_bgStyle = !empty($_hs['img'])
-      ? "background-image:url('" . e($_hs['img']) . "');background-size:cover;background-position:center;"
+    $_hasImage = !empty($_hs['img']);
+    $_bgStyle = $_hasImage
+      ? "background-image:url('" . e($_hs['img']) . "');background-size:cover;background-position:center;filter:brightness(1.05);"
       : "background:linear-gradient(135deg,#0a1023 0%,#0f2057 50%,#1a0a3d 100%);";
+    $_overlay = $_hasImage
+      ? "background:linear-gradient(100deg,rgba(8,14,30,.08) 0%,rgba(8,14,30,.04) 42%,rgba(8,14,30,.02) 100%);"
+      : "background:linear-gradient(100deg,rgba(8,14,30,.55) 0%,rgba(8,14,30,.35) 42%,rgba(8,14,30,.10) 100%);";
     $_slideLink = !empty($_hs['link']) ? $_hs['link'] : $_ctaHref;
     $_slideBtn  = !empty($_hs['btn'])  ? $_hs['btn']  : $_ctaLabel;
   ?>
   <div
     :style="cur === <?= $_hk ?> ? 'opacity:1;z-index:1;' : 'opacity:0;z-index:0;'"
     style="position:absolute;inset:0;<?= $_bgStyle ?>transition:opacity .75s ease;will-change:opacity;">
-    <div style="position:absolute;inset:0;background:linear-gradient(100deg,rgba(8,14,30,.25) 0%,rgba(8,14,30,.15) 42%,rgba(8,14,30,.05) 100%);"></div>
+    <div style="position:absolute;inset:0;<?= $_overlay ?>"></div>
     <div class="container" style="position:relative;height:100%;display:flex;align-items:center;padding-top:2rem;">
       <div :class="cur==<?=$_hk?>?'hero-ca':''" style="max-width:36rem;">
         <h1 class="hero-h1" style="font-family:var(--font-display);font-size:clamp(1.75rem,3.8vw,2.875rem);font-weight:800;color:#fff;line-height:1.15;margin:0 0 .875rem;letter-spacing:-.025em;text-shadow:0 2px 12px rgba(0,0,0,.4);">
