@@ -28,11 +28,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $badge     = trim($_POST['badge'] ?? '');
         // Sanitize price: extract numeric value only, convert to float
         $priceRaw  = trim($_POST['price_from'] ?? '');
-        $price     = '';
-        if ($priceRaw) {
+        $price     = null; // Default to NULL, not empty string
+        if ($priceRaw && $priceRaw !== 'Custom') {
             // Extract only digits and decimal point
             $priceNum = (float)preg_replace('/[^0-9.]/', '', $priceRaw);
-            $price = $priceNum > 0 ? $priceNum : '';
+            $price = $priceNum > 0 ? $priceNum : null;
         }
         $category  = trim($_POST['category'] ?? '');
         $position  = (int)($_POST['position'] ?? 0);
@@ -54,11 +54,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             try {
                 if ($id) {
                     execute("UPDATE products SET name=?,slug=?,tagline=?,summary=?,description=?,icon=?,lucide_icon=?,icon_color=?,badge=?,price_from=?,category=?,features=?,highlights=?,position=?,active=?,show_on_home=?,home_position=?,home_card_wide=?,home_card_dark=?,home_bg_css=?,demo_screenshot_url=?,tab_label=?,updated_at=NOW() WHERE id=?",
-                        [$name,$slug,$tagline,$summary,$desc,$icon,$lucide_icon,$icon_color,$badge?:null,$price?:null,$category?:null,$features,$highlights,$position,$active,$show_on_home,$home_position,$home_card_wide,$home_card_dark,$home_bg_css?:null,$demo_ss_url?:null,$tab_label?:null,$id]);
+                        [$name,$slug,$tagline,$summary,$desc,$icon,$lucide_icon,$icon_color,$badge?:null,$price,$category?:null,$features,$highlights,$position,$active,$show_on_home,$home_position,$home_card_wide,$home_card_dark,$home_bg_css?:null,$demo_ss_url?:null,$tab_label?:null,$id]);
                     $success = 'Product updated.';
                 } else {
                     execute("INSERT INTO products (name,slug,tagline,summary,description,icon,lucide_icon,icon_color,badge,price_from,category,features,highlights,position,active,show_on_home,home_position,home_card_wide,home_card_dark,home_bg_css,demo_screenshot_url,tab_label,created_at,updated_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),NOW())",
-                        [$name,$slug,$tagline,$summary,$desc,$icon,$lucide_icon,$icon_color,$badge?:null,$price?:null,$category?:null,$features,$highlights,$position,$active,$show_on_home,$home_position,$home_card_wide,$home_card_dark,$home_bg_css?:null,$demo_ss_url?:null,$tab_label?:null]);
+                        [$name,$slug,$tagline,$summary,$desc,$icon,$lucide_icon,$icon_color,$badge?:null,$price,$category?:null,$features,$highlights,$position,$active,$show_on_home,$home_position,$home_card_wide,$home_card_dark,$home_bg_css?:null,$demo_ss_url?:null,$tab_label?:null]);
                     $success = 'Product created.';
                 }
             } catch(\Throwable $e) { $error = 'Save failed: ' . $e->getMessage(); }
@@ -127,7 +127,7 @@ if (!empty($_GET['edit'])) {
             </div>
           </td>
           <td style="padding:0.75rem 1rem;color:var(--muted-foreground);"><?=e($p['category']??'—')?></td>
-          <td style="padding:0.75rem 1rem;font-weight:600;color:var(--foreground);"><?=e($p['price_from']??'Custom')?></td>
+          <td style="padding:0.75rem 1rem;font-weight:600;color:var(--foreground);"><?=!empty($p['price_from'])?'₨ '.number_format($p['price_from'],2):'Custom'?></td>
           <td style="padding:0.75rem 1rem;text-align:center;">
             <form method="POST" class="inline">
               <?=csrfField()?>

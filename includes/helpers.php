@@ -61,7 +61,124 @@ function siteSettings(): array {
         if (!empty($map)) {
             if (isset($map['social_links'])) {
                 $map['social_links'] = json_decode($map['social_links'], true) ?? [];
-            }
+}
+
+// ── Form Helpers for Uniform Admin Forms ────────────────────────
+// These functions ensure consistent form rendering across all admin pages
+
+/**
+ * formInput() — Render a text/email/number input field
+ * Usage: echo formInput('name', 'Product Name', 'product_name', $value, ['required', 'placeholder' => '...']);
+ */
+function formInput(string $label, string $name, mixed $value = '', array $opts = []): string {
+    $type = $opts['type'] ?? 'text';
+    $placeholder = $opts['placeholder'] ?? '';
+    $required = in_array('required', $opts) ? 'required' : '';
+    $attrs = $opts['attrs'] ?? '';
+    $classes = $opts['class'] ?? 'form-input';
+    
+    $html = '<div class="form-group">';
+    $html .= '<label class="form-label">' . e($label);
+    if (in_array('required', $opts)) $html .= ' <span class="text-danger-token">*</span>';
+    $html .= '</label>';
+    $html .= '<input type="' . e($type) . '" name="' . e($name) . '" class="' . $classes . '" ';
+    $html .= 'value="' . e($value ?? '') . '" ' . $required;
+    if ($placeholder) $html .= ' placeholder="' . e($placeholder) . '"';
+    $html .= ' ' . $attrs . '>';
+    if (isset($opts['hint'])) {
+        $html .= '<span class="form-hint">' . e($opts['hint']) . '</span>';
+    }
+    $html .= '</div>';
+    return $html;
+}
+
+/**
+ * formTextarea() — Render a textarea field
+ */
+function formTextarea(string $label, string $name, mixed $value = '', array $opts = []): string {
+    $rows = $opts['rows'] ?? 4;
+    $placeholder = $opts['placeholder'] ?? '';
+    $required = in_array('required', $opts) ? 'required' : '';
+    $classes = $opts['class'] ?? 'form-input';
+    
+    $html = '<div class="form-group">';
+    $html .= '<label class="form-label">' . e($label);
+    if (in_array('required', $opts)) $html .= ' <span class="text-danger-token">*</span>';
+    $html .= '</label>';
+    $html .= '<textarea name="' . e($name) . '" class="' . $classes . '" rows="' . (int)$rows . '" ' . $required;
+    if ($placeholder) $html .= ' placeholder="' . e($placeholder) . '"';
+    $html .= '>' . e($value ?? '') . '</textarea>';
+    if (isset($opts['hint'])) {
+        $html .= '<span class="form-hint">' . e($opts['hint']) . '</span>';
+    }
+    $html .= '</div>';
+    return $html;
+}
+
+/**
+ * formSelect() — Render a select dropdown
+ * Usage: echo formSelect('Category', 'category', $value, ['Banking' => 'Banking', 'Mobile' => 'Mobile']);
+ */
+function formSelect(string $label, string $name, mixed $value = '', array $options = [], array $opts = []): string {
+    $required = in_array('required', $opts) ? 'required' : '';
+    $classes = $opts['class'] ?? 'form-input';
+    
+    $html = '<div class="form-group">';
+    $html .= '<label class="form-label">' . e($label);
+    if (in_array('required', $opts)) $html .= ' <span class="text-danger-token">*</span>';
+    $html .= '</label>';
+    $html .= '<select name="' . e($name) . '" class="' . $classes . '" ' . $required . '>';
+    $html .= '<option value="">— Select —</option>';
+    foreach ($options as $optValue => $optLabel) {
+        $selected = ($value == $optValue) ? 'selected' : '';
+        $html .= '<option value="' . e($optValue) . '" ' . $selected . '>' . e($optLabel) . '</option>';
+    }
+    $html .= '</select>';
+    $html .= '</div>';
+    return $html;
+}
+
+/**
+ * formCheckbox() — Render a checkbox field
+ */
+function formCheckbox(string $label, string $name, bool $checked = false, array $opts = []): string {
+    $value = $opts['value'] ?? '1';
+    $html = '<label class="form-check">';
+    $html .= '<input type="checkbox" name="' . e($name) . '" value="' . e($value) . '" ';
+    if ($checked) $html .= 'checked';
+    $html .= '>';
+    $html .= '<span>' . e($label) . '</span>';
+    $html .= '</label>';
+    return $html;
+}
+
+/**
+ * formRow() — Create a responsive grid row with 2 columns by default
+ * Usage: echo formRow(formInput(...), formInput(...));
+ */
+function formRow(...$items): string {
+    $cols = count($items);
+    $class = $cols === 2 ? 'form-grid-2' : ($cols === 3 ? 'form-grid-3' : 'form-grid-2');
+    $html = '<div class="' . $class . '">';
+    foreach ($items as $item) {
+        $html .= $item;
+    }
+    $html .= '</div>';
+    return $html;
+}
+
+/**
+ * formSection() — Render a form section with optional title
+ */
+function formSection(string $title = '', string $content = ''): string {
+    $html = '<div class="form-section">';
+    if ($title) {
+        $html .= '<div class="form-section-title">' . e($title) . '</div>';
+    }
+    $html .= $content;
+    $html .= '</div>';
+    return $html;
+}
             $cache = array_merge($defaults, $map);
             return $cache;
         }
