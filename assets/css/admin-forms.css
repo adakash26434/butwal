@@ -189,10 +189,10 @@
   border-bottom-color: var(--primary);
 }
 .af-tab-pane {
-  display: none;
+  display: none !important;
 }
 .af-tab-pane.active {
-  display: flex;
+  display: flex !important;
   flex-direction: column;
   gap: 0.875rem;
 }
