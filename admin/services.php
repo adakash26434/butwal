@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $services = [];
 try { $services = query("SELECT id,title,slug,tagline,badge,icon,lucide_icon,icon_color,price_from,active,position FROM services ORDER BY position,id"); }
-catch(\Throwable $e) { $error = 'services table not found.'; }
+catch(\Throwable $e) { $error = 'services table not found. Error: ' . $e->getMessage(); }
 
 $editing = null;
 if (!empty($_GET['edit'])) {
