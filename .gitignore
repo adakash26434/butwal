@@ -1,0 +1,23 @@
+# Dev / local config (contains real DB password — never commit)
+includes/dev-config.php
+
+# PHP error logs
+error_log
+**/error_log
+*.log
+
+# SQLite dev database
+*.sqlite
+*.sqlite3
+*.db
+
+# Cache
+.cache/
+*.cache
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
