@@ -135,14 +135,21 @@ $SCOPES = ['banner'=>'Inline Banner (top of page)','popup'=>'Modal Popup','toast
 </div><!-- /aft-list -->
 
 <div id="aft-form" <?=$afActive==='list'?'style="display:none"':''?>>
-  <div class="st-card p-tile">
-    <h3 class="h-eyebrow-tight">
-      <?= $edit ? ' Edit Announcement' : (isset($_GET['new']) ? ' New Announcement' : ' New Announcement') ?>
-    </h3>
-    <form method="POST" class="col-1-tight">
+  <div class="st-card p-tile" style="display:flex;flex-direction:column;height:calc(100vh - 200px);max-height:95vh;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;padding-bottom:0.875rem;border-bottom:1px solid var(--border);">
+      <h3 class="h-eyebrow-tight" style="margin:0;">
+        <?=$edit?'Edit Announcement':'New Announcement'?>
+      </h3>
+      <?php if($edit):?><a href="?" class="btn btn-ghost btn-sm" style="font-size:0.75rem;">Cancel</a><?php endif;?>
+    </div>
+    
+    <form method="POST" style="display:flex;flex-direction:column;overflow:hidden;flex:1;">
       <?=csrfField()?>
       <input type="hidden" name="action" value="save">
       <?php if($edit):?><input type="hidden" name="id" value="<?=$edit['id']?>"><?php endif;?>
+
+      <!-- Scrollable content -->
+      <div style="flex:1;overflow-y:auto;padding-right:0.5rem;margin-right:-0.5rem;">
 
       <div>
         <label class="form-label">Title <span class="text-danger-token">*</span></label>
@@ -212,9 +219,12 @@ $SCOPES = ['banner'=>'Inline Banner (top of page)','popup'=>'Modal Popup','toast
         </label>
       </div>
 
-      <div class="af-form-footer">
-        <button type="submit" class="btn btn-primary"><?=$edit?'Update':'Create'?> Announcement</button>
-        <?php if($edit):?><a href="?" class="btn btn-ghost">Cancel</a><?php endif;?>
+      </div><!-- /scrollable-content -->
+
+      <!-- Footer: always visible & sticky -->
+      <div class="af-form-footer" style="margin-top:1rem;padding:1rem 0;border-top:1px solid var(--border);display:flex;gap:0.5rem;flex-shrink:0;">
+        <button type="submit" class="btn btn-primary flex-1"><?=$edit?'Update':'Create'?> Announcement</button>
+        <?php if($edit):?><a href="?" class="btn btn-ghost flex-1">Cancel</a><?php endif;?>
       </div>
     </form>
   </div>

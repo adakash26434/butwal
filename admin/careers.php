@@ -133,12 +133,24 @@ $TYPE_LABELS = ['full-time'=>'Full-time','part-time'=>'Part-time','contract'=>'C
 <?php if($editing || isset($_GET['new'])):?>
 <!-- Job form panel -->
 <div class="af-panel">
-  <div class="st-card p-tile">
-    <h3 class="h-eyebrow-tight"><?=$editing?' Edit Job':' Post New Job'?></h3>
-    <form method="POST" class="col-1-tight">
+  <div class="st-card p-tile" style="display:flex;flex-direction:column;height:calc(100vh - 200px);max-height:95vh;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;padding-bottom:0.875rem;border-bottom:1px solid var(--border);">
+      <h3 class="h-eyebrow-tight" style="margin:0;"><?=$editing?' Edit Job':' Post New Job'?></h3>
+      <a href="?tab=jobs" class="btn btn-ghost btn-sm" style="font-size:0.75rem;">✕ Cancel</a>
+    </div>
+    
+    <form method="POST" style="display:flex;flex-direction:column;overflow:hidden;flex:1;">
       <?=csrfField()?>
       <input type="hidden" name="action" value="<?=$editing?'update':'create'?>">
       <?php if($editing):?><input type="hidden" name="id" value="<?=$editing['id']?>"><?php endif;?>
+
+      <!-- Tab nav — sticky at top (single tab but keeping structure consistent) -->
+      <div style="flex-shrink:0;margin-bottom:0.75rem;">
+        <div style="font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted-foreground);margin-bottom:0.5rem;">Job Details</div>
+      </div>
+
+      <!-- Tab content container — scrollable -->
+      <div style="flex:1;overflow-y:auto;padding-right:0.5rem;margin-right:-0.5rem;">
 
       <div>
         <label class="form-label fs-2xs2">Job Title <span class="text-danger-token">*</span></label>
@@ -197,9 +209,13 @@ $TYPE_LABELS = ['full-time'=>'Full-time','part-time'=>'Part-time','contract'=>'C
       <label class="row-check">
         <input type="checkbox" name="active" value="1" <?=($editing['active']??1)?'checked':''?>> Open / Accepting Applications
       </label>
-      <div class="af-form-footer">
-        <button type="submit" class="btn btn-primary w-100"><?=$editing?'Update Job':'Post Job'?></button>
-        <a href="?tab=jobs" class="btn btn-ghost w-100-c">Cancel</a>
+
+      </div><!-- /scrollable-content -->
+
+      <!-- Footer: always visible & sticky -->
+      <div class="af-form-footer" style="margin-top:1rem;padding:1rem 0;border-top:1px solid var(--border);display:flex;gap:0.5rem;flex-shrink:0;">
+        <button type="submit" class="btn btn-primary flex-1"><?=$editing?'Update Job':'Post Job'?></button>
+        <a href="?tab=jobs" class="btn btn-ghost flex-1">Cancel</a>
       </div>
     </form>
   </div>

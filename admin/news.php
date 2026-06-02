@@ -135,22 +135,32 @@ $CATS = ['General','Product Update','Company News','Cooperatives Nepal','Technol
 </div><!-- /aft-list -->
 
 <div id="aft-form" <?=$afActive==='list'?'style="display:none"':''?>>
-  <div class="st-card p-tile">
-    <h3 class="h-eyebrow-tight"><?=$editing?' Edit Post': ' New Post'?></h3>
+  <div class="st-card p-tile" style="display:flex;flex-direction:column;height:calc(100vh - 200px);max-height:95vh;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;padding-bottom:0.875rem;border-bottom:1px solid var(--border);">
+      <h3 class="h-eyebrow-tight" style="margin:0;"><?=$editing?' Edit Post': ' New Post'?></h3>
+      <?php if($editing):?><a href="?" class="btn btn-ghost btn-sm" style="font-size:0.75rem;">Cancel</a><?php endif;?>
+    </div>
 
-    <form method="POST">
+    <form method="POST" style="display:flex;flex-direction:column;overflow:hidden;flex:1;">
       <?=csrfField()?>
       <input type="hidden" name="action" value="<?=$editing?'update':'create'?>">
       <?php if($editing):?><input type="hidden" name="id" value="<?=$editing['id']?>"><?php endif;?>
 
-      <!-- Tab nav -->
-      <div class="af-tab-nav">
-        <button type="button" class="af-tab-btn active" data-tab="content">Content</button>
-        <button type="button" class="af-tab-btn" data-tab="publish">Publish</button>
+      <!-- Tab nav — sticky at top -->
+      <div style="display:flex;gap:0.5rem;margin-bottom:1rem;padding-bottom:0.75rem;border-bottom:2px solid var(--border);flex-shrink:0;">
+        <button type="button" class="af-tab-btn active" data-tab="content" style="padding:0.5rem 1rem;border:none;border-bottom:3px solid transparent;cursor:pointer;font-weight:600;transition:all 0.2s;color:var(--muted-foreground);" onclick="switchTab(this,'content')">
+          <i data-lucide="file-text" style="width:13px;height:13px;display:inline;vertical-align:middle;margin-right:0.4rem;"></i>Content
+        </button>
+        <button type="button" class="af-tab-btn" data-tab="publish" style="padding:0.5rem 1rem;border:none;border-bottom:3px solid transparent;cursor:pointer;font-weight:600;transition:all 0.2s;color:var(--muted-foreground);" onclick="switchTab(this,'publish')">
+          <i data-lucide="upload-cloud" style="width:13px;height:13px;display:inline;vertical-align:middle;margin-right:0.4rem;"></i>Publish
+        </button>
       </div>
 
+      <!-- Tab content container — scrollable -->
+      <div style="flex:1;overflow-y:auto;padding-right:0.5rem;margin-right:-0.5rem;">
+
       <!-- Tab: Content -->
-      <div class="af-tab-pane active" data-tab-pane="content">
+      <div class="af-tab-pane active" data-tab-pane="content" style="padding-bottom:2rem;">
         <div>
           <label class="form-label fs-2xs2">Title <span class="text-danger-token">*</span></label>
           <input type="text" name="title" required class="form-input fs-sm2" value="<?=e($editing['title']??'')?>">
@@ -216,13 +226,32 @@ $CATS = ['General','Product Update','Company News','Cooperatives Nepal','Technol
         </div>
       </div>
 
-      <!-- Footer: always visible -->
-      <div class="af-form-footer">
-        <button type="submit" class="btn btn-primary w-100"><?=$editing?'Update Post':'Create Post'?></button>
-        <?php if($editing):?><a href="?" class="btn btn-ghost w-100-c">Cancel</a><?php endif;?>
+      </div><!-- /tab-content-container -->
+
+      <!-- Footer: always visible & sticky -->
+      <div class="af-form-footer" style="margin-top:1rem;padding:1rem 0;border-top:1px solid var(--border);display:flex;gap:0.5rem;flex-shrink:0;">
+        <button type="submit" class="btn btn-primary flex-1"><?=$editing?'Update Post':'Create Post'?></button>
+        <?php if($editing):?><a href="?" class="btn btn-ghost flex-1">Cancel</a><?php endif;?>
       </div>
     </form>
   </div>
 </div>
+
+<script>
+function switchTab(btn, tabName) {
+  document.querySelectorAll('.af-tab-btn').forEach(function(b){
+    b.style.color = 'var(--muted-foreground)';
+    b.style.borderBottomColor = 'transparent';
+  });
+  btn.style.color = 'var(--primary)';
+  btn.style.borderBottomColor = 'var(--primary)';
+  
+  document.querySelectorAll('.af-tab-pane').forEach(function(p){
+    p.style.display = 'none';
+  });
+  var pane = document.querySelector('[data-tab-pane="'+tabName+'"]');
+  if (pane) pane.style.display = 'block';
+}
+</script>
 
 <?php require_once '../includes/admin-layout-close.php'; ?>
