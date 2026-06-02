@@ -28,12 +28,10 @@ $_iu_uid      = 'imgup_' . bin2hex(random_bytes(4)); // unique per widget
     <?php if ($_iu_required): ?><span class="text-danger-token">*</span><?php endif; ?>
   </label>
 
-  <!-- Hidden field that actually gets submitted -->
+  <!-- Hidden field used for JS-syncing; visible URL field is the submitted value -->
   <input type="hidden"
-         name="<?= e($_iu_field) ?>"
          id="<?= $_iu_uid ?>_hidden"
-         value="<?= e($_iu_val) ?>"
-         <?= $_iu_required ? 'required' : '' ?>>
+         value="<?= e($_iu_val) ?>">
 
   <!-- Preview -->
   <div id="<?= $_iu_uid ?>_preview"
@@ -77,6 +75,7 @@ $_iu_uid      = 'imgup_' . bin2hex(random_bytes(4)); // unique per widget
     </summary>
     <input type="url"
            id="<?= $_iu_uid ?>_url"
+           name="<?= e($_iu_field) ?>"
            class="form-input fs-sm2"
            style="margin-top:0.375rem;"
            placeholder="https://..."

@@ -64,11 +64,13 @@ $_ctaHref  = trim($__s['homepage_cta_url'] ?? '') ?: url('contact.php');
 $_ctaLabel = cms($__s,'homepage_cta_text') ?: __('home_hero_book_demo');
 $_heroSlides = [];
 // Primary source: site settings slides (Settings → Homepage → Hero Section)
+$_heroSettingsHasImage = false;
 for ($_hsi = 1; $_hsi <= 3; $_hsi++) {
   $_himg = trim($__s["hero_image_{$_hsi}"] ?? '');
   $_htit = cms($__s, "hero_slide_{$_hsi}_title");
   $_hsub = cms($__s, "hero_slide_{$_hsi}_subtitle");
   if ($_himg || $_hsi === 1) {
+    if ($_himg) { $_heroSettingsHasImage = true; }
     $_heroSlides[] = [
       'img'   => $_himg,
       'title' => $_htit ?: ($_heroTitle ?: (isNepali() ? 'डिजिटाइजेसन र अटोमेसन' : 'IT Solutions & Automation')),
@@ -78,8 +80,9 @@ for ($_hsi = 1; $_hsi <= 3; $_hsi++) {
   }
 }
 unset($_hsi, $_himg, $_htit, $_hsub);
-// Secondary source: Banners admin (page_target = 'hero') if no explicit settings slides are set.
-if (empty($_heroSlides)) {
+// Secondary source: Banners admin (page_target = 'hero') if no explicit settings images exist.
+if (empty($_heroSlides) || !$_heroSettingsHasImage) {
+  $_heroSlides = [];
   try {
     $_heroBanners = query("SELECT * FROM banners WHERE page_target='hero' AND active=1 ORDER BY position ASC, id ASC LIMIT 5");
     foreach ($_heroBanners as $_hb) {
