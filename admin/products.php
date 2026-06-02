@@ -390,19 +390,19 @@ function switchTab(btn, tabName) {
   btn.style.color = 'var(--primary)';
   btn.style.borderBottomColor = 'var(--primary)';
   
-  // Hide all tab panes
+  // Hide all tab panes - use classes only, don't set inline styles
   document.querySelectorAll('.af-tab-pane').forEach(function(p){
     p.classList.remove('active');
-    p.style.display = 'none';
   });
   
-  // Show selected pane
+  // Show selected pane - use class only, don't set inline styles
   var pane = document.querySelector('[data-tab-pane="'+tabName+'"]');
   console.log("[v0] Looking for pane:", '[data-tab-pane="'+tabName+'"]', "Found:", pane);
   if (pane) {
     pane.classList.add('active');
-    pane.style.display = 'flex';
-    console.log("[v0] Pane displayed. Classes:", pane.className, "Display:", pane.style.display);
+    console.log("[v0] Pane activated. Classes:", pane.className);
+  } else {
+    console.error("[v0] ERROR: Pane not found for tab:", tabName);
   }
 }
 

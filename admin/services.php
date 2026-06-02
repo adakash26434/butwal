@@ -97,13 +97,20 @@ try {
   $services = query("SELECT id,title,slug,tagline,badge,icon,lucide_icon,icon_color,price_from,active,position FROM services ORDER BY position,id"); 
 }
 catch(\Throwable $e) { 
-  // Fallback: try without tagline if column doesn't exist
+  // Fallback: try without badge column
   try {
-    $services = query("SELECT id,title,slug,badge,icon,lucide_icon,icon_color,price_from,active,position FROM services ORDER BY position,id");
-    // Add empty tagline for compatibility
-    foreach($services as &$s) $s['tagline'] = '';
-  } catch(\Throwable $e2) {
-    $error = 'Database error: ' . $e2->getMessage();
+    $services = query("SELECT id,title,slug,tagline,icon,lucide_icon,icon_color,price_from,active,position FROM services ORDER BY position,id");
+    foreach($services as &$s) $s['badge'] = '';
+  }
+  catch(\Throwable $e2) { 
+    // Final fallback: try without badge and tagline
+    try {
+      $services = query("SELECT id,title,slug,icon,lucide_icon,icon_color,price_from,active,position FROM services ORDER BY position,id");
+      foreach($services as &$s) { $s['badge'] = ''; $s['tagline'] = ''; }
+    }
+    catch(\Throwable $e3) { 
+      $error = 'services table not found. Run database.sql.'; 
+    }
   }
 }
 
