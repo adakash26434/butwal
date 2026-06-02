@@ -63,36 +63,36 @@ $_heroCtaSecondary = cms($__s, 'hero_cta_secondary');
 $_ctaHref  = trim($__s['homepage_cta_url'] ?? '') ?: url('contact.php');
 $_ctaLabel = cms($__s,'homepage_cta_text') ?: __('home_hero_book_demo');
 $_heroSlides = [];
-// Primary source: Banners admin (page_target = 'hero')
-try {
-  $_heroBanners = query("SELECT * FROM banners WHERE page_target='hero' AND active=1 ORDER BY position ASC, id ASC LIMIT 5");
-  foreach ($_heroBanners as $_hb) {
+// Primary source: site settings slides (Settings → Homepage → Hero Section)
+for ($_hsi = 1; $_hsi <= 3; $_hsi++) {
+  $_himg = trim($__s["hero_image_{$_hsi}"] ?? '');
+  $_htit = cms($__s, "hero_slide_{$_hsi}_title");
+  $_hsub = cms($__s, "hero_slide_{$_hsi}_subtitle");
+  if ($_himg || $_hsi === 1) {
     $_heroSlides[] = [
-      'img'   => trim($_hb['image_url'] ?? ''),
-      'title' => trim($_hb['title'] ?? '') ?: ($_heroTitle ?: (isNepali() ? 'डिजिटाइजेसन र अटोमेसन' : 'IT Solutions & Automation')),
-      'sub'   => trim($_hb['subtitle'] ?? '') ?: ($_heroSub ?: (isNepali() ? 'सहकारी एवं वित्तीय संस्थाहरूलाई रूपान्तरण गर्ने सुरक्षित र सहज प्रणाली।' : 'End-to-end software solutions purpose-built for Nepal\'s cooperatives and businesses.')),
-      'link'  => trim($_hb['link_url'] ?? ''),
-      'btn'   => trim($_hb['btn_text'] ?? ''),
+      'img'   => $_himg,
+      'title' => $_htit ?: ($_heroTitle ?: (isNepali() ? 'डिजिटाइजेसन र अटोमेसन' : 'IT Solutions & Automation')),
+      'sub'   => $_hsub ?: ($_heroSub   ?: (isNepali() ? 'सहकारी एवं वित्तीय संस्थाहरूलाई रूपान्तरण गर्ने सुरक्षित र सहज प्रणाली।' : 'End-to-end software solutions purpose-built for Nepal\'s cooperatives and businesses.')),
+      'link'  => '', 'btn' => '',
     ];
   }
-  unset($_heroBanners, $_hb);
-} catch(\Throwable $e) {}
-// Fallback: site settings slides (Settings → Homepage → Hero Section)
+}
+unset($_hsi, $_himg, $_htit, $_hsub);
+// Secondary source: Banners admin (page_target = 'hero') if no explicit settings slides are set.
 if (empty($_heroSlides)) {
-  for ($_hsi = 1; $_hsi <= 3; $_hsi++) {
-    $_himg = trim($__s["hero_image_{$_hsi}"] ?? '');
-    $_htit = cms($__s, "hero_slide_{$_hsi}_title");
-    $_hsub = cms($__s, "hero_slide_{$_hsi}_subtitle");
-    if ($_himg || $_hsi === 1) {
+  try {
+    $_heroBanners = query("SELECT * FROM banners WHERE page_target='hero' AND active=1 ORDER BY position ASC, id ASC LIMIT 5");
+    foreach ($_heroBanners as $_hb) {
       $_heroSlides[] = [
-        'img'   => $_himg,
-        'title' => $_htit ?: ($_heroTitle ?: (isNepali() ? 'डिजिटाइजेसन र अटोमेसन' : 'IT Solutions & Automation')),
-        'sub'   => $_hsub ?: ($_heroSub   ?: (isNepali() ? 'सहकारी एवं वित्तीय संस्थाहरूलाई रूपान्तरण गर्ने सुरक्षित र सहज प्रणाली।' : 'End-to-end software solutions purpose-built for Nepal\'s cooperatives and businesses.')),
-        'link'  => '', 'btn' => '',
+        'img'   => trim($_hb['image_url'] ?? ''),
+        'title' => trim($_hb['title'] ?? '') ?: ($_heroTitle ?: (isNepali() ? 'डिजिटाइजेसन र अटोमेसन' : 'IT Solutions & Automation')),
+        'sub'   => trim($_hb['subtitle'] ?? '') ?: ($_heroSub ?: (isNepali() ? 'सहकारी एवं वित्तीय संस्थाहरूलाई रूपान्तरण गर्ने सुरक्षित र सहज प्रणाली।' : 'End-to-end software solutions purpose-built for Nepal\'s cooperatives and businesses.')),
+        'link'  => trim($_hb['link_url'] ?? ''),
+        'btn'   => trim($_hb['btn_text'] ?? ''),
       ];
     }
-  }
-  unset($_hsi, $_himg, $_htit, $_hsub);
+    unset($_heroBanners, $_hb);
+  } catch(\Throwable $e) {}
 }
 // Bento section
 $_bentoEyebrow = cms($__s, 'home_bento_eyebrow');
