@@ -50,7 +50,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $posts = [];
 try { $posts = query("SELECT id,title,slug,author_name,category,published,featured,published_at,active,read_time FROM news ORDER BY COALESCE(published_at,created_at) DESC"); }
-catch(\Throwable $e) { $error = '"news" table not found. Run database.sql first.'; }
+catch(\Throwable $e) { 
+    try { $posts = query("SELECT id,title,slug,author_name,category FROM news ORDER BY id DESC"); }
+    catch(\Throwable $e2) { $error = '"news" table not found. Run database.sql first.'; }
+}
 
 $editing = null;
 if (!empty($_GET['edit'])) {
@@ -163,16 +166,17 @@ $CATS = ['General','Product Update','Company News','Cooperatives Nepal','Technol
       <div class="af-tab-pane active" data-tab-pane="content" style="padding-bottom:2rem;">
         <div>
           <label class="form-label fs-2xs2">Title <span class="text-danger-token">*</span></label>
-          <input type="text" name="title" required class="form-input fs-sm2" value="<?=e($editing['title']??'')?>">
+          <input type="text" name="title" required minlength="5" maxlength="200" class="form-input fs-sm2" value="<?=e($editing['title']??'')?>" placeholder="Post title (5-200 chars)">
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
           <div>
             <label class="form-label fs-2xs2">Slug (URL)</label>
-            <input type="text" name="slug" class="form-input fs-sm2" value="<?=e($editing['slug']??'')?>" placeholder="auto-generated">
+            <input type="text" name="slug" maxlength="100" class="form-input fs-sm2" value="<?=e($editing['slug']??'')?>" placeholder="auto-generated">
           </div>
           <div>
-            <label class="form-label fs-2xs2">Category</label>
-            <select name="category" class="form-input fs-sm2">
+            <label class="form-label fs-2xs2">Category <span class="text-danger-token">*</span></label>
+            <select name="category" required class="form-input fs-sm2">
+              <option value="">Select category</option>
               <?php foreach($CATS as $c):?>
               <option value="<?=$c?>" <?=($editing['category']??'General')===$c?'selected':''?>><?=$c?></option>
               <?php endforeach;?>
@@ -182,11 +186,11 @@ $CATS = ['General','Product Update','Company News','Cooperatives Nepal','Technol
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
           <div>
             <label class="form-label fs-2xs2">Author Name</label>
-            <input type="text" name="author_name" class="form-input fs-sm2" value="<?=e($editing['author_name']??'Ankur Infotech Pvt. Ltd.')?>">
+            <input type="text" name="author_name" maxlength="100" class="form-input fs-sm2" value="<?=e($editing['author_name']??'Ankur Infotech Pvt. Ltd.')?>">
           </div>
           <div>
-            <label class="form-label fs-2xs2">Read Time (min)</label>
-            <input type="number" name="read_time" min="1" max="60" class="form-input fs-sm2" value="<?=e($editing['read_time']??5)?>">
+            <label class="form-label fs-2xs2">Read Time (min) <span class="text-danger-token">*</span></label>
+            <input type="number" name="read_time" required min="1" max="60" class="form-input fs-sm2" value="<?=e($editing['read_time']??5)?>">
           </div>
         </div>
         <div>
@@ -195,11 +199,11 @@ $CATS = ['General','Product Update','Company News','Cooperatives Nepal','Technol
         </div>
         <div>
           <label class="form-label fs-2xs2">Excerpt <span style="color:var(--muted-foreground);font-weight:400;">(for cards)</span></label>
-          <textarea name="excerpt" class="form-input fs-sm-r" rows="2"><?=e($editing['excerpt']??'')?></textarea>
+          <textarea name="excerpt" maxlength="300" class="form-input fs-sm-r" rows="2" placeholder="Summary (max 300 chars)"><?=e($editing['excerpt']??'')?></textarea>
         </div>
         <div>
-          <label class="form-label fs-2xs2">Body Content <span style="color:var(--muted-foreground);font-weight:400;">(HTML)</span></label>
-          <textarea name="content" class="form-input" rows="8" style="font-size:0.8125rem;resize:vertical;font-family:monospace;"><?=e($editing['content']??'')?></textarea>
+          <label class="form-label fs-2xs2">Body Content <span style="color:var(--muted-foreground);font-weight:400;">(HTML allowed)</span> <span class="text-danger-token">*</span></label>
+          <textarea name="content" required minlength="20" class="form-input" rows="8" style="font-size:0.8125rem;resize:vertical;font-family:monospace;" placeholder="Post content (min 20 chars)"><?=e($editing['content']??'')?></textarea>
         </div>
       </div>
 

@@ -43,7 +43,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $team = [];
 try { $team = query("SELECT id,name,role,photo_url,is_leadership,active,position FROM team_members ORDER BY is_leadership DESC,position,name"); }
-catch(\Throwable $e) { $error = 'team_members table not found. Run database.sql.'; }
+catch(\Throwable $e) { 
+    try { $team = query("SELECT id,name,role,photo_url FROM team_members ORDER BY position,name"); }
+    catch(\Throwable $e2) { $error = 'team_members table not found. Run database.sql.'; }
+}
 
 $editing = null;
 if (!empty($_GET['edit'])) {

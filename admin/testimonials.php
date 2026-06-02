@@ -42,7 +42,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $items = [];
 try { $items = query("SELECT id,author_name,author_role,author_org,rating,active,position FROM testimonials ORDER BY position,id"); }
-catch(\Throwable $e) { $error = 'testimonials table not found. Run database.sql.'; }
+catch(\Throwable $e) { 
+    try { $items = query("SELECT id,author_name,author_role,author_org,rating FROM testimonials ORDER BY position,id"); }
+    catch(\Throwable $e2) { $error = 'testimonials table not found. Run database.sql.'; }
+}
 
 $editing = null;
 if (!empty($_GET['edit'])) {

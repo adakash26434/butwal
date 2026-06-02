@@ -38,7 +38,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $items = [];
 try { $items = query("SELECT * FROM gallery ORDER BY position,id"); }
-catch(\Throwable $e) { $error = 'gallery table not found. Run database.sql.'; }
+catch(\Throwable $e) { 
+    try { $items = query("SELECT id,title,image_url,category,position,active FROM gallery ORDER BY position,id"); }
+    catch(\Throwable $e2) { $error = 'gallery table not found. Run database.sql.'; }
+}
 
 $editing = null;
 if (!empty($_GET['edit'])) {
