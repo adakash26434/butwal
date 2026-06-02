@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Partners & Clients';
 require_once '../includes/admin-layout.php';
+require_once '../includes/nepal-geo.php';
 
 $success = $error = '';
 
@@ -51,7 +52,9 @@ if (!empty($_GET['edit'])) {
 $byType = [];
 foreach ($items as $p) { $byType[$p['type'] ?? 'client'][] = $p; }
 
-$DISTRICTS = ['Kathmandu','Lalitpur','Bhaktapur','Pokhara','Chitwan','Butwal','Birgunj','Biratnagar','Dharan','Janakpur','Other'];
+// All 77 districts of Nepal (sorted alphabetically)
+$DISTRICTS = nepalDistricts();
+sort($DISTRICTS);
 ?>
 
 <?php if($success):?><div class="alert alert-success mb-1"><?=e($success)?></div><?php endif;?>
@@ -137,6 +140,9 @@ $DISTRICTS = ['Kathmandu','Lalitpur','Bhaktapur','Pokhara','Chitwan','Butwal','B
         $imgLabel = 'Logo';
         require __DIR__ . '/../includes/admin-img-upload.php';
       ?>
+      <div style="font-size:0.7rem;background:var(--muted);border-radius:0.5rem;padding:0.75rem;color:var(--muted-foreground);margin-top:0.5rem;border-left:3px solid var(--primary);">
+        <strong style="color:var(--foreground);">💡 Homepage display:</strong> If you add a <strong>Client</strong> type with a logo, it automatically appears in the "Trusted by leading institutions" section on the homepage. Update the logo here, and it updates on the homepage instantly.
+      </div>
       <div>
         <label class="form-label fs-2xs2">Website URL</label>
         <input type="url" name="url" class="form-input fs-sm2" value="<?=e($editing['url']??'')?>" placeholder="https://...">
