@@ -182,8 +182,7 @@ include 'includes/header.php';
     $_slideBtn  = !empty($_hs['btn'])  ? $_hs['btn']  : $_ctaLabel;
   ?>
   <div
-    :style="cur === <?= $_hk ?> ? 'opacity:1;z-index:1;' : 'opacity:0;z-index:0;'"
-    style="position:absolute;inset:0;<?= $_bgStyle ?>transition:opacity .75s ease;will-change:opacity;">
+    :style="(cur === <?= $_hk ?> ? 'opacity:1;z-index:1; ' : 'opacity:0;z-index:0; ') + 'position:absolute;inset:0;<?= addslashes($_bgStyle) ?>transition:opacity .75s ease;will-change:opacity;'">
     <div style="position:absolute;inset:0;<?= $_overlay ?>"></div>
     <div class="container" style="position:relative;height:100%;display:flex;align-items:center;padding-top:2rem;">
       <div :class="cur==<?=$_hk?>?'hero-ca':''" style="max-width:36rem;">
