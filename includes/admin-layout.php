@@ -54,6 +54,29 @@ require __DIR__ . '/head.php';
 .admin-sidebar .sidebar-link.active { background: var(--sidebar-active-bg, rgba(59,130,246,0.18)); color: var(--sidebar-active-text, #60a5fa); }
 .admin-sidebar .divider { background: var(--sidebar-divider, rgba(241,245,249,0.08)); }
 
+/* Sidebar collapse/expand on hover */
+#admin-sidebar {
+  width: 3.5rem;
+  transition: width 0.3s ease;
+}
+#admin-sidebar:hover {
+  width: 14rem;
+}
+#admin-sidebar span:not(:first-child),
+#admin-sidebar .sidebar-group-label,
+#admin-sidebar .sidebar-link span {
+  opacity: 0;
+  transition: opacity 0.2s ease 0.1s;
+  width: 0;
+  overflow: hidden;
+}
+#admin-sidebar:hover span:not(:first-child),
+#admin-sidebar:hover .sidebar-group-label,
+#admin-sidebar:hover .sidebar-link span {
+  opacity: 1;
+  width: auto;
+}
+
 /* Mobile sidebar overlay */
 @media (max-width: 767px) {
   #admin-sidebar {
@@ -114,7 +137,7 @@ require __DIR__ . '/head.php';
 <div style="display:flex;height:100vh;overflow:hidden;">
 
   <!-- Admin Sidebar -->
-  <aside id="admin-sidebar" class="admin-sidebar" style="width:14rem;flex-shrink:0;display:flex;flex-direction:column;overflow:hidden;">
+  <aside id="admin-sidebar" class="admin-sidebar" style="flex-shrink:0;display:flex;flex-direction:column;overflow:hidden;">
     <div style="padding:1rem 1.25rem;border-bottom:1px solid rgba(241,245,249,0.08);display:flex;align-items:center;justify-content:space-between;">
       <a href="<?= url('index.php') ?>" style="display:flex;align-items:center;gap:0.625rem;font-family:var(--font-display);font-weight:700;font-size:0.875rem;color:#f1f5f9;text-decoration:none;">
         <?php if (!empty($__s['logo_url'])): ?>
@@ -223,7 +246,7 @@ require __DIR__ . '/head.php';
           onmouseover="if(!this.classList.contains('grp-active'))this.style.background='rgba(241,245,249,0.06)'"
           onmouseout="if(!this.classList.contains('grp-active'))this.style.background='<?= $isActive ? 'rgba(59,130,246,0.12)' : 'transparent' ?>'">
           <span class="fs-md"><?= $grpIcon ?></span>
-          <span style="font-size:0.8125rem;font-weight:600;flex:1;min-width:0;"><?= $grpLabel ?></span>
+          <span class="sidebar-group-label" style="font-size:0.8125rem;font-weight:600;flex:1;min-width:0;"><?= $grpLabel ?></span>
           <span id="<?= $grpId ?>-chevron" style="display:flex;transition:transform 0.2s;<?= $isActive ? 'transform:rotate(180deg)' : '' ?>"><?= icon('chevron-down',13) ?></span>
         </button>
         <div id="<?= $grpId ?>" style="overflow:hidden;padding-left:0.5rem;<?= $isActive ? '' : 'display:none;' ?>">
