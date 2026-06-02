@@ -374,6 +374,15 @@ if (!empty($_GET['edit'])) {
   </div>
 </div>
 
+<style>
+.af-tab-pane {
+  display: none;
+}
+.af-tab-pane.active {
+  display: block !important;
+}
+</style>
+
 <script>
 /* ── Tab switching ── */
 function switchTab(btn, tabName) {
@@ -391,12 +400,14 @@ function switchTab(btn, tabName) {
   // Hide all tab panes
   document.querySelectorAll('.af-tab-pane').forEach(function(p){
     p.classList.remove('active');
+    p.style.display = 'none';
   });
   
   // Show selected pane
   var pane = document.querySelector('[data-tab-pane="'+tabName+'"]');
   if (pane) {
     pane.classList.add('active');
+    pane.style.display = 'block';
   }
   
   // Show live preview only on BASIC tab
