@@ -62,19 +62,24 @@ require __DIR__ . '/head.php';
 #admin-sidebar:hover {
   width: 14rem;
 }
-#admin-sidebar span:not(:first-child),
+/* Hide only text labels and group labels, not all spans */
 #admin-sidebar .sidebar-group-label,
-#admin-sidebar .sidebar-link span {
+#admin-sidebar .sidebar-link-text {
   opacity: 0;
   transition: opacity 0.2s ease 0.1s;
   width: 0;
   overflow: hidden;
 }
-#admin-sidebar:hover span:not(:first-child),
 #admin-sidebar:hover .sidebar-group-label,
-#admin-sidebar:hover .sidebar-link span {
+#admin-sidebar:hover .sidebar-link-text {
   opacity: 1;
   width: auto;
+}
+/* Make sidebar icons white */
+#admin-sidebar [data-lucide],
+#admin-sidebar svg {
+  color: #f1f5f9 !important;
+  stroke: #f1f5f9 !important;
 }
 
 /* Mobile sidebar overlay */
@@ -228,7 +233,7 @@ require __DIR__ . '/head.php';
       ?>
       <a href="<?= url('admin/'.$file) ?>" onclick="closeAdminSidebar()" class="sidebar-link <?= $active ? 'active' : '' ?>" style="margin-bottom:0.125rem;">
         <span class="sidebar-icon"><?= $icon ?></span>
-        <span class="fs-sm2"><?= e($label) ?></span>
+        <span class="sidebar-link-text fs-sm2"><?= e($label) ?></span>
       </a>
       <?php endforeach; ?>
 
@@ -254,7 +259,7 @@ require __DIR__ . '/head.php';
             $active = $__currentPath === $file; ?>
           <a href="<?= url('admin/'.$file) ?>" onclick="closeAdminSidebar()" class="sidebar-link fs-sm2 <?= $active ? 'active' : '' ?>" style="margin-bottom:0.125rem;">
             <span class="sidebar-icon"><?= $icon ?></span>
-            <span><?= e($label) ?></span>
+            <span class="sidebar-link-text"><?= e($label) ?></span>
           </a>
           <?php endforeach; ?>
         </div>
