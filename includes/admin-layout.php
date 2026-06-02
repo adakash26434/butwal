@@ -404,3 +404,6 @@ window.addEventListener('resize',checkAdminSidebarBtn);
   }
 })();
 </script>
+    </main>
+  </div>
+</div>

@@ -11,7 +11,7 @@ try { $team = query("SELECT * FROM team_members WHERE active=1 ORDER BY is_leade
 
 $__s  = siteSettings();
 $__ls = [];
-try { $rows = query("SELECT setting_key,setting_val FROM site_settings WHERE setting_key IN ('chairman_name','chairman_title','chairman_photo','chairman_message','ceo_name','ceo_title','ceo_photo','ceo_message')"); foreach($rows as $r) $__ls[$r['setting_key']] = $r['setting_val']; } catch(\Throwable $e) {}
+try { $rows = query("SELECT setting_key,setting_val FROM site_settings WHERE setting_key IN ('chairman_name','chairman_title','chairman_photo','chairman_message','chairman_active','ceo_name','ceo_title','ceo_photo','ceo_message','ceo_active')"); foreach($rows as $r) $__ls[$r['setting_key']] = $r['setting_val']; } catch(\Throwable $e) {}
 
 // About page content — editable from Admin → Settings → About Page
 // __as(): icon/slug fields (no bilingual needed); cms() for display text
@@ -159,7 +159,7 @@ $__ls['ceo_title']      = $__ls['ceo_title']      ?? 'CEO & Co-founder';
     </div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;max-width:920px;margin:0 auto;" class="stagger-children">
 
-      <?php if ($__chairMsg): ?>
+      <?php if ($__chairMsg && ($__ls['chairman_active'] ?? '1')): ?>
       <div class="st-card quote-card">
         <div class="quote-card__accent" aria-hidden="true"></div>
         <div class="quote-card__header">
@@ -177,7 +177,7 @@ $__ls['ceo_title']      = $__ls['ceo_title']      ?? 'CEO & Co-founder';
       </div>
       <?php endif; ?>
 
-      <?php if ($__ceoMsg): ?>
+      <?php if ($__ceoMsg && ($__ls['ceo_active'] ?? '1')): ?>
       <div class="st-card quote-card">
         <div class="quote-card__accent" aria-hidden="true"></div>
         <div class="quote-card__header">
