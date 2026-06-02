@@ -51,34 +51,6 @@ require __DIR__ . '/head.php';
 .admin-sidebar .sidebar-link.active { background: var(--sidebar-active-bg, rgba(59,130,246,0.18)); color: var(--sidebar-active-text, #60a5fa); }
 .admin-sidebar .divider { background: var(--sidebar-divider, rgba(241,245,249,0.08)); }
 
-/* Sidebar collapse/expand on hover */
-#admin-sidebar {
-  width: 3.5rem;
-  transition: width 0.3s ease;
-}
-#admin-sidebar:hover {
-  width: 14rem;
-}
-/* Hide only text labels and group labels, not all spans */
-#admin-sidebar .sidebar-group-label,
-#admin-sidebar .sidebar-link-text {
-  opacity: 0;
-  transition: opacity 0.2s ease 0.1s;
-  width: 0;
-  overflow: hidden;
-}
-#admin-sidebar:hover .sidebar-group-label,
-#admin-sidebar:hover .sidebar-link-text {
-  opacity: 1;
-  width: auto;
-}
-/* Make sidebar icons white */
-#admin-sidebar [data-lucide],
-#admin-sidebar svg {
-  color: #f1f5f9 !important;
-  stroke: #f1f5f9 !important;
-}
-
 /* Mobile sidebar overlay */
 @media (max-width: 767px) {
   #admin-sidebar {
@@ -139,7 +111,7 @@ require __DIR__ . '/head.php';
 <div style="display:flex;height:100vh;overflow:hidden;">
 
   <!-- Admin Sidebar -->
-  <aside id="admin-sidebar" class="admin-sidebar" style="flex-shrink:0;display:flex;flex-direction:column;height:100vh;overflow:hidden;">
+  <aside id="admin-sidebar" class="admin-sidebar" style="width:14rem;flex-shrink:0;display:flex;flex-direction:column;overflow:hidden;">
     <div style="padding:1rem 1.25rem;border-bottom:1px solid rgba(241,245,249,0.08);display:flex;align-items:center;justify-content:space-between;">
       <a href="<?= url('index.php') ?>" style="display:flex;align-items:center;gap:0.625rem;font-family:var(--font-display);font-weight:700;font-size:0.875rem;color:#f1f5f9;text-decoration:none;">
         <?php if (!empty($__s['logo_url'])): ?>
@@ -150,7 +122,7 @@ require __DIR__ . '/head.php';
         Admin Panel
       </a>
       <!-- Close button (mobile only) -->
-      <button id="admin-sidebar-close-btn" onclick="closeAdminSidebar()" style="display:none;width:1.875rem;height:1.875rem;border-radius:0.375rem;border:none;background:rgba(241,245,249,0.1);cursor:pointer;color:rgba(241,245,249,0.7);align-items:center;justify-content:center;" title="Close"><?= icon('x',16) ?></button>
+      <button id="admin-sidebar-close-btn" onclick="closeAdminSidebar()" style="display:none;width:1.875rem;height:1.875rem;border-radius:0.375rem;border:none;background:rgba(241,245,249,0.1);cursor:pointer;color:rgba(241,245,249,0.7);display:flex;align-items:center;justify-content:center;" title="Close"><?= icon('x',16) ?></button>
     </div>
     <nav style="flex:1;padding:0.625rem;overflow-y:auto;" id="admin-nav">
       <?php
@@ -230,7 +202,7 @@ require __DIR__ . '/head.php';
       ?>
       <a href="<?= url('admin/'.$file) ?>" onclick="closeAdminSidebar()" class="sidebar-link <?= $active ? 'active' : '' ?>" style="margin-bottom:0.125rem;">
         <span class="sidebar-icon"><?= $icon ?></span>
-        <span class="sidebar-link-text fs-sm2"><?= e($label) ?></span>
+        <span class="fs-sm2"><?= e($label) ?></span>
       </a>
       <?php endforeach; ?>
 
@@ -248,7 +220,7 @@ require __DIR__ . '/head.php';
           onmouseover="if(!this.classList.contains('grp-active'))this.style.background='rgba(241,245,249,0.06)'"
           onmouseout="if(!this.classList.contains('grp-active'))this.style.background='<?= $isActive ? 'rgba(59,130,246,0.12)' : 'transparent' ?>'">
           <span class="fs-md"><?= $grpIcon ?></span>
-          <span class="sidebar-group-label" style="font-size:0.8125rem;font-weight:600;flex:1;min-width:0;"><?= $grpLabel ?></span>
+          <span style="font-size:0.8125rem;font-weight:600;flex:1;min-width:0;"><?= $grpLabel ?></span>
           <span id="<?= $grpId ?>-chevron" style="display:flex;transition:transform 0.2s;<?= $isActive ? 'transform:rotate(180deg)' : '' ?>"><?= icon('chevron-down',13) ?></span>
         </button>
         <div id="<?= $grpId ?>" style="overflow:hidden;padding-left:0.5rem;<?= $isActive ? '' : 'display:none;' ?>">
@@ -256,7 +228,7 @@ require __DIR__ . '/head.php';
             $active = $__currentPath === $file; ?>
           <a href="<?= url('admin/'.$file) ?>" onclick="closeAdminSidebar()" class="sidebar-link fs-sm2 <?= $active ? 'active' : '' ?>" style="margin-bottom:0.125rem;">
             <span class="sidebar-icon"><?= $icon ?></span>
-            <span class="sidebar-link-text"><?= e($label) ?></span>
+            <span><?= e($label) ?></span>
           </a>
           <?php endforeach; ?>
         </div>
@@ -329,7 +301,6 @@ require __DIR__ . '/head.php';
       </div>
     </header>
     <main style="flex:1;overflow-y:auto;padding:1.5rem;">
-      <!-- Admin page content renders here -->
     </main>
 
 <script>
@@ -437,5 +408,3 @@ window.addEventListener('resize',checkAdminSidebarBtn);
 </script>
   </div>
 </div>
-</body>
-</html>
