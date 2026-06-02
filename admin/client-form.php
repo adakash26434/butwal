@@ -80,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $brAmc     = ($_POST['branch_office_amc']   ?? '') !== '' ? (float)$_POST['branch_office_amc']   : null;
         $cloudHo   = ($_POST['cloud_charge_ho']     ?? '') !== '' ? (float)$_POST['cloud_charge_ho']     : null;
         $cloudBr   = ($_POST['cloud_charge_branch'] ?? '') !== '' ? (float)$_POST['cloud_charge_branch'] : null;
-        $cloudGb   = trim($_POST['cloud_gb']   ?? '');
+        $cloudGb   = ($_POST['cloud_gb']   ?? '') !== '' ? (float)$_POST['cloud_gb'] : null;
         $notes     = trim($_POST['notes']      ?? '');
 
         // Logo: file upload takes priority over URL field
