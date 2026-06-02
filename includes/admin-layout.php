@@ -122,7 +122,7 @@ require __DIR__ . '/head.php';
         Admin Panel
       </a>
       <!-- Close button (mobile only) -->
-      <button id="admin-sidebar-close-btn" onclick="closeAdminSidebar()" style="display:none;width:1.875rem;height:1.875rem;border-radius:0.375rem;border:none;background:rgba(241,245,249,0.1);cursor:pointer;color:rgba(241,245,249,0.7);display:flex;align-items:center;justify-content:center;" title="Close"><?= icon('x',16) ?></button>
+      <button id="admin-sidebar-close-btn" onclick="closeAdminSidebar()" style="display:none;width:1.875rem;height:1.875rem;border-radius:0.375rem;border:none;background:rgba(241,245,249,0.1);cursor:pointer;color:rgba(241,245,249,0.7);align-items:center;justify-content:center;" title="Close"><?= icon('x',16) ?></button>
     </div>
     <nav style="flex:1;padding:0.625rem;overflow-y:auto;" id="admin-nav">
       <?php
