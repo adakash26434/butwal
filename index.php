@@ -174,7 +174,7 @@ include 'includes/header.php';
   <div
     :style="cur === <?= $_hk ?> ? 'opacity:1;z-index:1;' : 'opacity:0;z-index:0;'"
     style="position:absolute;inset:0;<?= $_bgStyle ?>transition:opacity .75s ease;will-change:opacity;">
-    <div style="position:absolute;inset:0;background:linear-gradient(100deg,rgba(8,14,30,.85) 0%,rgba(8,14,30,.55) 42%,rgba(8,14,30,.18) 100%);"></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(100deg,rgba(8,14,30,.55) 0%,rgba(8,14,30,.35) 42%,rgba(8,14,30,.10) 100%);"></div>
     <div class="container" style="position:relative;height:100%;display:flex;align-items:center;padding-top:2rem;">
       <div :class="cur==<?=$_hk?>?'hero-ca':''" style="max-width:36rem;">
         <h1 class="hero-h1" style="font-family:var(--font-display);font-size:clamp(1.75rem,3.8vw,2.875rem);font-weight:800;color:#fff;line-height:1.15;margin:0 0 .875rem;letter-spacing:-.025em;text-shadow:0 2px 12px rgba(0,0,0,.4);">
