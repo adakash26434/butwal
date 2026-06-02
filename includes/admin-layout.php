@@ -146,6 +146,7 @@ require __DIR__ . '/head.php';
           ['gallery.php', icon('image',15), 'Gallery'],
           ['partners.php', icon('handshake',15), 'Partners'],
           ['pricing.php', icon('tag',15), 'Pricing Plans'],
+          ['pricing-table.php', icon('table',15), 'Pricing Table'],
           ['news.php', icon('newspaper',15), 'News & Blog'],
           ['faqs.php', icon('help-circle',15), 'FAQs'],
           ['careers.php',       icon('clipboard-list',15), 'Careers'],
@@ -312,7 +313,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 5000);
   });
 });
-// ── Global form submit loading state ──────────────────────────
+// ── Global form submit loading state ──────���───────────────────
 document.addEventListener('submit', function(e) {
   const form = e.target;
   if (form.dataset.noLoading) return;

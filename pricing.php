@@ -51,31 +51,55 @@ ob_start(); ?>
         <thead>
           <tr>
             <th style="width:40%;">Feature</th>
-            <th class="text-center">Starter</th>
-            <th style="text-align:center;background:rgba(37,99,235,0.06);color:var(--primary);">Growth</th>
-            <th class="text-center">Enterprise</th>
+            <?php
+            $_pricingPlans = [];
+            try { $_pricingPlans = query("SELECT * FROM pricing_plans WHERE active=1 ORDER BY position, id"); }
+            catch(\Throwable $e) {}
+            
+            foreach($_pricingPlans as $_pplan):
+            ?>
+            <th class="text-center" style="<?=$_pplan['id']===2?'background:rgba(37,99,235,0.06);color:var(--primary);':''?>"><?=e($_pplan['name'])?></th>
+            <?php endforeach; ?>
           </tr>
         </thead>
         <tbody>
-          <?php foreach ([
-            ['Core Software Module',        '✓','✓','✓'],
-            ['Members limit',              '500','5,000','Unlimited'],
-            ['Branches',                   '1','5','Unlimited'],
-            ['Mobile Banking App',         '—','✓','✓'],
-            ['Document Management (DMS)',  '—','✓','✓'],
-            ['HR & Payroll',               '—','—','✓'],
-            ['Priority support (<2 hr)',   '—','✓','✓'],
-            ['On-site visits',             '—','Quarterly','Dedicated'],
-            ['Custom reports',              '✓','✓','✓'],
-            ['BS Calendar native',         '✓','✓','✓'],
-            ['Custom branding',            '—','✓','✓'],
-            ['Uptime SLA',                 '99%','99.9%','99.95%'],
-          ] as [$feat,$s,$g,$e]): ?>
+          <?php
+          $_tableData = [];
+          try {
+            $_setting = queryOne("SELECT setting_val FROM site_settings WHERE setting_key=?", ['pricing_comparison_table']);
+            $_tableData = json_decode($_setting['setting_val'] ?? '[]', true) ?: [];
+          } catch(\Throwable $e) {}
+          
+          // Fallback to original hardcoded data if no table data exists
+          if (empty($_tableData)) {
+            $_tableData = [
+              ['feature' => 'Core Software Module', 'values' => [1 => '✓', 2 => '✓', 3 => '✓']],
+              ['feature' => 'Members limit', 'values' => [1 => '500', 2 => '5,000', 3 => 'Unlimited']],
+              ['feature' => 'Branches', 'values' => [1 => '1', 2 => '5', 3 => 'Unlimited']],
+              ['feature' => 'Mobile Banking App', 'values' => [1 => '—', 2 => '✓', 3 => '✓']],
+              ['feature' => 'Document Management (DMS)', 'values' => [1 => '—', 2 => '✓', 3 => '✓']],
+              ['feature' => 'HR & Payroll', 'values' => [1 => '—', 2 => '—', 3 => '✓']],
+              ['feature' => 'Priority support (<2 hr)', 'values' => [1 => '—', 2 => '✓', 3 => '✓']],
+              ['feature' => 'On-site visits', 'values' => [1 => '—', 2 => 'Quarterly', 3 => 'Dedicated']],
+              ['feature' => 'Custom reports', 'values' => [1 => '✓', 2 => '✓', 3 => '✓']],
+              ['feature' => 'BS Calendar native', 'values' => [1 => '✓', 2 => '✓', 3 => '✓']],
+              ['feature' => 'Custom branding', 'values' => [1 => '—', 2 => '✓', 3 => '✓']],
+              ['feature' => 'Uptime SLA', 'values' => [1 => '99%', 2 => '99.9%', 3 => '99.95%']],
+            ];
+          }
+          
+          foreach($_tableData as $_row):
+          ?>
           <tr>
-            <td style="font-weight:500;"><?= e($feat) ?></td>
-            <td style="text-align:center;color:<?= $s==='✓' ? 'var(--secondary)' : ($s==='—' ? 'var(--muted-foreground)' : 'var(--foreground)') ?>;"><?= e($s) ?></td>
-            <td style="text-align:center;background:rgba(37,99,235,0.04);color:<?= $g==='✓' ? 'var(--secondary)' : ($g==='—' ? 'var(--muted-foreground)' : 'var(--primary)') ?>;font-weight:<?= $g==='✓' ? '600' : '400' ?>;"><?= e($g) ?></td>
-            <td style="text-align:center;color:<?= $e==='✓' ? 'var(--secondary)' : ($e==='—' ? 'var(--muted-foreground)' : 'var(--foreground)') ?>;"><?= e($e) ?></td>
+            <td style="font-weight:500;"><?=e($_row['feature'])?></td>
+            <?php
+            foreach($_pricingPlans as $_pplan):
+              $_val = $_row['values'][$_pplan['id']] ?? '—';
+              $_isCheck = $_val === '✓';
+              $_color = $_isCheck ? 'var(--secondary)' : ($_val === '—' ? 'var(--muted-foreground)' : 'var(--foreground)');
+            ?>
+            <td style="text-align:center;background:<?=$_pplan['id']===2?'rgba(37,99,235,0.04)':''?>;color:<?=$_color?>;font-weight:<?=$_isCheck?'600':'400'?>;"><?=e($_val)?></td>
+            <?php endforeach; ?>
           </tr>
           <?php endforeach; ?>
         </tbody>
