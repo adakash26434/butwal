@@ -1,5 +1,5 @@
 /* ── Narayani Infosys — Nepali BS Datepicker styles ──────────────────── */
-.st-bsp-wrap { position: relative; }
+.st-bsp-wrap { position: relative; z-index: auto; }
 
 .st-bsp-display {
   cursor: pointer !important;
@@ -28,9 +28,7 @@
 
 /* Popup container */
 .st-bsp-popup {
-  position: absolute;
-  top: calc(100% + 4px);
-  left: 0;
+  position: fixed;
   z-index: 9999;
   background: var(--card);
   border: 1px solid var(--border);
