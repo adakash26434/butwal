@@ -6,8 +6,33 @@ $success = $error = '';
 
 // Fetch all pricing plans for column headers
 $plans = [];
-try { $plans = query("SELECT id, name FROM pricing_plans WHERE active=1 ORDER BY position, id"); }
-catch(\Throwable $e) { $error = 'Could not fetch plans.'; }
+$plans_error = '';
+try { 
+    $plans = query("SELECT id, name FROM pricing_plans WHERE active=1 ORDER BY position, id"); 
+    
+    // If no plans exist, create default ones
+    if (empty($plans)) {
+        try {
+            execute("INSERT INTO pricing_plans (name, tag, price_label, period, cta_label, cta_url, is_popular, active, position, created_at) VALUES 
+            (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW()),
+            (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW()),
+            (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())",
+            [
+                'Starter', 'starter', 'Custom', 'month', 'Get Started', '/contact', 0, 1, 1,
+                'Growth', 'growth', 'Custom', 'month', 'Get Started', '/contact', 1, 1, 2,
+                'Enterprise', 'enterprise', 'Custom', 'month', 'Contact Sales', '/contact', 0, 1, 3
+            ]);
+            // Fetch the newly created plans
+            $plans = query("SELECT id, name FROM pricing_plans WHERE active=1 ORDER BY position, id");
+            $success = 'Default pricing plans created. You can now edit the pricing table.';
+        } catch(\Throwable $e) {
+            $plans_error = 'Could not create default plans. Please create pricing plans manually in the Pricing Plans section.';
+        }
+    }
+}
+catch(\Throwable $e) { 
+    $plans_error = 'Could not fetch plans: ' . $e->getMessage();
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     verifyCsrf();
@@ -88,7 +113,12 @@ try {
         <h2 class="h-eyebrow-flat">Pricing Comparison Table</h2>
     </div>
     
-    <?php if(empty($plans)):?>
+    <?php if($plans_error):?>
+        <div style="border:2px dashed var(--border);border-radius:1rem;padding:3rem;text-align:center;color:var(--muted-foreground);">
+            <p><?=e($plans_error)?></p>
+            <a href="pricing.php" class="btn btn-primary btn-sm" style="margin-top:1rem;">Go to Pricing Plans</a>
+        </div>
+    <?php elseif(empty($plans)):?>
         <div style="border:2px dashed var(--border);border-radius:1rem;padding:3rem;text-align:center;color:var(--muted-foreground);">
             <p>No active pricing plans found. Please create pricing plans first.</p>
             <a href="pricing.php" class="btn btn-primary btn-sm" style="margin-top:1rem;">Go to Pricing Plans</a>
@@ -105,7 +135,7 @@ try {
             <textarea name="features" rows="15" class="af-textarea" placeholder="Core Software Module&#10;Members limit&#10;Branches&#10;Mobile Banking App&#10;Document Management (DMS)&#10;HR & Payroll&#10;Priority support (<2 hr)&#10;On-site visits&#10;Custom reports&#10;BS Calendar native&#10;Custom branding&#10;Uptime SLA"><?php
                 echo e(implode("\n", array_map(fn($row) => $row['feature'], $table_data)));
             ?></textarea>
-            <small style="color:var(--muted-foreground);">List all features that should appear in the comparison table</small>
+            <small style="color:var(--muted-foreground);">List all features that should appear in the comparison table. Edit values for each pricing plan below.</small>
         </div>
         
         <!-- Comparison Table Preview -->
