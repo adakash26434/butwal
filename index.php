@@ -176,7 +176,7 @@ include 'includes/header.php';
       ? "background-image:url('" . e($_hs['img']) . "');background-size:cover;background-position:center;filter:brightness(1.05);"
       : "background:linear-gradient(135deg,#0a1023 0%,#0f2057 50%,#1a0a3d 100%);";
     $_overlay = $_hasImage
-      ? "background:linear-gradient(100deg,rgba(8,14,30,.08) 0%,rgba(8,14,30,.04) 42%,rgba(8,14,30,.02) 100%);"
+      ? 'background:transparent;'
       : "background:linear-gradient(100deg,rgba(8,14,30,.55) 0%,rgba(8,14,30,.35) 42%,rgba(8,14,30,.10) 100%);";
     $_slideLink = !empty($_hs['link']) ? $_hs['link'] : $_ctaHref;
     $_slideBtn  = !empty($_hs['btn'])  ? $_hs['btn']  : $_ctaLabel;
