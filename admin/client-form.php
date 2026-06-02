@@ -60,7 +60,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $integChg  = ($_POST['integration_charge'] ?? '') !== '' ? (float)$_POST['integration_charge'] : null;
         $agreeDate = ($_POST['agreement_date']    ?? '') ?: null;
         $instDate  = ($_POST['installation_date'] ?? '') ?: null;
-        $expiry    = trim($_POST['expiry_month']  ?? '');
+        // Convert month name to date for expiry (store as YYYY-MM-01 where year defaults to current or next year)
+        $expiryMonth = trim($_POST['expiry_month'] ?? '');
+        $expiry = null;
+        if ($expiryMonth) {
+            $nepaliMonths = ['Baisakh'=>1,'Jestha'=>2,'Ashadh'=>3,'Shrawan'=>4,'Bhadra'=>5,'Ashwin'=>6,'Kartik'=>7,'Mangsir'=>8,'Poush'=>9,'Magh'=>10,'Falgun'=>11,'Chaitra'=>12];
+            if (isset($nepaliMonths[$expiryMonth])) {
+                $month = $nepaliMonths[$expiryMonth];
+                $year = date('Y');
+                // If the month is before the current month, assume next year
+                if ($month < (int)date('m')) $year++;
+                $expiry = sprintf('%04d-%02d-01', $year, $month);
+            }
+        }
 
         // Billing
         $branches  = max(1,(int)($_POST['num_branches']    ?? 1));
@@ -621,7 +633,7 @@ function previewLogo(input) {
   }
 }
 
-// ── Billing summary ───────────────────────────────────────────────
+// ── Billing summary ──────────────────────────────────────��────────
 function updateBilling() {
   var hoAmc  = parseFloat(document.querySelector('[name=head_office_amc]').value) || 0;
   var brAmc  = parseFloat(document.querySelector('[name=branch_office_amc]').value) || 0;
