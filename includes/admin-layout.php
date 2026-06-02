@@ -7,6 +7,9 @@ requireAdmin();
 $__user = currentUser();
 $__s = siteSettings();
 $__currentPath = basename($_SERVER['PHP_SELF']);
+
+// Start output buffering to capture page content
+ob_start();
 ?>
 <!DOCTYPE html>
 <html lang="en" id="html-root">
@@ -301,6 +304,7 @@ require __DIR__ . '/head.php';
       </div>
     </header>
     <main style="flex:1;overflow-y:auto;padding:1.5rem;">
+      <?php echo ob_get_clean(); ?>
     </main>
 
 <script>
