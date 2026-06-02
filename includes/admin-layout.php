@@ -438,5 +438,11 @@ window.addEventListener('resize',checkAdminSidebarBtn);
   }
 })();
 </script>
+<?php 
+// Flush and close output buffering - this outputs all admin page content
+ob_end_flush();
+?>
   </div>
 </div>
+</body>
+</html>
