@@ -158,11 +158,13 @@ if (isset($_GET['edit'])) {
 
         <div>
           <label class="form-label">Title <span class="text-danger-token">*</span></label>
-          <input type="text" name="title" required class="form-input" value="<?= e($edit['title'] ?? '') ?>" placeholder="Banner headline text">
+          <input type="text" name="title" required class="form-input" value="<?= e($edit['title'] ?? '') ?>" placeholder="Banner headline text" minlength="3" maxlength="150">
+          <span class="form-hint">3-150 characters. This is the main heading displayed on the banner.</span>
         </div>
         <div>
           <label class="form-label">Subtitle / Body</label>
-          <textarea name="subtitle" class="form-input" rows="2" placeholder="Supporting text..."><?= e($edit['subtitle'] ?? '') ?></textarea>
+          <textarea name="subtitle" class="form-input" rows="2" placeholder="Supporting text..." maxlength="300"><?= e($edit['subtitle'] ?? '') ?></textarea>
+          <span class="form-hint">Optional. Up to 300 characters. Add descriptive text below the title.</span>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
           <div>
@@ -196,20 +198,22 @@ if (isset($_GET['edit'])) {
         </div>
         <div>
           <label class="form-label">Link URL</label>
-          <input type="url" name="link_url" class="form-input" value="<?= e($edit['link_url'] ?? '') ?>" placeholder="https://...">
+          <input type="url" name="link_url" class="form-input" value="<?= e($edit['link_url'] ?? '') ?>" placeholder="https://example.com">
+          <span class="form-hint">Optional. Where users go when they click the banner. Must start with https:// or http://</span>
+        </div>
+        <div>
+          <label class="form-label">Image URL</label>
+          <input type="url" name="image_url" class="form-input" value="<?= e($edit['image_url'] ?? '') ?>" placeholder="https://example.com/image.jpg">
+          <span class="form-hint">Optional. Full URL to the banner image. Works best with images 1200x400px or larger.</span>
         </div>
         <div>
           <label class="form-label">Button Text</label>
-          <input type="text" name="btn_text" class="form-input" value="<?= e($edit['btn_text'] ?? '') ?>" placeholder="e.g. Learn More">
+          <input type="text" name="btn_text" class="form-input" value="<?= e($edit['btn_text'] ?? '') ?>" placeholder="e.g., Learn More, Get Started" maxlength="30">
+          <span class="form-hint">Optional. Short call-to-action text for the button. Max 30 characters.</span>
         </div>
-        <?php
-          $imgField = 'image_url'; $imgValue = $edit['image_url'] ?? '';
-          $imgLabel = 'Image (optional)';
-          require __DIR__ . '/../includes/admin-img-upload.php';
-        ?>
         <div style="display:flex;align-items:center;gap:0.5rem;">
-          <input type="checkbox" name="active" id="active" <?= ($edit['active'] ?? 1) ? 'checked' : '' ?> style="width:1rem;height:1rem;accent-color:var(--primary);">
-          <label for="active" style="font-size:0.875rem;font-weight:500;color:var(--foreground);">Active (show this banner)</label>
+          <input type="checkbox" id="active" name="active" value="1" <?= ($edit['active'] ?? 1) ? 'checked' : '' ?>>
+          <label for="active" style="margin:0;font-size:0.875rem;font-weight:500;">Active / Show on site</label>
         </div>
         <div style="display:flex;gap:0.5rem;padding-top:0.5rem;">
           <button type="submit" class="btn btn-primary flex-1"><?= $edit ? 'Update Banner' : 'Create Banner' ?></button>

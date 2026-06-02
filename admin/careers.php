@@ -154,7 +154,8 @@ $TYPE_LABELS = ['full-time'=>'Full-time','part-time'=>'Part-time','contract'=>'C
 
       <div>
         <label class="form-label fs-2xs2">Job Title <span class="text-danger-token">*</span></label>
-        <input type="text" name="title" required class="form-input fs-sm2" value="<?=e($editing['title']??'')?>">
+        <input type="text" name="title" required class="form-input fs-sm2" value="<?=e($editing['title']??'')?>" placeholder="e.g., Senior Backend Developer" minlength="3" maxlength="150">
+        <span class="form-hint">Job position title (3-150 chars).</span>
       </div>
       <div>
         <label class="form-label fs-2xs2">Short Summary <span style="color:var(--muted-foreground);font-weight:400;">(shown on listing cards)</span></label>
