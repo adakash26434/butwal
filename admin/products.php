@@ -336,7 +336,7 @@ if (!empty($_GET['edit'])) {
       </div><!-- /tab-content-container -->
 
       <!-- Live preview card — sticky at bottom inside form -->
-      <div style="margin-top:1.5rem;padding:1rem;border-radius:0.75rem;background:var(--muted);border:1px solid var(--border);flex-shrink:0;">
+      <div style="margin-top:1.5rem;padding:1rem;border-radius:0.75rem;background:var(--muted);border:1px solid var(--border);flex-shrink:0;display:none;" id="live-preview-box">
         <div style="font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted-foreground);margin-bottom:0.75rem;">Live Card Preview</div>
         <div id="st-admin-preview" style="background:var(--card);border:1px solid var(--border);border-radius:0.875rem;padding:1rem;font-size:0.8125rem;">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.375rem;">
@@ -397,6 +397,12 @@ function switchTab(btn, tabName) {
   var pane = document.querySelector('[data-tab-pane="'+tabName+'"]');
   if (pane) {
     pane.classList.add('active');
+  }
+  
+  // Show live preview only on BASIC tab
+  var previewBox = document.getElementById('live-preview-box');
+  if (previewBox) {
+    previewBox.style.display = tabName === 'basic' ? 'block' : 'none';
   }
 }
 
@@ -480,5 +486,15 @@ function stAdminUpload(input, urlFieldId, prevId) {
     })
     .catch(function(){ if(prev) prev.textContent = 'Upload failed.'; });
 }
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+  updatePreview();
+  // Show live preview on page load (BASIC tab is default)
+  var previewBox = document.getElementById('live-preview-box');
+  if (previewBox) {
+    previewBox.style.display = 'block';
+  }
+});
 </script>
 <?php require_once '../includes/admin-layout-close.php'; ?>
