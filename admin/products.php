@@ -265,7 +265,7 @@ if (!empty($_GET['edit'])) {
       </div>
 
       <!-- Tab: Content -->
-      <div class="af-tab-pane" data-tab-pane="content">
+      <div class="af-tab-pane" data-tab-pane="content" style="padding-bottom:2rem;">
         <div>
           <label class="form-label fs-2xs2">Short Summary</label>
           <textarea name="summary" class="form-input fs-sm-r" rows="2"><?=e($editing['summary']??'')?></textarea>
@@ -285,7 +285,7 @@ if (!empty($_GET['edit'])) {
       </div>
 
       <!-- Tab: Homepage -->
-      <div class="af-tab-pane" data-tab-pane="homepage">
+      <div class="af-tab-pane" data-tab-pane="homepage" style="padding-bottom:2rem;">
         <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
           <label class="row-check">
             <input type="checkbox" name="show_on_home" value="1" <?=($editing['show_on_home']??1)?'checked':''?>> Show on homepage
