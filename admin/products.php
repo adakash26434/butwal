@@ -377,6 +377,8 @@ if (!empty($_GET['edit'])) {
 <script>
 /* ── Tab switching ── */
 function switchTab(btn, tabName) {
+  console.log("[v0] switchTab called with tabName:", tabName);
+  
   // Deactivate all tab buttons
   document.querySelectorAll('.af-tab-btn').forEach(function(b){
     b.classList.remove('active');
@@ -393,11 +395,14 @@ function switchTab(btn, tabName) {
     p.classList.remove('active');
     p.style.display = 'none';
   });
+  
   // Show selected pane
   var pane = document.querySelector('[data-tab-pane="'+tabName+'"]');
+  console.log("[v0] Looking for pane:", '[data-tab-pane="'+tabName+'"]', "Found:", pane);
   if (pane) {
     pane.classList.add('active');
     pane.style.display = 'flex';
+    console.log("[v0] Pane displayed. Classes:", pane.className, "Display:", pane.style.display);
   }
 }
 
