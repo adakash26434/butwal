@@ -199,7 +199,8 @@ $ICONS_JSON = json_encode($ICONS);
           </div>
           <div>
             <label class="form-label">Title <span class="text-danger-token">*</span></label>
-            <input type="text" name="title" required class="form-input" value="<?=e($editing['title']??'')?>">
+            <input type="text" name="title" required class="form-input" value="<?=e($editing['title']??'')?>" placeholder="e.g., Mobile App Development" minlength="3" maxlength="100">
+            <span class="form-hint">3-100 characters. Main service name.</span>
           </div>
         </div>
 

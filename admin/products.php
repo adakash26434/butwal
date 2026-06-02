@@ -196,7 +196,8 @@ if (!empty($_GET['edit'])) {
           </div>
           <div>
             <label class="form-label fs-2xs2">Product Name <span class="text-danger-token">*</span></label>
-            <input type="text" name="name" required class="form-input fs-sm2" value="<?=e($editing['name']??'')?>">
+            <input type="text" name="name" required class="form-input fs-sm2" value="<?=e($editing['name']??'')?>" placeholder="e.g., Mobile Banking App" minlength="3" maxlength="100">
+            <span class="form-hint">3-100 characters. Main product name displayed everywhere.</span>
           </div>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
@@ -231,12 +232,14 @@ if (!empty($_GET['edit'])) {
         </div>
         <div>
           <label class="form-label fs-2xs2">Tagline</label>
-          <input type="text" name="tagline" class="form-input fs-sm2" value="<?=e($editing['tagline']??'')?>">
+          <input type="text" name="tagline" class="form-input fs-sm2" value="<?=e($editing['tagline']??'')?>" placeholder="e.g., Fast & Secure Banking" maxlength="80">
+          <span class="form-hint">Optional. Short one-liner (max 80 chars) describing the product.</span>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
           <div>
             <label class="form-label fs-2xs2">Price From</label>
             <input type="number" name="price_from" class="form-input fs-sm2" step="0.01" min="0" value="<?=e($editing['price_from']??'')?>" placeholder="4999">
+            <span class="form-hint">Optional. Base price in Rupees. Leave blank for "Custom" pricing.</span>
           </div>
           <div>
             <label class="form-label fs-2xs2">Category</label>
