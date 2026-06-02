@@ -26,7 +26,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $desc      = trim($_POST['description'] ?? '');
         $icon      = trim($_POST['icon'] ?? '');
         $badge     = trim($_POST['badge'] ?? '');
-        $price     = trim($_POST['price_from'] ?? '');
+        // Sanitize price: extract numeric value only, convert to float
+        $priceRaw  = trim($_POST['price_from'] ?? '');
+        $price     = '';
+        if ($priceRaw) {
+            // Extract only digits and decimal point
+            $priceNum = (float)preg_replace('/[^0-9.]/', '', $priceRaw);
+            $price = $priceNum > 0 ? $priceNum : '';
+        }
         $category  = trim($_POST['category'] ?? '');
         $position  = (int)($_POST['position'] ?? 0);
         $active    = isset($_POST['active']) ? 1 : 0;
@@ -229,7 +236,7 @@ if (!empty($_GET['edit'])) {
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
           <div>
             <label class="form-label fs-2xs2">Price From</label>
-            <input type="text" name="price_from" class="form-input fs-sm2" value="<?=e($editing['price_from']??'')?>" placeholder="NPR 4,999/mo">
+            <input type="number" name="price_from" class="form-input fs-sm2" step="0.01" min="0" value="<?=e($editing['price_from']??'')?>" placeholder="4999">
           </div>
           <div>
             <label class="form-label fs-2xs2">Category</label>
@@ -395,7 +402,7 @@ function updatePreview() {
   var name    = (f.querySelector('[name=name]')?.value||'Product Name').trim();
   var tagline = (f.querySelector('[name=tagline]')?.value||'').trim();
   var badge   = (f.querySelector('[name=badge]')?.value||'').trim();
-  var price   = (f.querySelector('[name=price_from]')?.value||'').trim();
+  var price   = parseFloat(f.querySelector('[name=price_from]')?.value||0) || 0;
   var summary = (f.querySelector('[name=summary]')?.value||'').trim();
   var icon    = (f.querySelector('[name=lucide_icon]')?.value||'layers').trim();
   var color   = f.querySelector('[name=icon_color]')?.value||'blue';
@@ -412,8 +419,8 @@ function updatePreview() {
   if (badge.toLowerCase() === 'included') {
     priceDiv.childNodes[0].textContent = 'Included';
     pLabel.textContent = ' with any plan'; pLabel.style.display = '';
-  } else if (price && parseFloat(price) > 0) {
-    priceDiv.childNodes[0].textContent = 'NPR ' + parseInt(price).toLocaleString();
+  } else if (price > 0) {
+    priceDiv.childNodes[0].textContent = 'NPR ' + Math.round(price).toLocaleString();
     pLabel.textContent = ' / month'; pLabel.style.display = '';
   } else {
     priceDiv.childNodes[0].textContent = 'Contact us';
