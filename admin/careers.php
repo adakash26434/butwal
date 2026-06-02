@@ -54,8 +54,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $jobs = [];
-try { $jobs = query("SELECT id,title,department,location,type,salary_range,deadline,active,created_at FROM job_listings ORDER BY created_at DESC"); }
-catch(\Throwable $e) { $error = 'job_listings table not found. Run database.sql.'; }
+try { $jobs = query("SELECT id,title,slug,department,location,type,salary_range,experience,short_desc,active,position FROM job_listings ORDER BY position,id"); }
+catch(\Throwable $e) { 
+    try { $jobs = query("SELECT id,title,department,location,type FROM job_listings ORDER BY position,id"); }
+    catch(\Throwable $e2) { $error = 'job_listings table not found. Run database.sql.'; }
+}
 
 $apps = [];
 try { $apps = query("SELECT ja.*, jl.title AS job_title FROM job_applications ja LEFT JOIN job_listings jl ON jl.id=ja.job_listing_id ORDER BY ja.created_at DESC LIMIT 50"); }

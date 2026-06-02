@@ -47,7 +47,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $items = [];
 try { $items = query("SELECT id,title,client_name,category,image_url,featured,active,position FROM portfolio ORDER BY position,id"); }
-catch(\Throwable $e) { $error = '"portfolio" table not found. Run database.sql.'; }
+catch(\Throwable $e) { 
+    try { $items = query("SELECT id,title,client_name,category,image_url FROM portfolio ORDER BY position,id"); }
+    catch(\Throwable $e2) { $error = '"portfolio" table not found. Run database.sql.'; }
+}
 
 $editing = null;
 if (!empty($_GET['edit'])) {

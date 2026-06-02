@@ -41,7 +41,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $items = [];
 try { $items = query("SELECT id,name,logo_url,url,type,district,active,position FROM partners ORDER BY type,position,name"); }
-catch(\Throwable $e) { $error = 'partners table not found. Run database.sql.'; }
+catch(\Throwable $e) { 
+    try { $items = query("SELECT id,name,logo_url,url,type FROM partners ORDER BY type,position,name"); }
+    catch(\Throwable $e2) { $error = 'partners table not found. Run database.sql.'; }
+}
 
 $editing = null;
 if (!empty($_GET['edit'])) {

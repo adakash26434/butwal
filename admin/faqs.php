@@ -38,7 +38,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $faqs = [];
 try { $faqs = query("SELECT id,category,question,position,active FROM faqs ORDER BY category,position,id"); }
-catch(\Throwable $e) { $error = 'faqs table not found. Run database.sql.'; }
+catch(\Throwable $e) { 
+    try { $faqs = query("SELECT id,category,question FROM faqs ORDER BY category,id"); }
+    catch(\Throwable $e2) { $error = 'faqs table not found. Run database.sql.'; }
+}
 
 $editing = null;
 if (!empty($_GET['edit'])) {

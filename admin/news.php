@@ -50,7 +50,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $posts = [];
 try { $posts = query("SELECT id,title,slug,author_name,category,published,featured,published_at,active,read_time FROM news ORDER BY COALESCE(published_at,created_at) DESC"); }
-catch(\Throwable $e) { $error = '"news" table not found. Run database.sql first.'; }
+catch(\Throwable $e) { 
+    try { $posts = query("SELECT id,title,slug,author_name,category FROM news ORDER BY id DESC"); }
+    catch(\Throwable $e2) { $error = '"news" table not found. Run database.sql first.'; }
+}
 
 $editing = null;
 if (!empty($_GET['edit'])) {
