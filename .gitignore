@@ -21,3 +21,28 @@ Thumbs.db
 .idea/
 .vscode/
 *.swp
+
+# UPLOADS & STORAGE (user-generated content — never commit, symlink instead)
+uploads/*
+!uploads/.gitkeep
+
+assets/images/uploads/*
+!assets/images/uploads/.gitkeep
+
+# cPanel & hosting specific
+public_html/
+cpanel.yml
+.cPanel.yml
+
+# Node modules (if using any frontend build tools)
+node_modules/
+package-lock.json
+yarn.lock
+
+# Backup files
+*.bak
+*.backup
+*.tmp
+~*
+*.swp
+*.swo
