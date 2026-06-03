@@ -52,6 +52,13 @@ require __DIR__ . '/head.php';
 .admin-sidebar .sidebar-link { 
   color: var(--muted-foreground); 
   transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.375rem;
+  text-decoration: none;
+  white-space: nowrap;
 }
 .admin-sidebar .sidebar-link:hover { 
   background: var(--sidebar-hover-bg, rgba(241,245,249,0.06)); 
@@ -89,18 +96,35 @@ require __DIR__ . '/head.php';
     transition: width 0.25s cubic-bezier(0.4,0,0.2,1);
   }
   #admin-sidebar:hover {
-    width: 16rem;
+    width: 14rem;
     z-index: 210;
   }
-  .sidebar-link span {
+  /* Hide header text when collapsed */
+  #admin-sidebar > div:first-child {
     opacity: 0;
-    transition: opacity 0.15s 0.05s;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    width: 14rem;
+    margin-left: -2.25rem;
   }
-  #admin-sidebar:hover .sidebar-link span {
+  /* Show header text when expanded */
+  #admin-sidebar:hover > div:first-child {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  /* Hide link text labels when collapsed */
+  .sidebar-link span:last-child {
+    opacity: 0;
+    transition: opacity 0.2s 0.05s;
+    white-space: nowrap;
+  }
+  /* Show link text labels when expanded */
+  #admin-sidebar:hover .sidebar-link span:last-child {
     opacity: 1;
   }
   .sidebar-link {
     justify-content: flex-start;
+    gap: 0.75rem;
   }
   /* Auto-hide overlay when sidebar not open on desktop */
   #admin-sidebar-overlay {
@@ -169,8 +193,8 @@ require __DIR__ . '/head.php';
 <div style="display:flex;height:100vh;overflow:hidden;">
 
   <!-- Admin Sidebar -->
-  <aside id="admin-sidebar" class="admin-sidebar" style="width:14rem;flex-shrink:0;display:flex;flex-direction:column;overflow:hidden;background:var(--card);border-right:1px solid var(--border);">
-    <div style="padding:1rem 1.25rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+  <aside id="admin-sidebar" class="admin-sidebar" style="width:3.5rem;flex-shrink:0;display:flex;flex-direction:column;overflow:hidden;background:var(--card);border-right:1px solid var(--border);transition:width 0.25s cubic-bezier(0.4,0,0.2,1);">
+    <div style="padding:1rem 1.25rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;width:14rem;margin-left:-2.25rem;opacity:0;transition:opacity 0.2s 0.05s;">
       <a href="<?= url('index.php') ?>" style="display:flex;align-items:center;gap:0.625rem;font-family:var(--font-display);font-weight:700;font-size:0.875rem;color:var(--foreground);text-decoration:none;">
         <?php if (!empty($__s['logo_url'])): ?>
           <img src="<?= e($__s['logo_url']) ?>" alt="<?= e($__s['site_name'] ?? SITE_NAME) ?>" style="height:1.75rem;width:auto;max-width:8rem;object-fit:contain;border-radius:0;">
@@ -182,7 +206,7 @@ require __DIR__ . '/head.php';
       <!-- Close button (mobile only) -->
       <button id="admin-sidebar-close-btn" onclick="closeAdminSidebar()" style="display:none;width:1.875rem;height:1.875rem;border-radius:0.375rem;border:none;background:var(--muted);cursor:pointer;color:var(--muted-foreground);align-items:center;justify-content:center;" title="Close"><?= icon('x',16) ?></button>
     </div>
-    <nav style="flex:1;padding:0.625rem;overflow-y:auto;" id="admin-nav">
+    <nav style="flex:1;padding:0.625rem;overflow-y:auto;display:flex;flex-direction:column;min-width:0;" id="admin-nav">
       <?php
       // Direct links (always visible)
       $directLinks = [
