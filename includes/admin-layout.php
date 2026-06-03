@@ -66,10 +66,21 @@ require __DIR__ . '/head.php';
 }
 
 /* ── Admin sidebar icon styling (dark mode support) ── */
-.admin-sidebar .sidebar-icon { color: inherit; opacity: 0.7; transition: opacity 0.15s, color 0.15s; }
-.admin-sidebar .sidebar-link:hover .sidebar-icon { opacity: 1; }
-.admin-sidebar .sidebar-link.active .sidebar-icon { opacity: 1; color: #60a5fa; }
-.admin-sidebar .sidebar-link:hover { color: rgba(241,245,249,0.9); }
+.admin-sidebar .sidebar-icon { 
+  color: inherit; 
+  opacity: 0.7; 
+  transition: opacity 0.15s, color 0.15s; 
+}
+.admin-sidebar .sidebar-link:hover .sidebar-icon { 
+  opacity: 1; 
+}
+.admin-sidebar .sidebar-link.active .sidebar-icon { 
+  opacity: 1; 
+  color: var(--primary);
+}
+.admin-sidebar .sidebar-link:hover { 
+  color: var(--foreground);
+}
 
 /* ── Sidebar tooltip on hover (show full text on hover, icons-only normally) ── */
 @media (min-width: 768px) {
@@ -114,7 +125,7 @@ require __DIR__ . '/head.php';
   #admin-sidebar-overlay {
     display: none;
     position: fixed; inset: 0; z-index: 199;
-    background: rgba(15,23,42,0.6);
+    background: rgba(0,0,0,0.4);
     backdrop-filter: blur(2px);
   }
   #admin-sidebar-overlay.show { display: block; }
@@ -169,7 +180,7 @@ require __DIR__ . '/head.php';
         Admin Panel
       </a>
       <!-- Close button (mobile only) -->
-      <button id="admin-sidebar-close-btn" onclick="closeAdminSidebar()" style="display:none;width:1.875rem;height:1.875rem;border-radius:0.375rem;border:none;background:rgba(241,245,249,0.1);cursor:pointer;color:rgba(241,245,249,0.7);align-items:center;justify-content:center;" title="Close"><?= icon('x',16) ?></button>
+      <button id="admin-sidebar-close-btn" onclick="closeAdminSidebar()" style="display:none;width:1.875rem;height:1.875rem;border-radius:0.375rem;border:none;background:var(--muted);cursor:pointer;color:var(--muted-foreground);align-items:center;justify-content:center;" title="Close"><?= icon('x',16) ?></button>
     </div>
     <nav style="flex:1;padding:0.625rem;overflow-y:auto;" id="admin-nav">
       <?php
@@ -308,12 +319,12 @@ require __DIR__ . '/head.php';
       </a>
       <?php endforeach; ?>
     </nav>
-    <div style="padding:0.625rem;border-top:1px solid rgba(241,245,249,0.08);">
+    <div style="padding:0.625rem;border-top:1px solid var(--border);">
       <div style="display:flex;align-items:center;gap:0.5rem;padding:0.5rem 0.75rem;margin-bottom:0.25rem;">
         <span class="avatar avatar-sm"><?= strtoupper(substr($__user['display_name']??$__user['email'],0,1)) ?></span>
         <div style="min-width:0;flex:1;">
-          <div style="font-size:var(--text-xs);font-weight:600;color:var(--footer-fg-strong);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><?= e($__user['display_name']??$__user['email']) ?></div>
-          <div style="font-size:var(--text-2xs);color:var(--footer-fg-mute);"><?= e($__user['role'] === 'superadmin' ? 'Super Admin' : 'Administrator') ?></div>
+          <div style="font-size:var(--text-xs);font-weight:600;color:var(--foreground);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><?= e($__user['display_name']??$__user['email']) ?></div>
+          <div style="font-size:var(--text-2xs);color:var(--muted-foreground);"><?= e($__user['role'] === 'superadmin' ? 'Super Admin' : 'Administrator') ?></div>
         </div>
       </div>
       <a href="<?= url('logout.php') ?>" class="sidebar-link admin-logout-link">
