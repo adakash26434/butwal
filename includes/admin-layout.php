@@ -45,11 +45,25 @@ require __DIR__ . '/head.php';
 .sidebar-link:hover .sidebar-icon { opacity: 1; }
 
 /* ── Admin sidebar colour overrides ── */
-.admin-sidebar { background: var(--sidebar-bg, #0f172a); }
-.admin-sidebar .sidebar-link { color: var(--sidebar-text, rgba(241,245,249,0.5)); }
-.admin-sidebar .sidebar-link:hover { background: var(--sidebar-hover-bg, rgba(241,245,249,0.06)); color: var(--sidebar-hover-text, rgba(241,245,249,0.85)); }
-.admin-sidebar .sidebar-link.active { background: var(--sidebar-active-bg, rgba(59,130,246,0.18)); color: var(--sidebar-active-text, #60a5fa); }
-.admin-sidebar .divider { background: var(--sidebar-divider, rgba(241,245,249,0.08)); }
+.admin-sidebar { 
+  background: var(--background);
+  border-right: 1px solid var(--border);
+}
+.admin-sidebar .sidebar-link { 
+  color: var(--muted-foreground); 
+  transition: all 0.15s;
+}
+.admin-sidebar .sidebar-link:hover { 
+  background: var(--sidebar-hover-bg, rgba(241,245,249,0.06)); 
+  color: var(--primary);
+}
+.admin-sidebar .sidebar-link.active { 
+  background: var(--primary-light); 
+  color: var(--primary);
+}
+.admin-sidebar .divider { 
+  background: var(--border);
+}
 
 /* ── Admin sidebar icon styling (dark mode support) ── */
 .admin-sidebar .sidebar-icon { color: inherit; opacity: 0.7; transition: opacity 0.15s, color 0.15s; }
@@ -65,6 +79,7 @@ require __DIR__ . '/head.php';
   }
   #admin-sidebar:hover {
     width: 16rem;
+    z-index: 210;
   }
   .sidebar-link span {
     opacity: 0;
@@ -75,6 +90,10 @@ require __DIR__ . '/head.php';
   }
   .sidebar-link {
     justify-content: flex-start;
+  }
+  /* Auto-hide overlay when sidebar not open on desktop */
+  #admin-sidebar-overlay {
+    display: none !important;
   }
 }
 
@@ -139,9 +158,9 @@ require __DIR__ . '/head.php';
 <div style="display:flex;height:100vh;overflow:hidden;">
 
   <!-- Admin Sidebar -->
-  <aside id="admin-sidebar" class="admin-sidebar" style="width:14rem;flex-shrink:0;display:flex;flex-direction:column;overflow:hidden;">
-    <div style="padding:1rem 1.25rem;border-bottom:1px solid rgba(241,245,249,0.08);display:flex;align-items:center;justify-content:space-between;">
-      <a href="<?= url('index.php') ?>" style="display:flex;align-items:center;gap:0.625rem;font-family:var(--font-display);font-weight:700;font-size:0.875rem;color:#f1f5f9;text-decoration:none;">
+  <aside id="admin-sidebar" class="admin-sidebar" style="width:14rem;flex-shrink:0;display:flex;flex-direction:column;overflow:hidden;background:var(--card);border-right:1px solid var(--border);">
+    <div style="padding:1rem 1.25rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+      <a href="<?= url('index.php') ?>" style="display:flex;align-items:center;gap:0.625rem;font-family:var(--font-display);font-weight:700;font-size:0.875rem;color:var(--foreground);text-decoration:none;">
         <?php if (!empty($__s['logo_url'])): ?>
           <img src="<?= e($__s['logo_url']) ?>" alt="<?= e($__s['site_name'] ?? SITE_NAME) ?>" style="height:1.75rem;width:auto;max-width:8rem;object-fit:contain;border-radius:0;">
         <?php else: ?>
