@@ -51,6 +51,13 @@ require __DIR__ . '/head.php';
 .admin-sidebar .sidebar-link.active { background: var(--sidebar-active-bg, rgba(59,130,246,0.18)); color: var(--sidebar-active-text, #60a5fa); }
 .admin-sidebar .divider { background: var(--sidebar-divider, rgba(241,245,249,0.08)); }
 
+/* ── Admin sidebar icon styling (dark mode support) ── */
+.admin-sidebar .sidebar-icon { color: inherit; opacity: 0.7; transition: opacity 0.15s, color 0.15s; }
+.admin-sidebar .sidebar-link:hover .sidebar-icon { opacity: 1; }
+.admin-sidebar .sidebar-link.active .sidebar-icon { opacity: 1; color: #60a5fa; }
+.admin-sidebar .sidebar-link:hover { color: rgba(241,245,249,0.9); }
+
+
 /* Mobile sidebar overlay */
 @media (max-width: 767px) {
   #admin-sidebar {
@@ -179,6 +186,7 @@ require __DIR__ . '/head.php';
 
         'Settings' => [
           ['settings.php', icon('settings-2',15), 'Settings'],
+          ['company-settings.php', icon('building-2',15), 'Company Settings'],
           ['users.php', icon('user',15), 'Users'],
           ['staff.php', icon('user-cog',15), 'Staff'],
           ['support-contacts.php', icon('phone',15), 'Support Contacts'],

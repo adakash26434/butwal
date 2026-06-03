@@ -127,6 +127,17 @@
       </div>
     </div>
   </div>
+
+  <!-- Developer Attribution -->
+  <?php if (!empty($__s['developed_by_name']) && !empty($__s['developed_by_url'])): ?>
+  <div style="border-top:1px solid rgba(241,245,249,0.07);background:rgba(241,245,249,0.02);">
+    <div class="container" style="padding-top:1rem;padding-bottom:1rem;text-align:center;">
+      <p style="font-size:var(--text-xs);color:rgba(241,245,249,0.25);margin:0;">
+        Developed by <a href="<?= e($__s['developed_by_url']) ?>" target="_blank" rel="noopener noreferrer" style="color:rgba(241,245,249,0.5);text-decoration:none;border-bottom:1px solid rgba(241,245,249,0.3);transition:all 0.2s;" onmouseover="this.style.color='rgba(241,245,249,0.8)'" onmouseout="this.style.color='rgba(241,245,249,0.5)'"><?= e($__s['developed_by_name']) ?></a>
+      </p>
+    </div>
+  </div>
+  <?php endif; ?>
 </footer>
 
 <!-- ── Floating Action Buttons (WhatsApp + Live Chat) ── -->

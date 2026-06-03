@@ -9,14 +9,14 @@ $pageDesc  = 'Our trusted partners, clients and affiliates — organisations we 
 $all = [];
 try { $all = query("SELECT * FROM partners WHERE active=1 ORDER BY position ASC, id DESC"); } catch(\Throwable $e) {}
 
-$groups = ['client','partner','solution','investor'];
+$groups = ['client','partner','channel','solution','investor'];
 $grouped = [];
 foreach ($groups as $g) {
     $filtered = array_filter($all, fn($p) => ($p['type'] ?? '') === $g);
     if (!empty($filtered)) $grouped[$g] = array_values($filtered);
 }
 
-$labels = ['client'=>'Clients','partner'=>'Technology Partners','solution'=>'Solution Partners','investor'=>'Investors'];
+$labels = ['client'=>'Clients','partner'=>'Technology Partners','channel'=>'Channel Partners','solution'=>'Solution Partners','investor'=>'Investors'];
 
 $__s = siteSettings();
 $clientCount = count($grouped['client'] ?? []);
@@ -72,7 +72,7 @@ include 'includes/page-hero.php';
       </style>
 
       <?php foreach ($groups as $g):
-        if (empty($grouped[$g])) continue;
+        if (empty($grouped[$g])) continue;  // Hide empty group sections
         $items   = $grouped[$g];
         $label   = $labels[$g];
         $scroll  = count($items) > 5;   // marquee when >5 items

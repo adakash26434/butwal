@@ -82,7 +82,7 @@ sort($DISTRICTS);
     <a href="?new=1" class="btn btn-primary btn-sm">+ Add Partner</a>
   </div>
 
-  <?php foreach(['client'=>' Clients','partner'=>' Technology Partners','solution'=>' Solution Partners','investor'=>' Investors'] as $type => $label):
+  <?php foreach(['client'=>' Clients','partner'=>' Technology Partners','channel'=>' Channel Partners','solution'=>' Solution Partners','investor'=>' Investors'] as $type => $label):
     $grp = $byType[$type] ?? [];
   ?>
   <?php if(!empty($grp)):?>
@@ -134,6 +134,7 @@ sort($DISTRICTS);
         <select name="type" class="form-input fs-sm2">
           <option value="client"   <?=($editing['type']??'client')==='client'  ?'selected':''?>>Client</option>
           <option value="partner"  <?=($editing['type']??'')==='partner' ?'selected':''?>>Technology Partner</option>
+          <option value="channel"  <?=($editing['type']??'')==='channel'  ?'selected':''?>>Channel Partner</option>
           <option value="solution" <?=($editing['type']??'')==='solution'?'selected':''?>>Solution Partner</option>
           <option value="investor" <?=($editing['type']??'')==='investor'?'selected':''?>>Investor</option>
         </select>
