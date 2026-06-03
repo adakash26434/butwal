@@ -19,7 +19,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $excerpt     = trim($_POST['excerpt'] ?? '');
         $content     = trim($_POST['content'] ?? '');
         $cover_url   = trim($_POST['cover_url'] ?? '');
-        $author_name = trim($_POST['author_name'] ?? 'Ankur Infotech Pvt. Ltd.');
+        $__s = siteSettings();
+        $author_name = trim($_POST['author_name'] ?? ($__s['company_name'] ?? ($__s['site_name'] ?? SITE_NAME)));
         $category    = trim($_POST['category'] ?? 'General');
         $read_time   = (int)($_POST['read_time'] ?? 5);
         $featured    = isset($_POST['featured']) ? 1 : 0;
@@ -186,7 +187,7 @@ $CATS = ['General','Product Update','Company News','Cooperatives Nepal','Technol
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
           <div>
             <label class="form-label fs-2xs2">Author Name</label>
-            <input type="text" name="author_name" maxlength="100" class="form-input fs-sm2" value="<?=e($editing['author_name']??'Ankur Infotech Pvt. Ltd.')?>">
+            <input type="text" name="author_name" maxlength="100" class="form-input fs-sm2" value="<?=e($editing['author_name']??($__s['company_name']??($__s['site_name']??SITE_NAME)))?>">
           </div>
           <div>
             <label class="form-label fs-2xs2">Read Time (min) <span class="text-danger-token">*</span></label>

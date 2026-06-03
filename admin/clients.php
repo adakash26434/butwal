@@ -101,6 +101,10 @@ require_once '../includes/admin-layout.php';
     </p>
   </div>
   <div style="display:flex;gap:.625rem;flex-wrap:wrap;">
+    <a href="client-export-template.php" class="btn btn-outline btn-sm" title="Download sample CSV template">
+      <i data-lucide="download" class="ic-13"></i>
+      Download Template
+    </a>
     <a href="client-import.php" class="btn btn-outline btn-sm">
       <i data-lucide="upload" class="ic-13"></i>
       Import Excel

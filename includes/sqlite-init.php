@@ -48,6 +48,7 @@ function sqliteInit(PDO $pdo): void {
         email TEXT,
         linkedin_url TEXT,
         is_leadership INTEGER NOT NULL DEFAULT 0,
+        category TEXT NOT NULL DEFAULT 'management',
         active INTEGER NOT NULL DEFAULT 1,
         position INTEGER NOT NULL DEFAULT 0,
         created_at TEXT NOT NULL DEFAULT (datetime('now')),
@@ -401,6 +402,25 @@ function sqliteInit(PDO $pdo): void {
  * Safe to run on every request — uses CREATE TABLE IF NOT EXISTS.
  */
 function sqliteMigrate(PDO $pdo): void {
+    // Add missing columns to existing tables (migrations)
+    $migrationSql = [
+        // Team members category support (v1.2.0)
+        "ALTER TABLE team_members ADD COLUMN category TEXT NOT NULL DEFAULT 'management' AFTER is_leadership",
+    ];
+    
+    foreach ($migrationSql as $sql) {
+        try {
+            $pdo->exec($sql);
+        } catch (PDOException $e) {
+            // Column already exists or other error - ignore
+            if (strpos($e->getMessage(), 'duplicate column') === false && 
+                strpos($e->getMessage(), 'already exists') === false) {
+                error_log("Migration error: " . $e->getMessage());
+            }
+        }
+    }
+
+    // Create new tables for additional features
     $pdo->exec("
     CREATE TABLE IF NOT EXISTS notifications (
         id         INTEGER PRIMARY KEY AUTOINCREMENT,
