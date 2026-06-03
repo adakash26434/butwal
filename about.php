@@ -3,13 +3,10 @@ require_once 'includes/config.php';
 require_once 'includes/db.php';
 require_once 'includes/auth.php';
 require_once 'includes/helpers.php';
-$pageTitle = 'About Ankur Infotech Pvt. Ltd. — IT Solutions Company | Butwal, Nepal';
-$pageDesc  = 'Ankur Infotech Pvt. Ltd. is a software company based in Butwal, Rupandehi, Nepal providing IT solutions and digital services.';
 
-$team = [];
-try { $team = query("SELECT * FROM team_members WHERE active=1 ORDER BY is_leadership DESC, position LIMIT 16"); } catch(\Throwable $e) {}
-
-$__s  = siteSettings();
+$__s = siteSettings();
+$pageTitle = 'About ' . e($__s['company_name'] ?? (defined('SITE_NAME') ? SITE_NAME : 'Company')) . ' — IT Solutions | ' . e($__s['address'] ?? 'Nepal');
+$pageDesc  = e($__s['company_name'] ?? (defined('SITE_NAME') ? SITE_NAME : 'Company')) . ' is a software company based in ' . e($__s['address'] ?? 'Butwal, Rupandehi, Nepal') . ' providing IT solutions and digital services.';
 $__ls = [];
 try { $rows = query("SELECT setting_key,setting_val FROM site_settings WHERE setting_key IN ('chairman_name','chairman_title','chairman_photo','chairman_message','chairman_active','ceo_name','ceo_title','ceo_photo','ceo_message','ceo_active')"); foreach($rows as $r) $__ls[$r['setting_key']] = $r['setting_val']; } catch(\Throwable $e) {}
 
@@ -56,9 +53,8 @@ include 'includes/page-hero.php';
         <p class="text-muted" style="line-height:1.75;margin-bottom:0.875rem;font-size:var(--text-md);">
           <?= nl2br(e(cms($__s,'about_mission_p1','We aim to simplify complex business processes through user-friendly, cloud-based and highly secure software. Our solutions are built to operate smoothly, ensuring accessibility and operational ease for your team.'))) ?>
         </p>
-        <p class="text-muted" style="line-height:1.75;font-size:var(--text-md);margin:0;">
-          <?= nl2br(e(cms($__s,'about_mission_p2','Ankur Infotech Pvt. Ltd. is based in Butwal, Rupandehi and provides reliable software solutions and IT services for businesses across Nepal.'))) ?>
-        </p>
+$team = [];
+try { $team = query("SELECT * FROM team_members WHERE active=1 ORDER BY is_leadership DESC, position LIMIT 16"); } catch(\Throwable $e) {}
       </div>
       <div class="mission-highlights stagger-children">
         <?php
@@ -144,7 +140,7 @@ try {
 } catch (\Throwable $e) {}
 
 // Placeholder fallbacks — admin can override these via Admin → Settings (site_settings table)
-$__chairMsg = trim($__ls['chairman_message'] ?? '') ?: "At Ankur Infotech Pvt. Ltd., our commitment is to deliver modern, reliable and locally-supported technology solutions for businesses in Nepal. Based in Butwal, we combine quality software with hands-on support our clients can depend on every single day.";
+$__chairMsg = trim($__ls['chairman_message'] ?? '') ?: "At " . e($__s['company_name'] ?? (defined('SITE_NAME') ? SITE_NAME : 'Company')) . ", our commitment is to deliver modern, reliable and locally-supported technology solutions for businesses in Nepal. Based in " . e($__s['address'] ?? 'Butwal') . ", we combine quality software with hands-on support our clients can depend on every single day.";
 $__ceoMsg   = trim($__ls['ceo_message']      ?? '') ?: "Since our founding, we have been committed to providing practical, efficient software solutions tailored to our clients' needs. Today, our clients across Nepal trust us to deliver and support the technology that keeps their businesses running.";
 $__ls['chairman_name']  = $__ls['chairman_name']  ?? 'Chairman';
 $__ls['chairman_title'] = $__ls['chairman_title'] ?? 'Chairperson, Board of Directors';

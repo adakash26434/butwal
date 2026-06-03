@@ -3,9 +3,9 @@ require_once 'includes/config.php';
 require_once 'includes/db.php';
 require_once 'includes/auth.php';
 require_once 'includes/helpers.php';
-$__s = function_exists('siteSettings') ? siteSettings() : [];
-$pageTitle = 'Careers — ' . (defined('SITE_NAME') ? SITE_NAME : 'Ankur Infotech Pvt. Ltd.');
-$pageDesc  = 'Join Ankur Infotech Pvt. Ltd. — open positions in software engineering, QA, design, and IT services.';
+$__s = siteSettings();
+$pageTitle = 'Careers — ' . e($__s['company_name'] ?? (defined('SITE_NAME') ? SITE_NAME : 'Company'));
+$pageDesc  = 'Join ' . e($__s['company_name'] ?? (defined('SITE_NAME') ? SITE_NAME : 'Company')) . ' — open positions in software engineering, QA, design, and IT services.';
 
 $jobs = [];
 try { $jobs = query("SELECT * FROM job_listings WHERE active=1 ORDER BY created_at DESC"); } catch(\Throwable $e) {}
