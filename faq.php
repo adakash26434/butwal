@@ -3,16 +3,17 @@ require_once 'includes/config.php';
 require_once 'includes/db.php';
 require_once 'includes/auth.php';
 require_once 'includes/helpers.php';
-$pageTitle = 'FAQ — Frequently Asked Questions | Ankur Infotech Pvt. Ltd.';
-$pageDesc  = 'Common questions about Ankur Infotech Pvt. Ltd. — software, pricing, support, deployment and more.';
+$__s = siteSettings();
+$pageTitle = 'FAQ — Frequently Asked Questions | ' . e($__s['company_name'] ?? (defined('SITE_NAME') ? SITE_NAME : 'Company'));
+$pageDesc  = 'Common questions about ' . e($__s['company_name'] ?? (defined('SITE_NAME') ? SITE_NAME : 'Company')) . ' — software, pricing, support, deployment and more.';
 
 $faqs = [];
 try { $faqs = query("SELECT * FROM faqs WHERE active=1 ORDER BY position, category"); } catch (\Throwable $e) {}
 if (!$faqs) {
   $faqs = [
-    ['category'=>'General','question'=>'What is Ankur Infotech Pvt. Ltd.?','answer'=>'Ankur Infotech Pvt. Ltd. is a software company based in Butwal, Rupandehi, Nepal, providing IT solutions and software services including web development, document management, HR & payroll, IT support and more.'],
+    ['category'=>'General','question'=>'What is ' . e($__s['company_name'] ?? (defined('SITE_NAME') ? SITE_NAME : 'Company')) . '?','answer'=> e($__s['company_name'] ?? (defined('SITE_NAME') ? SITE_NAME : 'Company')) . ' is a software company based in ' . e($__s['address'] ?? 'Butwal, Rupandehi, Nepal') . ', providing IT solutions and software services including web development, document management, HR & payroll, IT support and more.'],
     ['category'=>'General','question'=>'How many clients use your software?','answer'=>'Over 120 clients across Nepal — from small businesses to larger organizations. We are proud of our long-term relationships and strong client retention.'],
-    ['category'=>'Products','question'=>'Are your software solutions locally supported?','answer'=>'Yes. All our software comes with local support from our team in Butwal, Rupandehi. We provide training, on-site visits and remote assistance to ensure your business runs smoothly.'],
+    ['category'=>'Products','question'=>'Are your software solutions locally supported?','answer'=>'Yes. All our software comes with local support from our team in ' . e($__s['address'] ?? 'Butwal, Rupandehi') . '. We provide training, on-site visits and remote assistance to ensure your business runs smoothly.'],
     ['category'=>'Products','question'=>'Does the system support Nepali calendar (BS)?','answer'=>'Absolutely. Every module — savings, loans, reports, payslips — is fully Nepali calendar (Bikram Sambat) native. Dates, receipts and statements all print in BS.'],
     ['category'=>'Pricing','question'=>'What is included in the Starter plan?','answer'=>'The Starter plan includes Core Banking for up to 500 members, a web portal with notice board and downloads, email + ticket support, monthly backups and one staff training session. Setup fees apply separately.'],
     ['category'=>'Pricing','question'=>'Are there hidden fees?','answer'=>'No. We provide a full, itemized quote before any commitment — including setup, data migration and training costs. The monthly subscription has no hidden charges.'],

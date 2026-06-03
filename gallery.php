@@ -3,8 +3,9 @@ require_once 'includes/config.php';
 require_once 'includes/db.php';
 require_once 'includes/auth.php';
 require_once 'includes/helpers.php';
-$pageTitle = 'Gallery — Ankur Infotech Pvt. Ltd.';
-$pageDesc  = 'Photos from our office, events, and team activities at Ankur Infotech Pvt. Ltd..';
+$__s = siteSettings();
+$pageTitle = 'Gallery — ' . e($__s['company_name'] ?? (defined('SITE_NAME') ? SITE_NAME : 'Company'));
+$pageDesc  = 'Photos from our office, events, and team activities at ' . e($__s['company_name'] ?? (defined('SITE_NAME') ? SITE_NAME : 'Company')) . '.';
 
 $items = [];
 try { $items = query("SELECT * FROM gallery WHERE active=1 ORDER BY position ASC, id DESC"); } catch(\Throwable $e) {}

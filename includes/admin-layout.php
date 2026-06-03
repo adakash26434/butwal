@@ -74,19 +74,21 @@ require __DIR__ . '/head.php';
 
 /* ── Admin sidebar icon styling (dark mode support) ── */
 .admin-sidebar .sidebar-icon { 
-  color: inherit; 
-  opacity: 0.7; 
-  transition: opacity 0.15s, color 0.15s; 
+  color: var(--muted-foreground); 
+  opacity: 1; 
+  transition: color 0.15s; 
+  flex-shrink: 0;
 }
 .admin-sidebar .sidebar-link:hover .sidebar-icon { 
+  color: var(--primary);
   opacity: 1; 
 }
 .admin-sidebar .sidebar-link.active .sidebar-icon { 
-  opacity: 1; 
   color: var(--primary);
+  opacity: 1;
 }
 .admin-sidebar .sidebar-link:hover { 
-  color: var(--foreground);
+  color: var(--primary);
 }
 
 /* ── Sidebar tooltip on hover (show full text on hover, icons-only normally) ── */
@@ -115,26 +117,30 @@ require __DIR__ . '/head.php';
   /* Hide link text labels when collapsed */
   .sidebar-link span:last-child {
     display: none;
-    transition: opacity 0.2s 0.05s;
     white-space: nowrap;
+    margin-left: 0;
   }
   /* Show link text labels when expanded */
   #admin-sidebar:hover .sidebar-link span:last-child {
-    display: inline;
+    display: inline-block;
+    margin-left: 0;
   }
   .sidebar-link {
     justify-content: center;
-    gap: 0.75rem;
+    gap: 0;
+    width: 100%;
   }
   /* Center icons when collapsed */
   #admin-sidebar:not(:hover) .sidebar-link {
-    padding: 0.5rem;
+    padding: 0.625rem;
     justify-content: center;
+    gap: 0;
   }
   /* Left-align when expanded */
   #admin-sidebar:hover .sidebar-link {
     padding: 0.5rem 0.75rem;
     justify-content: flex-start;
+    gap: 0.75rem;
   }
   /* Auto-hide overlay when sidebar not open on desktop */
   #admin-sidebar-overlay {

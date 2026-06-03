@@ -119,21 +119,32 @@
         <?= sprintf(e(__('footer_copyright')), date('Y'), e($__s['site_name'] ?? SITE_NAME)) ?> <?= e(__('footer_tagline')) ?>
       </p>
       <div style="display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;">
-        <a href="<?= url('privacy.php') ?>" class="footer-link">गोपनीयता नीति</a>
-        <a href="<?= url('terms.php') ?>" class="footer-link">सेवाका सर्तहरू</a>
-        <a href="<?= url('cookie-policy.php') ?>" class="footer-link">कुकी नीति</a>
-        <a href="<?= url('sitemap.php') ?>" class="footer-link">Sitemap</a>
-        <a href="<?= url('portal/index.php') ?>" class="footer-link">Client Portal</a>
+        <a href="<?= url('privacy.php') ?>" class="footer-link" style="font-size:var(--text-sm);color:rgba(241,245,249,0.5);text-decoration:none;transition:color 0.2s;">गोपनीयता नीति</a>
+        <a href="<?= url('terms.php') ?>" class="footer-link" style="font-size:var(--text-sm);color:rgba(241,245,249,0.5);text-decoration:none;transition:color 0.2s;">सेवाका सर्तहरू</a>
+        <a href="<?= url('cookie-policy.php') ?>" class="footer-link" style="font-size:var(--text-sm);color:rgba(241,245,249,0.5);text-decoration:none;transition:color 0.2s;">कुकी नीति</a>
+        <a href="<?= url('sitemap.php') ?>" class="footer-link" style="font-size:var(--text-sm);color:rgba(241,245,249,0.5);text-decoration:none;transition:color 0.2s;">Sitemap</a>
+        <a href="<?= url('portal/index.php') ?>" class="footer-link" style="font-size:var(--text-sm);color:rgba(241,245,249,0.5);text-decoration:none;transition:color 0.2s;">Client Portal</a>
       </div>
     </div>
   </div>
 
   <!-- Developer Attribution -->
-  <?php if (!empty($__s['developed_by_name']) && !empty($__s['developed_by_url'])): ?>
+  <?php 
+    $devName = $__s['developed_by_name'] ?? '';
+    $devUrl = $__s['developed_by_url'] ?? '';
+    // Show developer section if either name or URL is set
+    if (!empty($devName) || !empty($devUrl)): 
+  ?>
   <div style="border-top:1px solid rgba(241,245,249,0.07);background:rgba(241,245,249,0.02);">
     <div class="container" style="padding-top:1rem;padding-bottom:1rem;text-align:center;">
-      <p style="font-size:var(--text-xs);color:rgba(241,245,249,0.25);margin:0;">
-        Developed by <a href="<?= e($__s['developed_by_url']) ?>" target="_blank" rel="noopener noreferrer" style="color:rgba(241,245,249,0.5);text-decoration:none;border-bottom:1px solid rgba(241,245,249,0.3);transition:all 0.2s;" onmouseover="this.style.color='rgba(241,245,249,0.8)'" onmouseout="this.style.color='rgba(241,245,249,0.5)'"><?= e($__s['developed_by_name']) ?></a>
+      <p style="font-size:var(--text-xs);color:rgba(241,245,249,0.35);margin:0;">
+        <?php if (!empty($devUrl) && !empty($devName)): ?>
+          Developed by <a href="<?= e($devUrl) ?>" target="_blank" rel="noopener noreferrer" style="color:rgba(241,245,249,0.6);text-decoration:none;border-bottom:1px solid rgba(241,245,249,0.3);transition:all 0.2s;cursor:pointer;" onmouseover="this.style.color='rgba(241,245,249,0.9)'" onmouseout="this.style.color='rgba(241,245,249,0.6)'"><?= e($devName) ?></a>
+        <?php elseif (!empty($devName)): ?>
+          Developed by <?= e($devName) ?>
+        <?php else: ?>
+          Developed with <span style="color:var(--primary);">❤</span> by v0
+        <?php endif; ?>
       </p>
     </div>
   </div>
