@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $id = (int)$_POST['id'];
         try { execute("DELETE FROM team_members WHERE id=?", [$id]); $success = 'Team member deleted.'; }
         catch(\Throwable $e) { $error = 'Delete failed.'; }
-    } elseif (in_array($action,['create','update'])) {
+    }     elseif (in_array($action,['create','update'])) {
         $id           = (int)($_POST['id'] ?? 0);
         $name         = trim($_POST['name'] ?? '');
         $role         = trim($_POST['role'] ?? '');
@@ -21,6 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $email        = trim($_POST['email'] ?? '');
         $linkedin_url = trim($_POST['linkedin_url'] ?? '');
         $is_lead      = isset($_POST['is_leadership']) ? 1 : 0;
+        $category     = in_array($_POST['category'] ?? 'management', ['board','management']) ? $_POST['category'] : 'management';
         $active       = isset($_POST['active']) ? 1 : 0;
         $position     = (int)($_POST['position'] ?? 0);
 
@@ -28,12 +29,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         else {
             try {
                 if ($id) {
-                    execute("UPDATE team_members SET name=?,role=?,bio=?,photo_url=?,email=?,linkedin_url=?,is_leadership=?,active=?,position=?,updated_at=NOW() WHERE id=?",
-                        [$name,$role,$bio,$photo_url?:null,$email?:null,$linkedin_url?:null,$is_lead,$active,$position,$id]);
+                    execute("UPDATE team_members SET name=?,role=?,bio=?,photo_url=?,email=?,linkedin_url=?,is_leadership=?,category=?,active=?,position=?,updated_at=NOW() WHERE id=?",
+                        [$name,$role,$bio,$photo_url?:null,$email?:null,$linkedin_url?:null,$is_lead,$category,$active,$position,$id]);
                     $success = 'Team member updated.';
                 } else {
-                    execute("INSERT INTO team_members (name,role,bio,photo_url,email,linkedin_url,is_leadership,active,position,created_at,updated_at) VALUES (?,?,?,?,?,?,?,?,?,NOW(),NOW())",
-                        [$name,$role,$bio,$photo_url?:null,$email?:null,$linkedin_url?:null,$is_lead,$active,$position]);
+                    execute("INSERT INTO team_members (name,role,bio,photo_url,email,linkedin_url,is_leadership,category,active,position,created_at,updated_at) VALUES (?,?,?,?,?,?,?,?,?,?,NOW(),NOW())",
+                        [$name,$role,$bio,$photo_url?:null,$email?:null,$linkedin_url?:null,$is_lead,$category,$active,$position]);
                     $success = 'Team member added.';
                 }
             } catch(\Throwable $e) { $error = 'Save failed: '.$e->getMessage(); }
@@ -42,9 +43,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $team = [];
-try { $team = query("SELECT id,name,role,photo_url,is_leadership,active,position FROM team_members ORDER BY is_leadership DESC,position,name"); }
+try { $team = query("SELECT id,name,role,photo_url,is_leadership,category,active,position FROM team_members ORDER BY is_leadership DESC,position,name"); }
 catch(\Throwable $e) { 
-    try { $team = query("SELECT id,name,role,photo_url FROM team_members ORDER BY position,name"); }
+    try { $team = query("SELECT id,name,role,photo_url,is_leadership,active,position FROM team_members ORDER BY position,name"); }
     catch(\Throwable $e2) { $error = 'team_members table not found. Run database.sql.'; }
 }
 
@@ -166,6 +167,14 @@ if (!empty($_GET['edit'])) {
             <input type="checkbox" name="active" value="1" <?=($editing['active']??1)?'checked':''?>> Active / Visible
           </label>
         </div>
+      </div>
+      <div>
+        <label class="form-label fs-2xs2">Team Category</label>
+        <select name="category" class="form-input fs-sm2">
+          <option value="management" <?=($editing['category']??'management')==='management'?'selected':''?>>Management Team</option>
+          <option value="board" <?=($editing['category']??'management')==='board'?'selected':''?>>Board Members</option>
+        </select>
+        <span class="form-hint">Classify team member for display purposes.</span>
       </div>
       <button type="submit" class="btn btn-primary w-100"><?=$editing?'Update Member':'Add Member'?></button>
       <?php if($editing):?><a href="?" class="btn btn-ghost w-100-c">Cancel</a><?php endif;?>
