@@ -57,6 +57,27 @@ require __DIR__ . '/head.php';
 .admin-sidebar .sidebar-link.active .sidebar-icon { opacity: 1; color: #60a5fa; }
 .admin-sidebar .sidebar-link:hover { color: rgba(241,245,249,0.9); }
 
+/* ── Sidebar tooltip on hover (show full text on hover, icons-only normally) ── */
+@media (min-width: 768px) {
+  #admin-sidebar {
+    width: 3.5rem;
+    transition: width 0.25s cubic-bezier(0.4,0,0.2,1);
+  }
+  #admin-sidebar:hover {
+    width: 16rem;
+  }
+  .sidebar-link span {
+    opacity: 0;
+    transition: opacity 0.15s 0.05s;
+  }
+  #admin-sidebar:hover .sidebar-link span {
+    opacity: 1;
+  }
+  .sidebar-link {
+    justify-content: flex-start;
+  }
+}
+
 
 /* Mobile sidebar overlay */
 @media (max-width: 767px) {

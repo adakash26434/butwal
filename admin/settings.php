@@ -427,7 +427,10 @@ $tabs = [
           </div>
           <div>
             <label class="form-label">Pre-filled Message</label>
-            <textarea name="whatsapp_message" class="form-input" rows="3" placeholder="Hello Ankur Infotech Pvt. Ltd.! I'm interested in your software."><?= e(sv($s,'whatsapp_message',"Hello Ankur Infotech Pvt. Ltd.! I'm interested in your software.")) ?></textarea>
+            <textarea name="whatsapp_message" class="form-input" rows="3" placeholder="Hello! I'm interested in your software."><?php 
+              $defaultMsg = 'Hello ' . e($s['company_name'] ?? ($s['site_name'] ?? SITE_NAME)) . '! I\'m interested in your software.';
+              echo e(sv($s,'whatsapp_message', $defaultMsg));
+            ?></textarea>
           </div>
           <div style="display:flex;align-items:center;gap:0.5rem;">
             <input type="checkbox" name="whatsapp_enabled" id="wa_en" <?= sv($s,'whatsapp_enabled','1') !== '0' ? 'checked' : '' ?> style="width:1rem;height:1rem;accent-color:var(--primary);">

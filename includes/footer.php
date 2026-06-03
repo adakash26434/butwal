@@ -143,7 +143,7 @@
 <!-- ── Floating Action Buttons (WhatsApp + Live Chat) ── -->
 <div class="st-float-actions">
 <?php if (($__s['whatsapp_enabled'] ?? true) && !empty($__s['whatsapp_number'])): ?>
-  <a href="https://wa.me/<?= e(preg_replace('/\D/', '', $__s['whatsapp_number'])) ?>?text=<?= urlencode($__s['whatsapp_message'] ?? ('Hello ' . (defined('SITE_NAME') ? SITE_NAME : 'Ankur Infotech Pvt. Ltd.') . '!')) ?>"
+  <a href="https://wa.me/<?= e(preg_replace('/\D/', '', $__s['whatsapp_number'])) ?>?text=<?= urlencode($__s['whatsapp_message'] ?? ('Hello ' . e($__s['company_name'] ?? ($__s['site_name'] ?? SITE_NAME)) . '!')) ?>"
      target="_blank" rel="noreferrer" class="whatsapp-btn st-float-btn" title="Chat on WhatsApp" id="whatsapp-btn">
     <i data-lucide="message-circle" class="ic-20"></i>
     <span class="st-float-label">WhatsApp</span>
