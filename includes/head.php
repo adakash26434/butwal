@@ -22,9 +22,19 @@
 
 $__ctx       = $headContext ?? 'public';
 $__indexable = in_array($__ctx, ['public'], true);
-$__siteName  = defined('SITE_NAME') ? SITE_NAME : 'Ankur Infotech Pvt. Ltd.';
+$__s         = function_exists('siteSettings') ? siteSettings() : [];
+$__siteName  = function_exists('stSiteName')
+    ? stSiteName()
+    : trim((string)($__s['site_name'] ?? (defined('SITE_NAME') ? SITE_NAME : 'Company')));
+if ($__siteName === '') $__siteName = 'Company';
+
+$__tagline = function_exists('cms') ? cms($__s, 'site_tagline', '') : trim((string)($__s['site_tagline'] ?? ''));
+$__addr    = function_exists('stAddress') ? stAddress() : trim((string)($__s['address'] ?? ($__s['company_address'] ?? '')));
+$__defaultDesc = $__tagline !== '' ? $__tagline : $__siteName;
+if ($__addr !== '') $__defaultDesc .= ' | ' . $__addr;
+
 $__title     = $pageTitle ?? $__siteName;
-$__desc      = $pageDesc  ?? "Software & IT Solutions Company | Butwal, Rupandehi, Nepal";
+$__desc      = $pageDesc  ?? $__defaultDesc;
 $__siteUrl   = defined('SITE_URL') ? SITE_URL : '';
 $__ogImage   = $ogImage ?? $__siteUrl . '/public/opengraph.jpg';
 $__ogUrl     = $__siteUrl . '/' . ltrim($_SERVER['REQUEST_URI'] ?? '', '/');
@@ -94,17 +104,18 @@ $__themePref = (function_exists('currentUser') ? (currentUser()['theme_pref'] ??
 <script src="<?= $__siteUrl ?>/assets/vendor/alpine.min.js" defer></script>
 <script src="<?= $__siteUrl ?>/assets/vendor/lucide.min.js" defer></script>
 
-<link rel="manifest" href="<?= $__siteUrl ?>/manifest.json">
+<link rel="manifest" href="<?= $__siteUrl ?>/manifest.php">
 <link rel="apple-touch-icon" href="<?= $__siteUrl ?>/public/favicon.svg">
 <link rel="icon" type="image/svg+xml" href="<?= $__siteUrl ?>/public/favicon.svg">
 
 <script>(function(){
   var srv = <?= json_encode($__themePref) ?>;
   var loc = localStorage.getItem('st-theme');
-  var t = srv || loc;
-  if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-    document.documentElement.classList.add('dark');
-  }
+  var pref = srv || loc || '';
+  var mode = pref === 'system' ? '' : pref;
+  var isDark = mode === 'dark' || (!mode && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  if (isDark) document.documentElement.classList.add('dark');
+  document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
   if (srv) localStorage.setItem('st-theme', srv);
 })();</script>
 
@@ -168,20 +179,26 @@ echo __brandCss();
 function toggleTheme() {
   var h = document.documentElement;
   var dark = h.classList.toggle('dark');
+  h.setAttribute('data-theme', dark ? 'dark' : 'light');
   localStorage.setItem('st-theme', dark ? 'dark' : 'light');
   // sync sun/moon icons wherever they appear on the page
-  document.querySelectorAll('#icon-sun, #icon-moon').forEach(function(el) {
-    el.style.display = (el.id === 'icon-sun') === dark ? 'block' : 'none';
+  document.querySelectorAll('#icon-sun, #icon-moon, #icon-sun-mobile, #icon-moon-mobile').forEach(function(el) {
+    var isSun = (el.id === 'icon-sun' || el.id === 'icon-sun-mobile');
+    el.style.display = isSun === dark ? 'block' : 'none';
   });
 }
 // Sync icon visibility immediately (icons may render before DOMContentLoaded)
 (function() {
-  var isDark = document.documentElement.classList.contains('dark');
   function syncIcons() {
+    var isDark = document.documentElement.classList.contains('dark');
     var sun  = document.getElementById('icon-sun');
     var moon = document.getElementById('icon-moon');
-    if (sun)  sun.style.display  = isDark ? 'block' : 'none';
-    if (moon) moon.style.display = isDark ? 'none'  : 'block';
+    var sunM  = document.getElementById('icon-sun-mobile');
+    var moonM = document.getElementById('icon-moon-mobile');
+    if (sun)   sun.style.display   = isDark ? 'block' : 'none';
+    if (moon)  moon.style.display  = isDark ? 'none'  : 'block';
+    if (sunM)  sunM.style.display  = isDark ? 'block' : 'none';
+    if (moonM) moonM.style.display = isDark ? 'none'  : 'block';
   }
   syncIcons();
   document.addEventListener('DOMContentLoaded', syncIcons);

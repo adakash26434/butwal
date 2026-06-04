@@ -13,22 +13,23 @@ The Butwal project has a comprehensive, production-ready global theme system wit
 ### Core Theme Files
 ```
 assets/
-├── theme.css              (60+ CSS variables, light & dark modes)
-├── fonts.css              (Font face declarations, Poppins + Devanagari)
-├── tailwind.min.css       (Tailwind production build, ~31KB)
-├── admin-forms.css        (Form styling, input states)
-├── pages.css              (Page layouts, responsive utilities)
-├── home.css               (Homepage-specific animations)
-├── daisyui.min.css        (DaisyUI component library)
+├── theme.css              (Design tokens + global components)
+├── css/
+│   ├── tailwind.min.css   (Tailwind production build)
+│   ├── fonts.css          (Self-hosted @font-face declarations)
+│   ├── daisyui.min.css    (Admin/portal only)
+│   ├── admin-forms.css    (Form styling, input states)
+│   ├── pages.css          (Public-page overrides)
+│   └── home.css           (Homepage-only animations)
 ├── vendor/
-│   └── lucide/            (500+ Lucide icons, self-hosted)
-└── fonts/
-    └── poppins-*.woff2    (Poppins font files, all weights)
+│   ├── alpine.min.js      (Alpine pinned)
+│   └── lucide.min.js      (Lucide pinned)
+└── fonts/                 (woff2 files: Poppins, Noto Sans Devanagari, JetBrains Mono)
 ```
 
 ### Key Files Using Theme
 - `includes/head.php` — Loads all theme CSS, fonts, Lucide
-- `includes/helpers.php` — Defines `icon()` function for Lucide icons
+- `includes/helpers.php` — Defines `icon()` helper for Lucide
 - `admin/company-settings.php` — Allows admin to customize theme colors
 
 ## CSS Variables — Light Mode (Default)
@@ -191,14 +192,19 @@ html.dark { --background: #0f172a; } /* Dark */
 ### Font Stack
 1. **Poppins** (Latin) — Primary UI font
 2. **Noto Sans Devanagari** (Nepali) — Fallback for Nepali text
-3. **System fonts** (ui-sans-serif) — Fallback
+3. **JetBrains Mono** — Code blocks / monospace
+4. **System fonts** (ui-sans-serif) — Fallback
 
 ### Self-Hosted Font Files
 ```
 assets/fonts/
-├── poppins-latn-400.woff2  (Regular)
-├── poppins-latn-600.woff2  (Semibold)
-└── poppins-latn-700.woff2  (Bold)
+├── poppins-deva-400.woff2  (Devanagari Regular)
+├── poppins-deva-600.woff2  (Devanagari Semibold)
+├── poppins-latn-400.woff2  (Latin Regular)
+├── poppins-latn-600.woff2  (Latin Semibold)
+├── poppins-latn-700.woff2  (Latin Bold)
+├── TuG7UUFzXI5FBtUq5a8bjKYTZjtRU6Sgv3NaV_SNmI0b8QQCQmHN5TV_9qo.woff2  (Noto Sans Devanagari variable)
+└── tDbv2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKwBNntkaToggR7BYRbKPxDcwg.woff2  (JetBrains Mono variable)
 ```
 
 ### Font Usage
@@ -239,7 +245,6 @@ h1, h2 { font-family: var(--font-display); }     /* Headings */
 - Accent Color (currently #f59e0b)
 - Background Color (currently #fafbfc)
 - Dark Mode Background (currently #0f172a)
-- Font Family Selection (Poppins, Inter, System)
 
 ## Best Practices
 
@@ -267,8 +272,8 @@ h1, h2 { font-family: var(--font-display); }     /* Headings */
 
 ### Icons not showing?
 - Verify `icon()` function is called correctly with valid icon name
-- Check assets/vendor/lucide/ has icon SVG files
-- Ensure Lucide script is loaded in head.php
+- Check `assets/vendor/lucide.min.js` exists and is loading (Network tab)
+- Ensure `lucide.createIcons()` runs (included in `includes/head.php`)
 
 ### Fonts not loading?
 - Check assets/fonts/ has .woff2 files
@@ -292,4 +297,3 @@ h1, h2 { font-family: var(--font-display); }     /* Headings */
 1. Update font-face in assets/css/fonts.css
 2. Update --font-display, --font-body in theme.css
 3. Use typography variables everywhere
-

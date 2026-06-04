@@ -59,7 +59,7 @@ ob_start(); ?>
 <section class="st-section st-section--tinted">
   <div class="container">
     <div class="section-head section-head-tight">
-      <span class="section-eyebrow"><?= e(isNepali() ? 'किन '.e(defined('SITE_NAME') ? SITE_NAME : 'Ankur Infotech Pvt. Ltd.').'?' : 'Why '.e(defined('SITE_NAME') ? SITE_NAME : 'Ankur Infotech Pvt. Ltd.')) ?></span>
+      <span class="section-eyebrow"><?= e(isNepali() ? 'किन '.e(stSiteName()).'?' : 'Why '.e(stSiteName())) ?></span>
       <h2 class="section-title" style="margin-bottom:0;"><?= e(isNepali() ? 'यो केवल काम मात्र होइन' : 'More Than a Job') ?></h2>
     </div>
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem;">
@@ -106,7 +106,7 @@ ob_start(); ?>
     <div style="border:2px dashed var(--border);border-radius:1.25rem;padding:4rem 2rem;text-align:center;color:var(--muted-foreground);">
       <div class="fs-3rem"></div>
       <h3 style="font-weight:600;margin-bottom:0.5rem;">No open positions right now</h3>
-      <p>We're always looking for great talent. Send your CV to <a href="mailto:<?= e($__s['contact_email'] ?? 'ankurinfotech8@gmail.com') ?>" class="text-primary"><?= e($__s['contact_email'] ?? 'ankurinfotech8@gmail.com') ?></a></p>
+      <p>We're always looking for great talent. Send your CV to <a href="mailto:<?= e(stContactEmail()) ?>" class="text-primary"><?= e(stContactEmail()) ?></a></p>
     </div>
     <?php else: ?>
     <div class="col-1" id="job-list">
@@ -220,7 +220,7 @@ ob_start(); ?>
       <i data-lucide="mail-open" class="ic-20" style="color:var(--primary);margin-bottom:0.75rem;"></i>
       <h3 style="font-family:var(--font-display);font-size:var(--text-md);font-weight:700;color:var(--foreground);margin:0 0 0.5rem;">Don't see a fit? Send an open application.</h3>
       <p style="color:var(--muted-foreground);font-size:var(--text-sm);margin:0 0 1rem;max-width:28rem;margin-inline:auto;">We're always interested in meeting talented engineers, designers, and IT and software professionals.</p>
-      <a href="mailto:<?= e($__s['contact_email'] ?? 'ankurinfotech8@gmail.com') ?>" class="btn btn-primary btn-md"><?= e($__s['contact_email'] ?? 'ankurinfotech8@gmail.com') ?></a>
+      <a href="mailto:<?= e(stContactEmail()) ?>" class="btn btn-primary btn-md"><?= e(stContactEmail()) ?></a>
     </div>
   </div>
 </section>

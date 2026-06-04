@@ -3,7 +3,7 @@ require_once 'includes/config.php';
 require_once 'includes/db.php';
 require_once 'includes/auth.php';
 require_once 'includes/helpers.php';
-$pageTitle = 'Digital Tools — Ankur Infotech Pvt. Ltd.';
+$pageTitle = 'Digital Tools — ' . stSiteName();
 $pageDesc  = 'Free utilities for Nepal: Preeti to Unicode converter, EMI calculator, BS↔AD date converter — all offline.';
 require_once 'includes/header.php';
 ?>

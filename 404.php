@@ -6,7 +6,7 @@ if (file_exists(__DIR__ . '/includes/config.php')) {
     @require_once __DIR__ . '/includes/helpers.php';
     $_siteUrl = defined('SITE_URL') ? SITE_URL : $_siteUrl;
 }
-$_siteName = defined('SITE_NAME') ? SITE_NAME : 'Ankur Infotech Pvt. Ltd.';
+$_siteName = function_exists('stSiteName') ? stSiteName() : (defined('SITE_NAME') ? SITE_NAME : 'Company');
 ?>
 <!DOCTYPE html>
 <html lang="en">

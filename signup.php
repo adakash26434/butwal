@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $clientCode = strtoupper(trim($_POST['client_code'] ?? ''));
 
         if (!$clientCode) {
-            $error = 'Client ID is required. Please enter the Client ID provided by Ankur Infotech Pvt. Ltd..';
+            $error = 'Client ID is required. Please enter the Client ID provided by ' . stSiteName() . '.';
         } elseif (!$name || !$email || !$password) {
             $error = 'Full name, email and password are required.';
         } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -98,7 +98,7 @@ $__s  = siteSettings();
 <head>
 <?php
 $headContext = 'auth';
-$pageTitle = 'Sign Up — ' . SITE_NAME;
+$pageTitle = 'Sign Up — ' . stSiteName();
 // Error pages set $_siteUrl earlier; ensure SITE_URL is defined.
 if (!defined('SITE_URL') && isset($_siteUrl)) define('SITE_URL', $_siteUrl);
 require __DIR__ . '/includes/head.php';
@@ -119,7 +119,7 @@ require __DIR__ . '/includes/head.php';
   <div class="st-card" style="padding:2rem;">
     <div style="text-align:center;margin-bottom:1.75rem;">
       <h1 style="font-family:var(--font-display);font-weight:800;font-size:1.5rem;color:var(--foreground);margin-bottom:0.375rem;">Create your account</h1>
-      <p style="color:var(--muted-foreground);font-size:var(--text-base);">You need a <strong>Client ID</strong> from Ankur Infotech Pvt. Ltd. to register.</p>
+      <p style="color:var(--muted-foreground);font-size:var(--text-base);">You need a <strong>Client ID</strong> from <?= e(stSiteName()) ?> to register.</p>
     </div>
 
     <?php if ($error): ?>
@@ -143,7 +143,7 @@ require __DIR__ . '/includes/head.php';
                value="<?= e($_POST['client_code'] ?? '') ?>"
                style="font-family:monospace;font-size:var(--text-md);font-weight:700;letter-spacing:0.05em;text-transform:uppercase;">
         <p style="font-size:var(--text-xs);color:var(--muted-foreground);margin-top:0.375rem;margin-bottom:0;">
-          Your Client ID was given to you by Ankur Infotech Pvt. Ltd. when your account was set up.
+          Your Client ID was given to you by <?= e(stSiteName()) ?> when your account was set up.
         </p>
       </div>
 

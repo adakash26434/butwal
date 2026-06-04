@@ -56,10 +56,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 try { $u2 = queryOne("SELECT * FROM users WHERE id=?", [$__user['id']]); if ($u2) $__user = array_merge($__user, $u2); } catch(\Throwable $e) {}
 
 // Support contact info from settings
-$contactPhone   = $__s['contact_phone']   ?? '+977 980-000-0000';
-$contactEmail   = $__s['contact_email']   ?? 'ankurinfotech8@gmail.com';
+$contactPhone   = stContactPhone();
+$contactEmail   = stContactEmail();
 $whatsappNum    = $__s['whatsapp_number'] ?? '';
-$officeAddress  = $__s['address']         ?? 'Kathmandu, Nepal';
+$officeAddress  = stAddress();
 $supportHours   = $__s['support_hours']   ?? 'Mon–Fri 9am–6pm · Sat 10am–3pm';
 
 $DISTRICTS = ['Achham','Arghakhanchi','Baglung','Baitadi','Bajhang','Bajura','Banke','Bara','Bardiya','Bhaktapur','Bhojpur','Chitwan','Dadeldhura','Dailekh','Dang','Darchula','Dhading','Dhankuta','Dhanusa','Dolakha','Dolpa','Doti','Gorkha','Gulmi','Humla','Ilam','Jajarkot','Jhapa','Jumla','Kailali','Kalikot','Kanchanpur','Kapilvastu','Kaski','Kathmandu','Kavrepalanchok','Khotang','Lalitpur','Lamjung','Mahottari','Makwanpur','Manang','Morang','Mugu','Mustang','Myagdi','Nawalpur','Nuwakot','Okhaldhunga','Palpa','Panchthar','Parbat','Parsa','Pyuthan','Ramechhap','Rasuwa','Rautahat','Rolpa','Rukum East','Rukum West','Rupandehi','Salyan','Sankhuwasabha','Saptari','Sarlahi','Sindhuli','Sindhupalchok','Siraha','Solukhumbu','Sunsari','Surkhet','Syangja','Taplejung','Terhathum','Udayapur'];

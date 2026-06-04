@@ -19,11 +19,11 @@ function runDbMigrations() {
         // Migration 2: Add company settings if not exist
         $check = queryOne("SELECT id FROM site_settings WHERE setting_key=?", ['company_phone']);
         if (!$check) {
-            saveSetting('company_phone', '+977-071-438585, 071-437612');
-            saveSetting('company_address', 'Butwal, Rupandehi, Nepal');
-            saveSetting('company_name', 'Ankur Infotech Pvt. Ltd.');
-            saveSetting('developed_by_name', 'Ankur Infotech Pvt. Ltd.');
-            saveSetting('developed_by_url', 'https://ankurinfotech.com.np');
+            saveSetting('company_phone', '');
+            saveSetting('company_address', '');
+            saveSetting('company_name', defined('SITE_NAME') ? SITE_NAME : 'Company');
+            saveSetting('developed_by_name', defined('SITE_NAME') ? SITE_NAME : 'Company');
+            saveSetting('developed_by_url', '');
         }
     } catch (\Throwable $e) {
         // site_settings might not be available

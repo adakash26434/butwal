@@ -191,7 +191,7 @@ $pages = [
   <div class="st-card" style="padding:1.5rem;">
     <h2 class="h-eyebrow-tight mb-2" style="margin-bottom:1rem;">Global Settings</h2>
     
-    <?=formInput('Site Name', 'site_name', $allSettings['site_name']??'Ankur Infotech Pvt. Ltd.', [])?>
+    <?=formInput('Site Name', 'site_name', $allSettings['site_name']??stSiteName(), [])?>
     <?=formInput('Site Tagline', 'site_tagline', $allSettings['site_tagline']??'', ['placeholder'=>'Short tagline/slogan'])?>
     <?=formInput('Logo URL', 'logo_url', $allSettings['logo_url']??'', ['placeholder'=>'Full URL to logo image'])?>
     <?=formInput('Favicon URL', 'favicon_url', $allSettings['favicon_url']??'', ['placeholder'=>'Full URL to favicon'])?>

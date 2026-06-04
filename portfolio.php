@@ -3,7 +3,7 @@ require_once 'includes/config.php';
 require_once 'includes/db.php';
 require_once 'includes/auth.php';
 require_once 'includes/helpers.php';
-$pageTitle = 'Portfolio — Ankur Infotech Pvt. Ltd.';
+$pageTitle = 'Portfolio — ' . stSiteName();
 $pageDesc  = 'Case studies and project implementations — software, web development, DMS, HR & Payroll for businesses across Nepal.';
 
 $items = [];

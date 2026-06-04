@@ -3,8 +3,8 @@ require_once 'includes/config.php';
 require_once 'includes/db.php';
 require_once 'includes/auth.php';
 require_once 'includes/helpers.php';
-$pageTitle = 'News & Blog — Ankur Infotech Pvt. Ltd.';
-$pageDesc  = 'Latest news, product updates and company announcements from Ankur Infotech Pvt. Ltd.';
+$pageTitle = 'News & Blog — ' . stSiteName();
+$pageDesc  = 'Latest news, product updates and company announcements from ' . stSiteName() . '.';
 
 $news = [];
 try {
@@ -54,7 +54,7 @@ include 'includes/page-hero.php';
             <span style="color:var(--primary);font-weight:600;"><?= e($post['category']) ?></span>
             <span>·</span>
             <?php endif; ?>
-            <span><?= e($post['author_name'] ?? 'Ankur Infotech Pvt. Ltd.') ?></span>
+            <span><?= e($post['author_name'] ?? stSiteName()) ?></span>
             <?php if (!empty($post['published_at'])): ?>
             <span>·</span>
             <span><?= date('d M Y', strtotime($post['published_at'])) ?></span>

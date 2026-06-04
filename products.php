@@ -3,8 +3,8 @@ require_once 'includes/config.php';
 require_once 'includes/db.php';
 require_once 'includes/auth.php';
 require_once 'includes/helpers.php';
-$pageTitle = 'Products & Services — Ankur Infotech Pvt. Ltd.';
-$pageDesc  = 'Software solutions and IT services by Ankur Infotech Pvt. Ltd. — Web Development, Document Management, HR & Payroll, IT Support and more.';
+$pageTitle = 'Products & Services — ' . stSiteName();
+$pageDesc  = 'Software solutions and IT services — Web Development, Document Management, HR & Payroll, IT Support and more.';
 
 $__colorMap = [
   'blue'=>'icon-box-blue','teal'=>'icon-box-teal','purple'=>'icon-box-purple',

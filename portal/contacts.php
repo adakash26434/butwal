@@ -10,16 +10,14 @@ try {
 // Fallback: use site settings if no contacts table entries
 $fallback = [];
 if (empty($contacts)) {
-    $p = $__s['contact_phone']   ?? '+977 980-000-0000';
-    $e = $__s['contact_email']   ?? 'ankurinfotech8@gmail.com';
+    $p = stContactPhone();
+    $e = stContactEmail();
     $w = $__s['whatsapp_number'] ?? '';
-    $a = $__s['address']         ?? 'Kathmandu, Nepal';
-    $fallback = [
-        ['','Main Office',      $p, 'phone',     'Mon–Fri 9am–6pm', 1],
-        ['','Email Support',    $e, 'email',     'Reply within 24 hours', 1],
-    ];
+    $a = stAddress();
+    if ($p !== '') $fallback[] = ['','Main Office',      $p, 'phone',     'Mon–Fri 9am–6pm', 1];
+    if ($e !== '') $fallback[] = ['','Email Support',    $e, 'email',     'Reply within 24 hours', 1];
     if ($w) $fallback[] = ['','WhatsApp',  '+'.$w, 'whatsapp', 'Quick queries & screenshots', 1];
-    $fallback[] = ['','Office Address', $a, 'address', 'Walk-ins welcome', 0];
+    if ($a !== '') $fallback[] = ['','Office Address', $a, 'address', 'Walk-ins welcome', 0];
 }
 
 $TYPE_CFG = [
@@ -34,7 +32,7 @@ $TYPE_CFG = [
 // नेपालीमा: contactHref() — yo function le aafno kaam garchha
 function contactHref(string $type, string $value): string {
     if ($type === 'phone' || $type === 'emergency') return 'tel:'.preg_replace('/\D/', '', $value);
-    if ($type === 'whatsapp') return 'https://wa.me/'.preg_replace('/\D/', '', $value).'?text='.urlencode('Hello Ankur Infotech Pvt. Ltd. Support!');
+    if ($type === 'whatsapp') return 'https://wa.me/'.preg_replace('/\D/', '', $value).'?text='.urlencode('Hello ' . stSiteName() . ' Support!');
     if ($type === 'email')    return 'mailto:'.$value;
     return '#';
 }

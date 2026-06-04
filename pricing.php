@@ -3,7 +3,7 @@ require_once 'includes/config.php';
 require_once 'includes/db.php';
 require_once 'includes/auth.php';
 require_once 'includes/helpers.php';
-$pageTitle = 'Pricing — Software & IT Support Plans | Ankur Infotech Pvt. Ltd.';
+$pageTitle = 'Pricing — Software & IT Support Plans | ' . stSiteName();
 $pageDesc  = 'Transparent pricing for software solutions, DMS, mobile apps and managed IT support — built for businesses of every size.';
 
 include 'includes/header.php';

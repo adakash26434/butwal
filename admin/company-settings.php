@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($action === 'save') {
         try {
-            saveSetting('company_name', trim($_POST['company_name'] ?? 'Ankur Infotech Pvt. Ltd.'));
+            saveSetting('company_name', trim($_POST['company_name'] ?? stSiteName()));
             saveSetting('company_phone', trim($_POST['company_phone'] ?? ''));
             saveSetting('company_address', trim($_POST['company_address'] ?? ''));
             saveSetting('company_email', trim($_POST['company_email'] ?? ''));
@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             saveSetting('footer_tagline', trim($_POST['footer_tagline'] ?? ''));
             
-            saveSetting('developed_by_name', trim($_POST['developed_by_name'] ?? 'Ankur Infotech Pvt. Ltd.'));
+            saveSetting('developed_by_name', trim($_POST['developed_by_name'] ?? stSiteName()));
             saveSetting('developed_by_url', trim($_POST['developed_by_url'] ?? ''));
             
             $success = 'Company settings updated successfully.';
@@ -52,7 +52,7 @@ $s = siteSettings();
 
         <div>
             <label class="form-label fs-2xs2">Company Name</label>
-            <input type="text" name="company_name" required class="form-input fs-sm2" value="<?=e($s['company_name']??'Ankur Infotech Pvt. Ltd.')?>" maxlength="150" placeholder="Company name">
+            <input type="text" name="company_name" required class="form-input fs-sm2" value="<?=e($s['company_name']??stSiteName())?>" maxlength="150" placeholder="Company name">
             <span class="form-hint">The official name of your company.</span>
         </div>
 
@@ -70,7 +70,7 @@ $s = siteSettings();
 
         <div>
             <label class="form-label fs-2xs2">Address</label>
-            <input type="text" name="company_address" class="form-input fs-sm2" value="<?=e($s['company_address']??'')?>" maxlength="200" placeholder="Butwal, Rupandehi, Nepal">
+            <input type="text" name="company_address" class="form-input fs-sm2" value="<?=e($s['company_address']??'')?>" maxlength="200" placeholder="City, Country">
             <span class="form-hint">Company headquarters address.</span>
         </div>
 
@@ -87,7 +87,7 @@ $s = siteSettings();
 
         <div>
             <label class="form-label fs-2xs2">Footer Tagline</label>
-            <textarea name="footer_tagline" class="form-input fs-sm-r" rows="3" maxlength="500" placeholder="Trusted software & IT solutions partner based in Nepal."><?=e($s['footer_tagline']??'Trusted software & IT solutions partner based in Butwal, Rupandehi, Nepal.')?></textarea>
+            <textarea name="footer_tagline" class="form-input fs-sm-r" rows="3" maxlength="500" placeholder="Trusted software & IT solutions partner."><?=e($s['footer_tagline']??'Trusted software & IT solutions partner.')?></textarea>
             <span class="form-hint">Short description displayed in footer (max 500 chars).</span>
         </div>
 
@@ -98,7 +98,7 @@ $s = siteSettings();
 
         <div>
             <label class="form-label fs-2xs2">Developed By Name</label>
-            <input type="text" name="developed_by_name" required class="form-input fs-sm2" value="<?=e($s['developed_by_name']??'Ankur Infotech Pvt. Ltd.')?>" maxlength="150" placeholder="Company name">
+            <input type="text" name="developed_by_name" required class="form-input fs-sm2" value="<?=e($s['developed_by_name']??stSiteName())?>" maxlength="150" placeholder="Company name">
             <span class="form-hint">Name displayed in footer: "Developed by [Name]".</span>
         </div>
 
