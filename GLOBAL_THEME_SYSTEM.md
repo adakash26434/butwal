@@ -192,14 +192,19 @@ html.dark { --background: #0f172a; } /* Dark */
 ### Font Stack
 1. **Poppins** (Latin) — Primary UI font
 2. **Noto Sans Devanagari** (Nepali) — Fallback for Nepali text
-3. **System fonts** (ui-sans-serif) — Fallback
+3. **JetBrains Mono** — Code blocks / monospace
+4. **System fonts** (ui-sans-serif) — Fallback
 
 ### Self-Hosted Font Files
 ```
 assets/fonts/
-├── poppins-latn-400.woff2  (Regular)
-├── poppins-latn-600.woff2  (Semibold)
-└── poppins-latn-700.woff2  (Bold)
+├── poppins-deva-400.woff2  (Devanagari Regular)
+├── poppins-deva-600.woff2  (Devanagari Semibold)
+├── poppins-latn-400.woff2  (Latin Regular)
+├── poppins-latn-600.woff2  (Latin Semibold)
+├── poppins-latn-700.woff2  (Latin Bold)
+├── TuG7UUFzXI5FBtUq5a8bjKYTZjtRU6Sgv3NaV_SNmI0b8QQCQmHN5TV_9qo.woff2  (Noto Sans Devanagari variable)
+└── tDbv2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKwBNntkaToggR7BYRbKPxDcwg.woff2  (JetBrains Mono variable)
 ```
 
 ### Font Usage
@@ -240,7 +245,6 @@ h1, h2 { font-family: var(--font-display); }     /* Headings */
 - Accent Color (currently #f59e0b)
 - Background Color (currently #fafbfc)
 - Dark Mode Background (currently #0f172a)
-- Font Family Selection (Poppins, Inter, System)
 
 ## Best Practices
 
@@ -268,8 +272,8 @@ h1, h2 { font-family: var(--font-display); }     /* Headings */
 
 ### Icons not showing?
 - Verify `icon()` function is called correctly with valid icon name
-- Check assets/vendor/lucide/ has icon SVG files
-- Ensure Lucide script is loaded in head.php
+- Check `assets/vendor/lucide.min.js` exists and is loading (Network tab)
+- Ensure `lucide.createIcons()` runs (included in `includes/head.php`)
 
 ### Fonts not loading?
 - Check assets/fonts/ has .woff2 files
