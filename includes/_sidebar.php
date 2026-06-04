@@ -30,10 +30,7 @@
  */
 
 if (!function_exists('icon')) {
-    // Minimal fallback. Real `icon()` helper lives elsewhere in your codebase.
-    function icon(string $name, int $size = 16, string $extraStyle = ''): string {
-        return '<i data-lucide="' . htmlspecialchars($name) . '" style="width:' . $size . 'px;height:' . $size . 'px;' . $extraStyle . '"></i>';
-    }
+    require_once __DIR__ . '/helpers.php';
 }
 
 // नेपालीमा: Sidebar HTML render garne (shared)

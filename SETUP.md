@@ -41,7 +41,7 @@ assets/
     pages.css          ← shared public-page overrides
     home.css           ← homepage-only layout + animations
     st-bs-datepicker.css
-  fonts/               ← 13 woff2 files (Sora, DM Sans, Noto Devanagari, JetBrains Mono)
+  fonts/               ← woff2 files (Poppins, Noto Sans Devanagari, JetBrains Mono)
   vendor/
     alpine.min.js      ← Alpine 3.14.1 pinned
     lucide.min.js      ← Lucide UMD pinned

@@ -13,22 +13,23 @@ The Butwal project has a comprehensive, production-ready global theme system wit
 ### Core Theme Files
 ```
 assets/
-├── theme.css              (60+ CSS variables, light & dark modes)
-├── fonts.css              (Font face declarations, Poppins + Devanagari)
-├── tailwind.min.css       (Tailwind production build, ~31KB)
-├── admin-forms.css        (Form styling, input states)
-├── pages.css              (Page layouts, responsive utilities)
-├── home.css               (Homepage-specific animations)
-├── daisyui.min.css        (DaisyUI component library)
+├── theme.css              (Design tokens + global components)
+├── css/
+│   ├── tailwind.min.css   (Tailwind production build)
+│   ├── fonts.css          (Self-hosted @font-face declarations)
+│   ├── daisyui.min.css    (Admin/portal only)
+│   ├── admin-forms.css    (Form styling, input states)
+│   ├── pages.css          (Public-page overrides)
+│   └── home.css           (Homepage-only animations)
 ├── vendor/
-│   └── lucide/            (500+ Lucide icons, self-hosted)
-└── fonts/
-    └── poppins-*.woff2    (Poppins font files, all weights)
+│   ├── alpine.min.js      (Alpine pinned)
+│   └── lucide.min.js      (Lucide pinned)
+└── fonts/                 (woff2 files: Poppins, Noto Sans Devanagari, JetBrains Mono)
 ```
 
 ### Key Files Using Theme
 - `includes/head.php` — Loads all theme CSS, fonts, Lucide
-- `includes/helpers.php` — Defines `icon()` function for Lucide icons
+- `includes/helpers.php` — Defines `icon()` helper for Lucide
 - `admin/company-settings.php` — Allows admin to customize theme colors
 
 ## CSS Variables — Light Mode (Default)
@@ -292,4 +293,3 @@ h1, h2 { font-family: var(--font-display); }     /* Headings */
 1. Update font-face in assets/css/fonts.css
 2. Update --font-display, --font-body in theme.css
 3. Use typography variables everywhere
-
