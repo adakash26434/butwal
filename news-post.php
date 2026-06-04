@@ -50,7 +50,7 @@ try {
     }
 } catch(\Throwable $e) {}
 
-$pageTitle = $post['title'] . ' — Ankur Infotech Pvt. Ltd. Blog';
+$pageTitle = $post['title'] . ' — ' . stSiteName() . ' Blog';
 $pageDesc  = $post['excerpt'] ?? '';
 require_once 'includes/header.php';
 ?>
@@ -79,7 +79,7 @@ require_once 'includes/header.php';
       <div style="display:flex;align-items:center;gap:0.625rem;">
         <span class="avatar avatar-sm" style="background:var(--gradient-primary);color:#fff;"><?= strtoupper(substr($post['author_name'] ?? 'S', 0, 1)) ?></span>
         <div>
-          <div style="font-size:var(--text-sm);font-weight:600;color:var(--foreground);"><?= e($post['author_name'] ?? 'Ankur Infotech Pvt. Ltd.') ?></div>
+          <div style="font-size:var(--text-sm);font-weight:600;color:var(--foreground);"><?= e($post['author_name'] ?? stSiteName()) ?></div>
           <div style="font-size:var(--text-xs);color:var(--muted-foreground);"><?= e($post['author_title'] ?? 'Team') ?></div>
         </div>
       </div>

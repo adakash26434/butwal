@@ -3,8 +3,8 @@ require_once 'includes/config.php';
 require_once 'includes/db.php';
 require_once 'includes/auth.php';
 require_once 'includes/helpers.php';
-$pageTitle = 'Services — ' . SITE_NAME;
-$pageDesc  = 'IT services and software solutions by Ankur Infotech Pvt. Ltd. — Cloud, SMS, Domain, Security Audit and more for businesses across Nepal.';
+$pageTitle = 'Services — ' . stSiteName();
+$pageDesc  = 'IT services and software solutions — Cloud, SMS, Domain, Security Audit and more.';
 
 $__s = siteSettings();
 

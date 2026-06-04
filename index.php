@@ -3,8 +3,9 @@ require_once 'includes/config.php';
 require_once 'includes/db.php';
 require_once 'includes/auth.php';
 require_once 'includes/helpers.php';
-$pageTitle = 'Ankur Infotech Pvt. Ltd. — IT Solutions & Software Services | Butwal, Nepal';
-$pageDesc  = 'IT Solutions & Software Services based in Butwal, Rupandehi, Nepal. Reliable, locally supported technology for your business.';
+$__addr    = stAddress();
+$pageTitle = stSiteName() . ' — IT Solutions & Software Services' . ($__addr !== '' ? ' | ' . $__addr : '');
+$pageDesc  = 'IT Solutions & Software Services. Reliable, locally supported technology for your business.' . ($__addr !== '' ? ' | ' . $__addr : '');
 
 $testimonials = [];
 try { $testimonials = query("SELECT * FROM testimonials WHERE active=1 ORDER BY position LIMIT 6"); } catch(\Throwable $e) {}

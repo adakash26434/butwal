@@ -65,7 +65,7 @@ if (!isset($pages[$afActive])) $afActive = 'legal_privacy';
 
       <div style="margin-bottom:.875rem;">
         <label class="form-label">Page Content <span class="caption-meta">(HTML supported — &lt;h2&gt;, &lt;p&gt;, &lt;ul&gt;, &lt;strong&gt;, &lt;a&gt; tags)</span></label>
-        <textarea name="content" rows="22" class="form-input" style="font-family:monospace;font-size:.8rem;line-height:1.6;resize:vertical;"><?=e($__s[$key] ?? defaultLegalContent($key, $label, $__s['site_name'] ?? SITE_NAME))?></textarea>
+        <textarea name="content" rows="22" class="form-input" style="font-family:monospace;font-size:.8rem;line-height:1.6;resize:vertical;"><?=e($__s[$key] ?? defaultLegalContent($key, $label, stSiteName(), stContactEmail(), stAddress()))?></textarea>
       </div>
 
       <div style="display:flex;gap:.75rem;align-items:center;">
@@ -78,8 +78,10 @@ if (!isset($pages[$afActive])) $afActive = 'legal_privacy';
 <?php endforeach;?>
 
 <?php
-function defaultLegalContent(string $key, string $label, string $siteName): string {
+function defaultLegalContent(string $key, string $label, string $siteName, string $contactEmail, string $address): string {
     $date = date('d F Y');
+    $email = $contactEmail !== '' ? $contactEmail : 'info@example.com';
+    $addr  = $address !== '' ? $address : 'Nepal';
     $templates = [
         'legal_privacy' => "<h2>Privacy Policy</h2>
 <p><strong>Effective date:</strong> {$date}</p>
@@ -102,10 +104,10 @@ function defaultLegalContent(string $key, string $label, string $siteName): stri
 <p>We implement appropriate technical and organisational measures to protect your personal information against unauthorised access, alteration, disclosure, or destruction.</p>
 
 <h3>Your Rights</h3>
-<p>You have the right to access, correct, or delete your personal data. To exercise these rights, please contact us at <a href=\"mailto:info@ankurinfotech.com.np\">info@ankurinfotech.com.np</a>.</p>
+<p>You have the right to access, correct, or delete your personal data. To exercise these rights, please contact us at <a href=\"mailto:{$email}\">{$email}</a>.</p>
 
 <h3>Contact</h3>
-<p>{$siteName}, Butwal, Rupandehi, Nepal.</p>",
+<p>{$siteName}, {$addr}.</p>",
 
         'legal_terms' => "<h2>Terms of Service</h2>
 <p><strong>Effective date:</strong> {$date}</p>
@@ -130,10 +132,10 @@ function defaultLegalContent(string $key, string $label, string $siteName): stri
 <p>{$siteName} shall not be liable for any indirect, incidental, or consequential damages arising from your use of our services.</p>
 
 <h3>Governing Law</h3>
-<p>These terms are governed by the laws of Nepal. Any disputes shall be resolved in the courts of Rupandehi, Nepal.</p>
+<p>These terms are governed by applicable local laws. Any disputes shall be resolved in the courts of your jurisdiction.</p>
 
 <h3>Contact</h3>
-<p>{$siteName}, Butwal, Rupandehi, Nepal.</p>",
+<p>{$siteName}, {$addr}.</p>",
 
         'legal_cookie' => "<h2>Cookie Policy</h2>
 <p><strong>Effective date:</strong> {$date}</p>
@@ -155,7 +157,7 @@ function defaultLegalContent(string $key, string $label, string $siteName): stri
 <p>We may use third-party services such as Google Analytics that set their own cookies. These are governed by the respective third-party privacy policies.</p>
 
 <h3>Contact</h3>
-<p>If you have questions about our use of cookies, contact us at <a href=\"mailto:info@ankurinfotech.com.np\">info@ankurinfotech.com.np</a>.</p>",
+<p>If you have questions about our use of cookies, contact us at <a href=\"mailto:{$email}\">{$email}</a>.</p>",
     ];
     return $templates[$key] ?? '';
 }

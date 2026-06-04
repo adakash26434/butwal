@@ -46,16 +46,16 @@ function siteSettings(): array {
         'logo_url'         => null,
         'favicon_url'      => null,
         'company_name'     => SITE_NAME,
-        'company_phone'    => '+977-071-438585, 071-437612',
-        'company_email'    => 'ankurinfotech8@gmail.com',
-        'company_address'  => 'Butwal, Rupandehi, Nepal',
-        'contact_email'    => 'ankurinfotech8@gmail.com',
-        'contact_phone'    => '+977-071-438585, 071-437612',
-        'address'          => 'Butwal, Rupandehi, Nepal',
+        'company_phone'    => '',
+        'company_email'    => '',
+        'company_address'  => '',
+        'contact_email'    => '',
+        'contact_phone'    => '',
+        'address'          => '',
         'social_links'     => [],
         'whatsapp_number'  => null,
         'whatsapp_enabled' => true,
-        'whatsapp_message' => "Hello Ankur Infotech Pvt. Ltd.! I'm interested in your software.",
+        'whatsapp_message' => "Hello! I'm interested in your software.",
         'maintenance_mode' => false,
     ];
     try {
@@ -201,6 +201,41 @@ function cms(array $s, string $key, string $default = ''): string {
     }
     $en = trim((string)($s[$key] ?? ''));
     return $en !== '' ? $en : $default;
+}
+
+function stSiteName(): string {
+    $s = siteSettings();
+    $n = trim((string)($s['site_name'] ?? ''));
+    if ($n !== '') return $n;
+    if (defined('SITE_NAME') && trim((string)SITE_NAME) !== '') return (string)SITE_NAME;
+    return 'Company';
+}
+
+function stCompanyName(): string {
+    $s = siteSettings();
+    $n = trim((string)($s['company_name'] ?? ''));
+    return $n !== '' ? $n : stSiteName();
+}
+
+function stContactEmail(): string {
+    $s = siteSettings();
+    $v = trim((string)($s['contact_email'] ?? ''));
+    if ($v !== '') return $v;
+    return trim((string)($s['company_email'] ?? ''));
+}
+
+function stContactPhone(): string {
+    $s = siteSettings();
+    $v = trim((string)($s['contact_phone'] ?? ''));
+    if ($v !== '') return $v;
+    return trim((string)($s['company_phone'] ?? ''));
+}
+
+function stAddress(): string {
+    $s = siteSettings();
+    $v = trim((string)($s['address'] ?? ''));
+    if ($v !== '') return $v;
+    return trim((string)($s['company_address'] ?? ''));
 }
 
 // ── CSRF helpers ────────────────────────────────────────────────

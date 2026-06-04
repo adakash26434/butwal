@@ -5,8 +5,8 @@ require_once __DIR__ . '/includes/db.php';
 require_once __DIR__ . '/includes/auth.php';
 require_once __DIR__ . '/includes/helpers.php';
 
-$pageTitle = 'System Status — Ankur Infotech Pvt. Ltd.';
-$metaDescription = 'Real-time uptime and incident history for Ankur Infotech Pvt. Ltd. services.';
+$pageTitle = 'System Status — ' . stSiteName();
+$pageDesc  = 'Real-time uptime and incident history for ' . stSiteName() . ' services.';
 
 $components = query("SELECT * FROM status_components WHERE active=1 ORDER BY sort_order, id");
 $active     = query("SELECT * FROM status_incidents WHERE resolved_at IS NULL ORDER BY started_at DESC");

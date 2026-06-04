@@ -3,7 +3,7 @@ require_once 'includes/config.php';
 require_once 'includes/db.php';
 require_once 'includes/auth.php';
 require_once 'includes/helpers.php';
-$pageTitle = 'Partners & Clients — Ankur Infotech Pvt. Ltd.';
+$pageTitle = 'Partners & Clients — ' . stSiteName();
 $pageDesc  = 'Our trusted partners, clients and affiliates — organisations we work with across Nepal.';
 
 $all = [];

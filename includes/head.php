@@ -22,9 +22,19 @@
 
 $__ctx       = $headContext ?? 'public';
 $__indexable = in_array($__ctx, ['public'], true);
-$__siteName  = defined('SITE_NAME') ? SITE_NAME : 'Ankur Infotech Pvt. Ltd.';
+$__s         = function_exists('siteSettings') ? siteSettings() : [];
+$__siteName  = function_exists('stSiteName')
+    ? stSiteName()
+    : trim((string)($__s['site_name'] ?? (defined('SITE_NAME') ? SITE_NAME : 'Company')));
+if ($__siteName === '') $__siteName = 'Company';
+
+$__tagline = function_exists('cms') ? cms($__s, 'site_tagline', '') : trim((string)($__s['site_tagline'] ?? ''));
+$__addr    = function_exists('stAddress') ? stAddress() : trim((string)($__s['address'] ?? ($__s['company_address'] ?? '')));
+$__defaultDesc = $__tagline !== '' ? $__tagline : $__siteName;
+if ($__addr !== '') $__defaultDesc .= ' | ' . $__addr;
+
 $__title     = $pageTitle ?? $__siteName;
-$__desc      = $pageDesc  ?? "Software & IT Solutions Company | Butwal, Rupandehi, Nepal";
+$__desc      = $pageDesc  ?? $__defaultDesc;
 $__siteUrl   = defined('SITE_URL') ? SITE_URL : '';
 $__ogImage   = $ogImage ?? $__siteUrl . '/public/opengraph.jpg';
 $__ogUrl     = $__siteUrl . '/' . ltrim($_SERVER['REQUEST_URI'] ?? '', '/');
@@ -94,7 +104,7 @@ $__themePref = (function_exists('currentUser') ? (currentUser()['theme_pref'] ??
 <script src="<?= $__siteUrl ?>/assets/vendor/alpine.min.js" defer></script>
 <script src="<?= $__siteUrl ?>/assets/vendor/lucide.min.js" defer></script>
 
-<link rel="manifest" href="<?= $__siteUrl ?>/manifest.json">
+<link rel="manifest" href="<?= $__siteUrl ?>/manifest.php">
 <link rel="apple-touch-icon" href="<?= $__siteUrl ?>/public/favicon.svg">
 <link rel="icon" type="image/svg+xml" href="<?= $__siteUrl ?>/public/favicon.svg">
 

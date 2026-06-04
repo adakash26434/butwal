@@ -4,8 +4,8 @@ require_once 'includes/db.php';
 require_once 'includes/auth.php';
 require_once 'includes/helpers.php';
 
-$pageTitle = 'Technical Expertise — Ankur Infotech Pvt. Ltd.';
-$pageDesc  = 'The modern technology stack powering Ankur Infotech\'s software solutions — from backend frameworks to cloud infrastructure.';
+$pageTitle = 'Technical Expertise — ' . stSiteName();
+$pageDesc  = 'The modern technology stack powering ' . stSiteName() . '\'s software solutions — from backend frameworks to cloud infrastructure.';
 
 $items = [];
 try { $items = query("SELECT * FROM tech_expertise WHERE active=1 ORDER BY category, position, name"); }

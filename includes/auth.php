@@ -14,7 +14,7 @@ function currentUser(): ?array {
             'display_name' => SUPERADMIN_NAME,
             'role'         => 'superadmin',
             'active'       => 1,
-            'org_name'     => 'Ankur Infotech Pvt. Ltd.',
+            'org_name'     => defined('SITE_NAME') ? SITE_NAME : 'Company',
             'theme_pref'   => $_SESSION['sa_theme'] ?? 'light',
         ];
         return $cache;

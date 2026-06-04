@@ -3,7 +3,7 @@ require_once 'includes/config.php';
 require_once 'includes/db.php';
 require_once 'includes/auth.php';
 require_once 'includes/helpers.php';
-$pageTitle = 'Privacy Policy — ' . (defined('SITE_NAME') ? SITE_NAME : 'Ankur Infotech Pvt. Ltd.');
+$pageTitle = 'Privacy Policy — ' . stSiteName();
 $__s = siteSettings();
 $content = $__s['legal_privacy'] ?? '';
 $updated = $__s['legal_privacy_updated'] ?? null;

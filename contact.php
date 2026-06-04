@@ -165,21 +165,21 @@ ob_start(); ?>
             <div class="info-icon"><i data-lucide="phone" class="ic-16-p"></i></div>
             <div>
               <div style="font-size:var(--text-xs);font-weight:700;color:var(--muted-foreground);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.175rem;">Phone</div>
-              <div style="font-size:var(--text-base);color:var(--foreground);font-weight:500;"><?= e($__s['contact_phone'] ?? '+977-071-438585, 071-437612') ?></div>
+              <div style="font-size:var(--text-base);color:var(--foreground);font-weight:500;"><?= e(stContactPhone()) ?></div>
             </div>
           </div>
           <div class="info-row">
             <div class="info-icon"><i data-lucide="mail" class="ic-16-p"></i></div>
             <div>
               <div style="font-size:var(--text-xs);font-weight:700;color:var(--muted-foreground);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.175rem;">Email</div>
-              <div style="font-size:var(--text-base);color:var(--foreground);font-weight:500;"><?= e($__s['contact_email'] ?? 'ankurinfotech8@gmail.com') ?></div>
+              <div style="font-size:var(--text-base);color:var(--foreground);font-weight:500;"><?= e(stContactEmail()) ?></div>
             </div>
           </div>
           <div class="info-row">
             <div class="info-icon"><i data-lucide="map-pin" class="ic-16-p"></i></div>
             <div>
               <div style="font-size:var(--text-xs);font-weight:700;color:var(--muted-foreground);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.175rem;">Address</div>
-              <div style="font-size:var(--text-base);color:var(--foreground);font-weight:500;line-height:1.5;"><?= e($__s['address'] ?? 'Butwal, Rupandehi, Nepal') ?></div>
+              <div style="font-size:var(--text-base);color:var(--foreground);font-weight:500;line-height:1.5;"><?= e(stAddress()) ?></div>
             </div>
           </div>
         </div>

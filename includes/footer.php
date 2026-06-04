@@ -11,12 +11,12 @@
           <?php if (!empty($__s['logo_url'])): ?>
             <img src="<?= e($__s['logo_url']) ?>" loading="lazy" alt="<?= e($__s['site_name']) ?>" style="height:2rem;width:auto;max-width:11rem;object-fit:contain;border-radius:0;">
           <?php else: ?>
-            <span style="display:grid;place-items:center;height:2.25rem;width:2.25rem;border-radius:0.625rem;background:var(--gradient-primary);color:#fff;font-weight:800;font-size:var(--text-sm);"><?= strtoupper(substr(defined('SITE_NAME') ? SITE_NAME : 'NI', 0, 2)) ?></span>
-            <?= e($__s['site_name'] ?? SITE_NAME) ?>
+            <span style="display:grid;place-items:center;height:2.25rem;width:2.25rem;border-radius:0.625rem;background:var(--gradient-primary);color:#fff;font-weight:800;font-size:var(--text-sm);"><?= strtoupper(substr(stSiteName(), 0, 2)) ?></span>
+            <?= e($__s['site_name'] ?? stSiteName()) ?>
           <?php endif; ?>
         </a>
         <p style="color:rgba(241,245,249,0.5);font-size:var(--text-sm);line-height:1.75;max-width:21rem;margin:0 0 1.5rem;">
-          <?= e($__s['footer_tagline'] ?? "Trusted software & IT solutions partner based in Butwal, Rupandehi, Nepal.") ?>
+          <?= e($__s['footer_tagline'] ?? "Trusted software & IT solutions partner.") ?>
         </p>
 
         <!-- Contact info -->

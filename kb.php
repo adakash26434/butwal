@@ -6,7 +6,7 @@ require_once 'includes/auth.php';
 require_once 'includes/helpers.php';
 require_once 'includes/lang.php';
 $pageTitle = 'Knowledge Base';
-$metaDesc  = 'Search guides, tutorials, and FAQs for Ankur Infotech Pvt. Ltd..';
+$pageDesc  = 'Search guides, tutorials, and FAQs for ' . stSiteName() . '.';
 require_once 'includes/header.php';
 
 $q = trim($_GET['q'] ?? '');

@@ -762,20 +762,22 @@ function sqliteMigrate(PDO $pdo): void {
 function _sqliteInitSeedData(PDO $pdo): void
 {
     // Seed admin user (password: Admin@12345)
+    $siteHost = parse_url(defined('SITE_URL') ? SITE_URL : '', PHP_URL_HOST) ?: 'example.com';
+    $siteName = defined('SITE_NAME') ? SITE_NAME : 'Company';
     $hash = password_hash('Admin@12345', PASSWORD_BCRYPT, ['cost' => 10]);
     $pdo->prepare("INSERT OR IGNORE INTO users (display_name, email, password_hash, role, email_verified, active)
-        VALUES ('Ankur Admin', 'ankurinfotech8@gmail.com', ?, 'admin', 1, 1)")->execute([$hash]);
+        VALUES ('Admin', ?, ?, 'admin', 1, 1)")->execute(['admin@' . $siteHost, $hash]);
 
     // Seed site settings
     $settings = [
-        ['site_name',        'Ankur Infotech Pvt. Ltd.'],
+        ['site_name',        $siteName],
         ['site_tagline',     'Cooperative Software for Nepal'],
-        ['contact_email',    'ankurinfotech8@gmail.com'],
-        ['contact_phone',    '+977-071-438585, 071-437612'],
-        ['address',          'Butwal, Rupandehi, Nepal'],
+        ['contact_email',    ''],
+        ['contact_phone',    ''],
+        ['address',          ''],
         ['logo_url',         ''],
         ['social_links',     '{"facebook":"","twitter":"","linkedin":"","youtube":""}'],
-        ['whatsapp_number',  '97771438585'],
+        ['whatsapp_number',  ''],
         ['whatsapp_enabled', '1'],
         ['stat_1_value',     '120+'],
         ['stat_1_label',     'Cooperatives Served'],
@@ -798,7 +800,7 @@ function _sqliteInitSeedData(PDO $pdo): void
         ['Aarav Shrestha',  'Manager',    'Himalayan Saving Co-op',  'हाम्रो सहकारीको दैनिक काम एकदम सजिलो भयो। Support team ले समयमै reply दिन्छन्।',          5],
         ['Maya Tamang',     'IT Lead',    'Yatra Cooperative',       'CBS system ले हाम्रो NRB reporting काम एकदम सजिलो भयो। Highly recommended!',               5],
         ['Rohan Karki',     'Founder',    'Sajilo Sahakari',         'Website redesign पछि नयाँ सदस्य join गर्ने rate बढ्यो। Excellent work!',                    5],
-        ['Sunita Gurung',   'President',  'Butwal Business Co-op', 'Ankur Infotech को सेवा एकदम राम्रो छ — सधैं समयमा support पाउँछौं।',     5],
+        ['Sunita Gurung',   'President',  'Butwal Business Co-op', 'सेवा एकदम राम्रो छ — सधैं समयमा support पाउँछौं।',     5],
     ];
     $stmt = $pdo->prepare("INSERT OR IGNORE INTO testimonials (author_name, author_role, author_org, quote, rating, active, position) VALUES (?,?,?,?,?,1,?)");
     foreach ($testimonials as $i => $t) $stmt->execute(array_merge($t, [$i+1]));

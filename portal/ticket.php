@@ -139,7 +139,7 @@ $is_new = isset($_GET['new']);
 
   <?php foreach ($replies as $r):
     $is_staff = $r['author_role'] === 'staff' || $r['author_role'] === 'admin';
-    $name     = $is_staff ? ($r['display_name'] ?? 'Ankur Infotech Pvt. Ltd. Support') : ($r['display_name'] ?? 'You');
+    $name     = $is_staff ? ($r['display_name'] ?? (stSiteName() . ' Support')) : ($r['display_name'] ?? 'You');
     $initials = strtoupper(substr($name, 0, 1));
     $isImg    = !empty($r['attachment_url']) && preg_match('/\.(jpg|jpeg|png|webp|gif)$/i', $r['attachment_url']);
   ?>

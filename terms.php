@@ -3,7 +3,7 @@ require_once 'includes/config.php';
 require_once 'includes/db.php';
 require_once 'includes/auth.php';
 require_once 'includes/helpers.php';
-$pageTitle = 'Terms of Service — ' . (defined('SITE_NAME') ? SITE_NAME : 'Ankur Infotech Pvt. Ltd.');
+$pageTitle = 'Terms of Service — ' . stSiteName();
 $__s = siteSettings();
 $content = $__s['legal_terms'] ?? '';
 $updated = $__s['legal_terms_updated'] ?? null;

@@ -1,9 +1,6 @@
 <?php
 // ══════════════════════════════════════════════════════════════
-// Ankur Infotech Pvt. Ltd. — Site Configuration for cPanel Hosting
-// Butwal, Rupandehi, Nepal
-// Phone: +977-071-438585, 071-437612
-// Email: ankurinfotech8@gmail.com
+// Site Configuration for cPanel Hosting
 // IMPORTANT: Edit DB_HOST / DB_NAME / DB_USER / DB_PASS / SITE_URL below.
 // ══════════════════════════════════════════════════════════════
 
@@ -19,18 +16,18 @@ if (file_exists(__DIR__ . '/dev-config.php')) {
 // DB_PASS must be set in dev-config.php (local) or directly here for production.
 // Never commit your real password to git.
 if (!defined('DB_HOST'))    define('DB_HOST',    'localhost');
-if (!defined('DB_NAME'))    define('DB_NAME',    'ankurinfotechcom_admin');
-if (!defined('DB_USER'))    define('DB_USER',    'ankurinfotechcom_admin');
+if (!defined('DB_NAME'))    define('DB_NAME',    'your_database_name');
+if (!defined('DB_USER'))    define('DB_USER',    'your_database_user');
 if (!defined('DB_PASS'))    define('DB_PASS',    '');          // <-- set your real password here on the server
 if (!defined('DB_CHARSET')) define('DB_CHARSET', 'utf8mb4');
 
 // ── Site URL (no trailing slash) ──────────────────────────────
 // Root install:      define('SITE_URL', 'https://yourdomain.com');
 // Subfolder install: define('SITE_URL', 'https://yourdomain.com/sahakari');
-if (!defined('SITE_URL')) define('SITE_URL', 'https://ankurinfotech.com.np');
+if (!defined('SITE_URL')) define('SITE_URL', 'https://example.com');
 
 // ── Site Identity ─────────────────────────────────────────────
-define('SITE_NAME', 'Ankur Infotech Pvt. Ltd.');
+define('SITE_NAME', 'Company');
 
 // ── File Uploads ──────────────────────────────────────────────
 define('UPLOAD_DIR', __DIR__ . '/../uploads/');

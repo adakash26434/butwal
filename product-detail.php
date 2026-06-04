@@ -73,7 +73,7 @@ try {
     $related = query("SELECT id,name,slug,tagline,icon FROM products WHERE active=1 AND id!=? ORDER BY sort_order LIMIT 3", [(int)$product['id']]);
 } catch(\Throwable $e) {}
 
-$pageTitle = $product['name'] . ' — ' . ($product['tagline'] ?? '') . ' | Ankur Infotech Pvt. Ltd.';
+$pageTitle = $product['name'] . ' — ' . ($product['tagline'] ?? '') . ' | ' . stSiteName();
 $pageDesc  = $product['summary'] ?? $product['tagline'] ?? '';
 require_once 'includes/header.php';
 ?>

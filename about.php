@@ -5,8 +5,10 @@ require_once 'includes/auth.php';
 require_once 'includes/helpers.php';
 
 $__s = siteSettings();
-$pageTitle = 'About ' . e($__s['company_name'] ?? (defined('SITE_NAME') ? SITE_NAME : 'Company')) . ' — IT Solutions | ' . e($__s['address'] ?? 'Nepal');
-$pageDesc  = e($__s['company_name'] ?? (defined('SITE_NAME') ? SITE_NAME : 'Company')) . ' is a software company based in ' . e($__s['address'] ?? 'Butwal, Rupandehi, Nepal') . ' providing IT solutions and digital services.';
+$__company = stCompanyName();
+$__addr    = stAddress();
+$pageTitle = 'About ' . $__company . ' — IT Solutions' . ($__addr !== '' ? ' | ' . $__addr : '');
+$pageDesc  = $__company . ' provides IT solutions and digital services.' . ($__addr !== '' ? ' Based in ' . $__addr . '.' : '');
 $__ls = [];
 try { $rows = query("SELECT setting_key,setting_val FROM site_settings WHERE setting_key IN ('chairman_name','chairman_title','chairman_photo','chairman_message','chairman_active','ceo_name','ceo_title','ceo_photo','ceo_message','ceo_active')"); foreach($rows as $r) $__ls[$r['setting_key']] = $r['setting_val']; } catch(\Throwable $e) {}
 

@@ -362,7 +362,7 @@ $tabs = [
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
             <div>
               <label class="form-label">Contact Email</label>
-              <input type="email" name="contact_email" class="form-input" value="<?= e(sv($s,'contact_email','ankurinfotech8@gmail.com')) ?>">
+              <input type="email" name="contact_email" class="form-input" value="<?= e(sv($s,'contact_email','')) ?>" placeholder="contact@company.com">
             </div>
             <div>
               <label class="form-label">Support Email</label>
@@ -371,11 +371,11 @@ $tabs = [
           </div>
           <div>
             <label class="form-label">Phone Number</label>
-            <input type="text" name="contact_phone" class="form-input" value="<?= e(sv($s,'contact_phone','+977 980-000-0000')) ?>">
+            <input type="text" name="contact_phone" class="form-input" value="<?= e(sv($s,'contact_phone','')) ?>" placeholder="+977 98X-XXX-XXXX">
           </div>
           <div>
             <label class="form-label">Office Address</label>
-            <textarea name="address" class="form-input" rows="3"><?= e(sv($s,'address','Kathmandu, Bagmati Province, Nepal')) ?></textarea>
+            <textarea name="address" class="form-input" rows="3" placeholder="City, Country"><?= e(sv($s,'address','')) ?></textarea>
           </div>
           <button type="submit" class="btn btn-primary w-fit">Save Contact Info</button>
         </div>
@@ -392,11 +392,11 @@ $tabs = [
         <div class="col-stack">
           <?php
           $socials = [
-            'facebook'  => ['','Facebook','https://facebook.com/ankurinfotech'],
-            'twitter'   => ['','Twitter / X','https://twitter.com/ankurinfotech'],
-            'linkedin'  => ['','LinkedIn','https://linkedin.com/company/ankurinfotech'],
-            'instagram' => ['','Instagram','https://instagram.com/ankurinfotech'],
-            'youtube'   => ['','YouTube','https://youtube.com/@ankurinfotech'],
+            'facebook'  => ['','Facebook','https://facebook.com/yourpage'],
+            'twitter'   => ['','Twitter / X','https://twitter.com/yourhandle'],
+            'linkedin'  => ['','LinkedIn','https://linkedin.com/company/yourcompany'],
+            'instagram' => ['','Instagram','https://instagram.com/yourhandle'],
+            'youtube'   => ['','YouTube','https://youtube.com/@yourchannel'],
           ];
           foreach ($socials as $key => [$icon,$label,$placeholder]):?>
           <div>
